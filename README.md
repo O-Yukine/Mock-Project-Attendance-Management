@@ -6,7 +6,7 @@
 
 1. リポジトリをクローン
 
-git clone
+git clone git@github.com:O-Yukine/Mock-Project-Attendance-Management.git
 
 2. Docker アプリを立ち上げる
 
