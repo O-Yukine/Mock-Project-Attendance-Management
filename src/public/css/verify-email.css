@@ -1,0 +1,42 @@
+.email-verification {
+    position: relative;
+    height: 100vh;
+}
+
+.contents {
+    position: absolute;
+    text-align: center;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%;
+}
+
+p {
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.verify-link {
+    margin: 50px;
+}
+.verify-link a {
+    text-decoration: none;
+    border: 1px solid black;
+    border-radius: 3px;
+    background: rgb(217, 213, 213);
+    padding: 8px 15px;
+    color: black;
+    font-weight: bold;
+}
+
+.contents a:visited {
+    color: black;
+}
+
+.verification-resend__button {
+    background: none;
+    border: none;
+    color: inherit;
+    color: rgb(33, 181, 226);
+}
