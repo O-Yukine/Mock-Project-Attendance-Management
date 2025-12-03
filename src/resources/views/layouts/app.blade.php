@@ -19,7 +19,7 @@
                 <a class="header__logo" href="/"><img src="{{ asset('images/COACHTECH.png') }}"
                         alt="coachtech logo"></a>
                 @unless (Request::is('register') || Request::is('login') || Request::is('/email/verify'))
-                    @include('layouts.header')
+                    @include('layouts.header_employee')
                 @endunless
             </div>
         </div>
