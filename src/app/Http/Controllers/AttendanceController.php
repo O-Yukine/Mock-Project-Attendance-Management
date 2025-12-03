@@ -14,4 +14,9 @@ class AttendanceController extends Controller
             'time' => now()->format('H:i'),
         ]);
     }
+
+    public function showList()
+    {
+        return view('attendance_list');
+    }
 }

@@ -24,7 +24,7 @@ class VerifyEmailController extends Controller
     public function verifyEmail(EmailVerificationRequest $request)
     {
         $request->fulfill();
-        return redirect('/');
+        return redirect('/attendance');
     }
 
     public function resendVerificationEmail(Request $request)

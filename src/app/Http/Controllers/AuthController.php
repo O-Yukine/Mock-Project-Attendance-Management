@@ -40,7 +40,7 @@ class AuthController extends Controller
 
                 return redirect('/email/verify');
             }
-            return redirect('/');
+            return redirect('/attendance');
         };
 
         return back()->withErrors([
