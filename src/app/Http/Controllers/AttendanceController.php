@@ -17,6 +17,13 @@ class AttendanceController extends Controller
 
     public function showList()
     {
-        return view('attendance_list');
+        return view('attendance_list', [
+            'month' => now()->format('Y/m')
+        ]);
+    }
+
+    public function showDetail()
+    {
+        return view('attendance_detail');
     }
 }

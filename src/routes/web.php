@@ -27,3 +27,4 @@ Route::post('/logout', [AuthController::class, 'destroy']);
 
 Route::get('/attendance', [AttendanceController::class, 'index']);
 Route::get('/attendance/list', [AttendanceController::class, 'showList']);
+Route::get('/attendance/detail', [AttendanceController::class, 'showDetail']);

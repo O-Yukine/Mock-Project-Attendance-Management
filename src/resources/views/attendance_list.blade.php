@@ -11,6 +11,9 @@
             <h1>勤怠一覧</h1>
         </div>
         <div class="list__day"></div>
+        <a href="">←前月</a>
+        <a href="">{{ $month }}</a>
+        <a href="">翌月→</a>
         <div class="list__content">
             <table>
                 <tr>
