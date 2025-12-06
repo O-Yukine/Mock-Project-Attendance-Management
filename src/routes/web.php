@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AttendanceController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\VerifyEmailController;
@@ -28,3 +29,9 @@ Route::post('/logout', [AuthController::class, 'destroy']);
 Route::get('/attendance', [AttendanceController::class, 'index']);
 Route::get('/attendance/list', [AttendanceController::class, 'showList']);
 Route::get('/attendance/detail', [AttendanceController::class, 'showDetail']);
+Route::get('/stamp_correction_request/list', [AttendanceController::class, 'showRequest']);
+
+Route::get('/admin/attendance/list', [AdminController::class, 'showList']);
+Route::get('/admin/attendance/detail', [AdminController::class, 'showDetail']);
+Route::get('/admin/staff/list', [AdminController::class, 'showStaff']);
+Route::get('/admin/attendance/staff/detail', [AdminController::class, 'showStaffAttendanceList']);

@@ -26,4 +26,9 @@ class AttendanceController extends Controller
     {
         return view('attendance_detail');
     }
+
+    public function showRequest()
+    {
+        return view('request_list');
+    }
 }
