@@ -29,4 +29,9 @@ class AdminController extends Controller
             'month' => now()->format('Y/m')
         ]);
     }
+
+    public function requestApprove()
+    {
+        return view('admin/request_approve');
+    }
 }

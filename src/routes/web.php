@@ -35,3 +35,5 @@ Route::get('/admin/attendance/list', [AdminController::class, 'showList']);
 Route::get('/admin/attendance/detail', [AdminController::class, 'showDetail']);
 Route::get('/admin/staff/list', [AdminController::class, 'showStaff']);
 Route::get('/admin/attendance/staff/detail', [AdminController::class, 'showStaffAttendanceList']);
+
+Route::get('/stamp_correction_request/approve/detail', [AdminController::class, 'requestApprove']);
