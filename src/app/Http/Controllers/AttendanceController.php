@@ -79,6 +79,17 @@ class AttendanceController extends Controller
     {
         $attendances = Attendance::with('breaks')->get();
 
+        $attendances->each(function ($attendance) {
+            $totalBreak = $attendance->breaks
+                ->filter(fn($b) => $b->break_start && $b->break_end)
+                ->sum(fn($b) => $b->break_start->diffInMinutes($b->break_end));
+
+            $hours = floor($totalBreak / 60);
+            $minutes = $totalBreak % 60;
+
+            $attendance->total_break = sprintf('%02d:%02d', $hours, $minutes);
+        });
+
         return view('attendance_list', [
             'attendances' => $attendances,
             'month' => now()->format('Y/m')
