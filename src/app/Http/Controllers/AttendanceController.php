@@ -77,7 +77,10 @@ class AttendanceController extends Controller
 
     public function showList()
     {
+        $attendances = Attendance::with('breaks')->get();
+
         return view('attendance_list', [
+            'attendances' => $attendances,
             'month' => now()->format('Y/m')
         ]);
     }

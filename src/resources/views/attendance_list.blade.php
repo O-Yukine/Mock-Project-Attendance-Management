@@ -24,15 +24,16 @@
                     <th>合計</th>
                     <th>詳細</th>
                 </tr>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td><a href="/attendance/detail/{{}}"></a>詳細</td>
-                </tr>
+                @foreach ($attendances as $attendance)
+                    <tr>
+                        <td>{{ $attendance->work_date->isoFormat('MM/DD(ddd)') }}</td>
+                        {{-- <td>{{ $attendance->clock_in }}</td>
+                        <td>{{ $attendance->clock_out }}</td>
+                        <td></td>
+                        <td>{{ $attendance->clock_in->diff($attendance->clock_out)->format('%H:%I') }}</td>
+                        <td><a href="/attendance/detail/{{ $attendance->id }}">詳細</a></td> --}}
+                    </tr>
+                @endforeach
             </table>
         </div>
     </div>
