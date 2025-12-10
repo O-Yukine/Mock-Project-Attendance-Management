@@ -29,9 +29,10 @@ Route::post('/logout', [AuthController::class, 'destroy']);
 Route::get('/attendance', [AttendanceController::class, 'index']);
 Route::post('/attendance', [AttendanceController::class, 'updateAttendance']);
 
-
 Route::get('/attendance/list', [AttendanceController::class, 'showList']);
-Route::get('/attendance/detail', [AttendanceController::class, 'showDetail']);
+Route::get('/attendance/detail/{id}', [AttendanceController::class, 'showDetail']);
+
+
 Route::get('/stamp_correction_request/list', [AttendanceController::class, 'showRequest']);
 
 Route::get('/admin/attendance/list', [AdminController::class, 'showList']);

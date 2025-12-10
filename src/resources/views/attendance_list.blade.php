@@ -26,6 +26,12 @@
                 </tr>
                 <tr>
                     <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td><a href="/attendance/detail/{{}}"></a>詳細</td>
                 </tr>
             </table>
         </div>
