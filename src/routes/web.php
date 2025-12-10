@@ -27,7 +27,7 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'destroy']);
 
 Route::get('/attendance', [AttendanceController::class, 'index']);
-Route::post('/attendance', [AttendanceController::class, 'startWorking']);
+Route::post('/attendance', [AttendanceController::class, 'updateAttendance']);
 
 
 Route::get('/attendance/list', [AttendanceController::class, 'showList']);

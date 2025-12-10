@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use App\Models\Attendance;
+use App\Models\BreakTime;
 
 
 class AttendanceController extends Controller
@@ -33,15 +34,43 @@ class AttendanceController extends Controller
         ]);
     }
 
-    public function startWorking(Request $request)
+    public function updateAttendance(Request $request)
     {
-
-        Attendance::create([
+        $attendance = Attendance::firstOrCreate([
             'user_id' => auth()->id(),
             'work_date' => $request->work_date,
-            'clock_in' => $request->clock_in,
-            'status' => 'working',
         ]);
+
+        switch ($request->action) {
+            case 'start_working':
+                $attendance->update([
+                    'clock_in' => $request->time,
+                    'status' => 'working'
+                ]);
+                break;
+
+            case 'finish_working':
+                $attendance->update([
+                    'clock_out' => $request->time,
+                    'status' => 'clock_out'
+                ]);
+                break;
+
+            case 'break_start':
+                $attendance->breaks()->create(['break_start' => $request->time]);
+                $attendance->update(['status' => 'on_break']);
+                break;
+
+            case 'break_end':
+                $break = $attendance->breaks()->whereNull('break_end')->orderBy('id', 'desc')->first();
+
+                if ($break) {
+                    $break->update(['break_end' => $request->time]);
+                }
+
+                $attendance->update(['status' => 'working']);
+                break;
+        }
 
         return redirect('/attendance');
     }
