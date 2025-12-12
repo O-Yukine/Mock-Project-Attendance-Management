@@ -3,6 +3,8 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use App\Models\Attendance;
+use Carbon\Carbon;
 
 class AttendanceSeeder extends Seeder
 {
@@ -13,6 +15,30 @@ class AttendanceSeeder extends Seeder
      */
     public function run()
     {
-        //
+        $userId = 1;
+
+        for ($day = 1; $day <= 30; $day++) {
+
+            $date = Carbon::create(2025, 11, $day)->toDateString();
+            $worked = rand(0, 9) < 8 ? 1 : 0;
+            $clockIn = $worked ? rand(8, 10) . ':' . rand(0, 59) : null;
+            $clockOut = $worked ? rand(17, 19) . ':' . rand(0, 59) : null;
+
+            $attendance = Attendance::create([
+                'user_id' => $userId,
+                'work_date' => $date,
+                'clock_in' => $clockIn,
+                'clock_out' => $clockOut,
+                'status' => $worked ? 'clock_out' : 'off'
+            ]);
+
+            if ($worked) {
+                $attendance->breaks()->create([
+                    'attendance_id' => $attendance->id,
+                    'break_start' => rand(12, 13) . ':00',
+                    'break_end' => rand(12, 13) . ':30',
+                ]);
+            }
+        }
     }
 }
