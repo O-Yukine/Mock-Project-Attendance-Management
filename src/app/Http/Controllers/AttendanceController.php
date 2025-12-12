@@ -88,11 +88,12 @@ class AttendanceController extends Controller
             $minutes = $totalBreak % 60;
 
             $attendance->total_break = sprintf('%02d:%02d', $hours, $minutes);
+            $attendance->total_break = ($attendance->total_break === '00:00') ?  '' : $attendance->total_break;
         });
 
         return view('attendance_list', [
             'attendances' => $attendances,
-            'month' => now()->format('Y/m')
+            'month' => now()->subMonth()->format('Y/m')
         ]);
     }
 
