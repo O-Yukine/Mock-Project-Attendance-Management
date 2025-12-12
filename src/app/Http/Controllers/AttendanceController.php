@@ -77,7 +77,12 @@ class AttendanceController extends Controller
 
     public function showList()
     {
-        $attendances = Attendance::with('breaks')->get();
+
+        $attendances = Attendance::with('breaks')
+            ->where('user_id', auth()->id())
+            ->whereYear('work_date', now()->year)
+            ->whereMonth('work_date', now()->month)
+            ->get();
 
         $attendances->each(function ($attendance) {
             $totalBreak = $attendance->breaks
@@ -93,7 +98,7 @@ class AttendanceController extends Controller
 
         return view('attendance_list', [
             'attendances' => $attendances,
-            'month' => now()->subMonth()->format('Y/m')
+            'month' => now()->format('Y/m')
         ]);
     }
 
