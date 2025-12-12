@@ -75,13 +75,24 @@ class AttendanceController extends Controller
         return redirect('/attendance');
     }
 
-    public function showList()
+    public function showList(Request $request)
     {
+        $month = now();
+        $monthParam = $request->query('month');
+
+        if ($monthParam) {
+            $dateShow = Carbon::createFromFormat('Y/m', $monthParam);
+        } else {
+            $dateShow = $month;
+        }
+
+        $showYear = $dateShow->format('Y');
+        $showMonth = $dateShow->format('m');
 
         $attendances = Attendance::with('breaks')
             ->where('user_id', auth()->id())
-            ->whereYear('work_date', now()->year)
-            ->whereMonth('work_date', now()->month)
+            ->whereYear('work_date', $showYear)
+            ->whereMonth('work_date', $showMonth)
             ->get();
 
         $attendances->each(function ($attendance) {
@@ -96,9 +107,14 @@ class AttendanceController extends Controller
             $attendance->total_break = ($attendance->total_break === '00:00') ?  '' : $attendance->total_break;
         });
 
+        $lastMonth = $dateShow->clone()->subMonth()->format('Y/m');
+        $nextMonth = $dateShow->clone()->addMonth()->format('Y/m');
+
         return view('attendance_list', [
             'attendances' => $attendances,
-            'month' => now()->format('Y/m')
+            'dateShow' => $dateShow->format('Y/m'),
+            'lastMonth' => $lastMonth,
+            'nextMonth' => $nextMonth,
         ]);
     }
 
