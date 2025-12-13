@@ -38,6 +38,14 @@ class AttendanceSeeder extends Seeder
                     'break_start' => rand(12, 13) . ':00',
                     'break_end' => rand(12, 13) . ':30',
                 ]);
+
+                if (rand(0, 1)) {
+                    $attendance->breaks()->create([
+                        'attendance_id' => $attendance->id,
+                        'break_start' => rand(14, 15) . ':00',
+                        'break_end' => rand(14, 15) . ':30',
+                    ]);
+                }
             }
         }
     }
