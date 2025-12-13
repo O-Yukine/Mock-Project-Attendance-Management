@@ -118,9 +118,12 @@ class AttendanceController extends Controller
         ]);
     }
 
-    public function showDetail()
+    public function showDetail($id)
     {
-        return view('attendance_detail');
+        $attendance = Attendance::findOrFail($id);
+        $userName = auth()->user()->name;
+
+        return view('attendance_detail', compact('attendance', 'userName'));
     }
 
     public function showRequest()

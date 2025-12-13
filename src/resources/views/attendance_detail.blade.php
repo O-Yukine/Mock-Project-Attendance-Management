@@ -13,16 +13,17 @@
             <table>
                 <tr>
                     <th>名前</th>
-                    <td></td>
+                    <td>{{ $userName }}</td>
                 </tr>
                 <tr>
                     <th>日付</th>
-                    <td></td>
+                    <td>{{ $attendance->work_date->format('Y年') }}</td>
+                    <td>{{ $attendance->work_date->format('m月d日') }}</td>
                 </tr>
                 <tr>
                     <th>出勤・退勤</th>
-                    <td><input type="text">〜<input type="text"></td>
-
+                    <td><input type="text" name="clock_in" value="{{ $attendance->clock_in->format('H:i') }}">〜<input
+                            type="text" name="clock_out" value="{{ $attendance->clock_out->format('H:i') }}"></td>
                 </tr>
                 <tr>
                     <th>休憩</th>
@@ -36,7 +37,7 @@
                 <tr>
                     <th>備考</th>
                     <td>
-                        <textarea name="" id=""></textarea>
+                        <textarea name="reason">{{ $attendance->reason }}</textarea>
                     </td>
                 </tr>
             </table>
