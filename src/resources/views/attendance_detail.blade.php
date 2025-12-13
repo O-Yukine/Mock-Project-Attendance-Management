@@ -25,20 +25,21 @@
                     <td><input type="text" name="clock_in" value="{{ $attendance->clock_in->format('H:i') }}">〜<input
                             type="text" name="clock_out" value="{{ $attendance->clock_out->format('H:i') }}"></td>
                 </tr>
-                <tr>
-                    <th>休憩</th>
-                    <td><input type="text">〜<input type="text"></td>
-
-                </tr>
-                <tr>
-                    <th>休憩２</th>
-                    <td><input type="text">〜<input type="text"></td>
-                </tr>
-                <tr>
-                    <th>備考</th>
-                    <td>
-                        <textarea name="reason">{{ $attendance->reason }}</textarea>
-                    </td>
+                @foreach ($attendance->breaks as $index => $break)
+                    <tr>
+                        <th>休憩{{ $index + 1 }}</th>
+                        <td><input type="hidden" name="breaks[{{ $index }}][id]" value="{{ $break->id }}">
+                            <input type="text" name="breaks[{{ $index }}][break_start]"
+                                value="{{ $break->break_start->format('H:i') }}">〜<input type="text"
+                                name="breaks[{{ $index }}][break_end]"
+                                value="{{ $break->break_end->format('H:i') }}">
+                        </td>
+                    </tr>
+                @endforeach
+                <th>備考</th>
+                <td>
+                    <textarea name="reason">{{ $attendance->reason }}</textarea>
+                </td>
                 </tr>
             </table>
             <button class="detail__submit" type="submit">修正</button>

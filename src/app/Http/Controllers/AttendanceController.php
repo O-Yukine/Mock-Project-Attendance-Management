@@ -120,7 +120,7 @@ class AttendanceController extends Controller
 
     public function showDetail($id)
     {
-        $attendance = Attendance::findOrFail($id);
+        $attendance = Attendance::with('breaks')->findOrFail($id);
         $userName = auth()->user()->name;
 
         return view('attendance_detail', compact('attendance', 'userName'));
