@@ -28,11 +28,11 @@
                 @foreach ($attendance->breaks as $index => $break)
                     <tr>
                         <th>休憩{{ $index + 1 }}</th>
-                        <td><input type="hidden" name="breaks[{{ $index }}][id]" value="{{ $break->id }}">
+                        <td><input type="hidden" name="breaks[{{ $index }}][id]" value="{{ $break->id ?? '' }}">
                             <input type="text" name="breaks[{{ $index }}][break_start]"
-                                value="{{ $break->break_start->format('H:i') }}">〜<input type="text"
+                                value="{{ $break->break_start->format('H:i') ?? '' }}">〜<input type="text"
                                 name="breaks[{{ $index }}][break_end]"
-                                value="{{ $break->break_end->format('H:i') }}">
+                                value="{{ $break->break_end->format('H:i') ?? '' }}">
                         </td>
                     </tr>
                 @endforeach
