@@ -129,7 +129,9 @@ class AttendanceController extends Controller
 
     public function updateDetail(Request $request, $id)
     {
-        $userName = auth()->user()->name;
+        // $details = $request->all();
+        // dd($details);
+
         $detail = AttendanceLog::create([
             'user_id' => auth()->id(),
             'attendance_id' => $id,
@@ -142,15 +144,19 @@ class AttendanceController extends Controller
 
         $breaks = $request->breaks;
         foreach ($breaks as $break) {
-            $detail->breakTimeLogs()->create([
+
+            $status = !empty($break['id']) ? 'update' : 'create';
+
+            $detail->breakLogs()->create([
                 'attendance_id' => $id,
+                'break_time_id' => $break['id'],
                 'break_start' => $break['break_start'],
                 'break_end' => $break['break_end'],
+                'action' => $status,
             ]);
         }
 
-
-        return redirect("/attendance/detail/{{$id}}");
+        return redirect("/attendance/detail/$id");
     }
 
     public function showRequest()
