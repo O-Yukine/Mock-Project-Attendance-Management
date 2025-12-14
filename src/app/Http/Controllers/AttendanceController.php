@@ -162,6 +162,14 @@ class AttendanceController extends Controller
 
     public function showRequest()
     {
-        return view('request_list');
+        $attendances = AttendanceLog::with('breaks')->select(['id', 'status', 'work_date', 'created_at', 'reason'])->get();
+
+        $attendances->each(function ($attendance) {
+
+            $attendance->status = $attendance->status === 'pending' ? '申請中' : '承認済';
+            $attendance->name = auth()->user()->name;
+        });
+
+        return view('request_list', compact('attendances'));
     }
 }

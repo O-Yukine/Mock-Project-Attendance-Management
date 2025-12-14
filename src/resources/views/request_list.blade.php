@@ -17,22 +17,24 @@
             <div class="request__request__lower">
                 <table>
                     <tr>
-                        <th>状態</th>
-                        <th>名前</th>
-                        <th>対象日時</th>
-                        <th>申請理由</th>
-                        <th>申請日時</th>
-                        <th>詳細</th>
+                        <th class="request__table--title">状態</th>
+                        <th class="request__table--title">名前</th>
+                        <th class="request__table--title">対象日時</th>
+                        <th class="request__table--title">申請理由</th>
+                        <th class="request__table--title">申請日時</th>
+                        <th class="request__table--title">詳細</th>
                     </tr>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td><a href="/attendance/detail">詳細</a></td>
-                        </td>
-                    </tr>
+                    @foreach ($attendances as $attendance)
+                        <tr>
+                            <td class="request__table--date">{{ $attendance->status }}</td>
+                            <td class="request__table--date">{{ $attendance->name }}</td>
+                            <td class="request__table--date">{{ $attendance->work_date->format('Y/m/d') }}</td>
+                            <td class="request__table--date">{{ $attendance->reason }}</td>
+                            <td class="request__table--date">{{ $attendance->created_at }}</td>
+                            <td class="request__table--date"><a href="/attendance/detail/{{ $attendance->id }}">詳細</a></td>
+                            </td>
+                        </tr>
+                    @endforeach
                 </table>
             </div>
         </div>
