@@ -27,7 +27,7 @@ class AttendanceLog extends Model
         return $this->belongsTo(Attendance::class);
     }
 
-    public function breakLogs()
+    public function breaks()
     {
         return $this->hasMany(BreakTimeLog::class);
     }

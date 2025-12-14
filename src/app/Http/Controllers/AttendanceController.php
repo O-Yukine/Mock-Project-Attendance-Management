@@ -121,18 +121,18 @@ class AttendanceController extends Controller
 
     public function showDetail($id)
     {
-        $attendance = Attendance::with('breaks')->findOrFail($id);
+        $attendanceLog = AttendanceLog::with('breaks')->where('attendance_id', $id)->first();
+        $attendance = $attendanceLog ?? Attendance::with('breaks')->findOrFail($id);
+
         $userName = auth()->user()->name;
 
-        return view('attendance_detail', compact('attendance', 'userName'));
+        return view('attendance_detail', compact('attendance', 'userName', 'id'));
     }
 
     public function updateDetail(Request $request, $id)
     {
-        // $details = $request->all();
-        // dd($details);
 
-        $detail = AttendanceLog::create([
+        $detail = AttendanceLog::updateOrCreate([
             'user_id' => auth()->id(),
             'attendance_id' => $id,
             'work_date' => $request->work_date,
@@ -147,9 +147,10 @@ class AttendanceController extends Controller
 
             $status = !empty($break['id']) ? 'update' : 'create';
 
-            $detail->breakLogs()->create([
-                'attendance_id' => $id,
-                'break_time_id' => $break['id'],
+            $detail->breaks()->updateOrCreate([
+                'attendance_log_id' => $id,
+                'break_time_id' => $break['id'] ?? null,
+            ], [
                 'break_start' => $break['break_start'],
                 'break_end' => $break['break_end'],
                 'action' => $status,

@@ -9,7 +9,7 @@
         <div class="detail__title">
             <h1>勤怠詳細</h1>
         </div>
-        <form class="form" action="/attendance/detail/{{ $attendance->id }}" method="post">
+        <form class="form" action="/attendance/detail/{{ $id }}" method="post">
             @csrf
             <table class="detail__table">
                 <tr>
@@ -19,7 +19,7 @@
                 <tr>
                     <th>日付</th>
                     <td><input type="hidden" name="work_date" value="{{ $attendance->work_date }}">
-                        {{ $attendance->work_date->format('Y年m月y日') }}
+                        {{ $attendance->work_date->format('Y年m月d日') }}
                     </td>
                 </tr>
                 <tr>
