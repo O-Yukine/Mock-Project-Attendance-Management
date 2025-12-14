@@ -9,16 +9,18 @@
         <div class="detail__title">
             <h1>勤怠詳細</h1>
         </div>
-        <form class="detail__table" action="" class="form">
-            <table>
+        <form class="form" action="/attendance/detail/{{ $attendance->id }}" method="post">
+            @csrf
+            <table class="detail__table">
                 <tr>
                     <th>名前</th>
                     <td>{{ $userName }}</td>
                 </tr>
                 <tr>
                     <th>日付</th>
-                    <td>{{ $attendance->work_date->format('Y年') }}</td>
-                    <td>{{ $attendance->work_date->format('m月d日') }}</td>
+                    <td><input type="hidden" name="work_date" value="{{ $attendance->work_date }}">
+                        {{ $attendance->work_date->format('Y年m月y日') }}
+                    </td>
                 </tr>
                 <tr>
                     <th>出勤・退勤</th>

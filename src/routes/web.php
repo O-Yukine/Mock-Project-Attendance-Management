@@ -31,6 +31,7 @@ Route::post('/attendance', [AttendanceController::class, 'updateAttendance']);
 
 Route::get('/attendance/list', [AttendanceController::class, 'showList']);
 Route::get('/attendance/detail/{id}', [AttendanceController::class, 'showDetail']);
+Route::post('/attendance/detail/{id}', [AttendanceController::class, 'updateDetail']);
 
 
 Route::get('/stamp_correction_request/list', [AttendanceController::class, 'showRequest']);

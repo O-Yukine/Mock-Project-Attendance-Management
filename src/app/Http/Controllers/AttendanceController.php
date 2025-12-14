@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use App\Models\Attendance;
+use App\Models\AttendanceLog;
 use App\Models\BreakTime;
 
 
@@ -124,6 +125,32 @@ class AttendanceController extends Controller
         $userName = auth()->user()->name;
 
         return view('attendance_detail', compact('attendance', 'userName'));
+    }
+
+    public function updateDetail(Request $request, $id)
+    {
+        $userName = auth()->user()->name;
+        $detail = AttendanceLog::create([
+            'user_id' => auth()->id(),
+            'attendance_id' => $id,
+            'work_date' => $request->work_date,
+            'clock_in' => $request->clock_in,
+            'clock_out' => $request->clock_out,
+            'reason' => $request->reason,
+            'status' => 'pending'
+        ]);
+
+        $breaks = $request->breaks;
+        foreach ($breaks as $break) {
+            $detail->breakTimeLogs()->create([
+                'attendance_id' => $id,
+                'break_start' => $break['break_start'],
+                'break_end' => $break['break_end'],
+            ]);
+        }
+
+
+        return redirect("/attendance/detail/{{$id}}");
     }
 
     public function showRequest()
