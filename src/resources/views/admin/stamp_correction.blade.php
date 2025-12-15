@@ -2,7 +2,7 @@
 
 @section('css')
     <link rel="stylesheet" href="{{ asset('css/login.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/admin/request_approve.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/admin/stamp_correction.css') }}">
 @endsection
 @section('content')
     <div class="request">

@@ -2,7 +2,7 @@
 
 @section('css')
     <link rel="stylesheet" href="{{ asset('css/login.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/request_list.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/stamp_correction.css') }}">
 @endsection
 @section('content')
     <div class="request-list">
@@ -11,8 +11,10 @@
         </div>
         <div class="request__content">
             <div class="request__upper">
-                <a href="">承認待ち</a>
-                <a href="">承認済み</a>
+                <a class="tab{{ $tab === 'pending' ? 'active' : '' }}"
+                    href="/stamp_correction_request/list?tab=pending">承認待ち</a>
+                <a class="tab{{ $tab === 'approved' ? 'active' : '' }}"
+                    href="/stamp_correction_request/list?tab=approved">承認済み</a>
             </div>
             <div class="request__request__lower">
                 <table>

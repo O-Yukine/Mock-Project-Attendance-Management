@@ -160,16 +160,31 @@ class AttendanceController extends Controller
         return redirect("/attendance/detail/$id");
     }
 
-    public function showRequest()
+    public function showRequest(Request $request)
     {
+        $tab = $request->query('tab', 'pending');
+
         $attendances = AttendanceLog::with('breaks')->select(['id', 'status', 'work_date', 'created_at', 'reason'])->get();
 
         $attendances->each(function ($attendance) {
 
-            $attendance->status = $attendance->status === 'pending' ? '申請中' : '承認済';
+            $attendance->status = $attendance->status === 'pending' ? '承認待ち' : '承認済み';
             $attendance->name = auth()->user()->name;
         });
 
-        return view('request_list', compact('attendances'));
+        return view('stamp_correction', compact('tab', 'attendances'));
     }
+
+    // $tab = $request->query('tab', 'pending');
+
+    // $statusMap = [
+    //     'pending'  => 'pending',
+    //     'approved' => 'approved',
+    // ];
+
+    // $status = $statusMap[$tab] ?? 'pending';
+
+    // $requests = StampCorrectionRequest::where('status', $status)->get();
+
+
 }

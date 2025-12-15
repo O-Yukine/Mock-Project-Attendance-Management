@@ -1,0 +1,19 @@
+.tab {
+    padding: 8px 16px;
+    color: #666;
+    text-decoration: none;
+}
+
+.tab.active {
+    color: #fff;
+    background-color: #007bff;
+    border-radius: 4px;
+}
+
+.request__table--title {
+    padding: 15px;
+}
+
+.request__table--date {
+    padding: 15px;
+}
