@@ -164,7 +164,7 @@ class AttendanceController extends Controller
     {
         $tab = $request->query('tab', 'pending');
 
-        $attendances = AttendanceLog::with('breaks')->select(['id', 'status', 'work_date', 'created_at', 'reason'])->get();
+        $attendances = AttendanceLog::with('breaks')->select(['id', 'attendance_id', 'status', 'work_date', 'created_at', 'reason'])->get();
 
         $attendances->each(function ($attendance) {
 
