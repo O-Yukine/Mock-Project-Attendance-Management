@@ -164,7 +164,12 @@ class AttendanceController extends Controller
     {
         $tab = $request->query('tab', 'pending');
 
-        $attendances = AttendanceLog::with('breaks')->select(['id', 'attendance_id', 'status', 'work_date', 'created_at', 'reason'])->get();
+        $status = in_array($tab, ['pending', 'approved']) ? $tab : 'pending';
+
+
+        $attendances = AttendanceLog::where('status', $status)
+            ->select(['id', 'attendance_id', 'status', 'work_date', 'created_at', 'reason'])
+            ->get();
 
         $attendances->each(function ($attendance) {
 
@@ -172,19 +177,17 @@ class AttendanceController extends Controller
             $attendance->name = auth()->user()->name;
         });
 
+        // if ($status === 'approved') {
+        //     $attendances->push((object)[
+        //         'id' => 9999,
+        //         'attendnce_id' => 9999,
+        //         'status' => '承認済み',
+        //         'work_date' => now(),
+        //         'reason' => 'ダミー申請理由',
+        //         'created_at' => now(),
+        //         'name' => auth()->user()->name,
+        //     ]);
+        // }
         return view('stamp_correction', compact('tab', 'attendances'));
     }
-
-    // $tab = $request->query('tab', 'pending');
-
-    // $statusMap = [
-    //     'pending'  => 'pending',
-    //     'approved' => 'approved',
-    // ];
-
-    // $status = $statusMap[$tab] ?? 'pending';
-
-    // $requests = StampCorrectionRequest::where('status', $status)->get();
-
-
 }

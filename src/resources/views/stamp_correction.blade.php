@@ -32,10 +32,9 @@
                             <td class="request__table--date">{{ $attendance->name }}</td>
                             <td class="request__table--date">{{ $attendance->work_date->format('Y/m/d') }}</td>
                             <td class="request__table--date">{{ $attendance->reason }}</td>
-                            <td class="request__table--date">{{ $attendance->created_at }}</td>
+                            <td class="request__table--date">{{ $attendance->created_at->format('Y/m/d') }}</td>
                             <td class="request__table--date"><a
                                     href="/attendance/detail/{{ $attendance->attendance_id }}">詳細</a></td>
-                            </td>
                         </tr>
                     @endforeach
                 </table>
