@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 
 class AdminController extends Controller
 {
-    public function showList()
+    public function showAttendanceList()
     {
         return view('admin/attendance_list', ['day' => now()->format('Y年m月d日')]);
     }

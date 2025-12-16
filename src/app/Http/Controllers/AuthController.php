@@ -30,18 +30,11 @@ class AuthController extends Controller
 
     public function login(LoginRequest $request)
     {
-
         $credentials = $request->only('email', 'password');
+
         if (Auth::attempt($credentials)) {
-
-            $user = Auth::user();
-
-            if (!$user->email_verified_at) {
-
-                return redirect('/email/verify');
-            }
-            return redirect('/attendance');
-        };
+            return redirect()->intended('/attendance');
+        }
 
         return back()->withErrors([
             'login_error' => 'ログイン情報が登録されていません',
@@ -55,6 +48,6 @@ class AuthController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect('/login');
+        return redirect('auth/login');
     }
 }

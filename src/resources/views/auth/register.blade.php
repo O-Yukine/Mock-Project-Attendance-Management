@@ -9,7 +9,7 @@
         <div class="register-form__heading">
             <h2>会員登録</h2>
         </div>
-        <form class="form" action="/register" method="POST">
+        <form class="form" action="auth/register" method="POST">
             @csrf
             <div class="form__group">
                 <div class="form__group-title">
@@ -76,7 +76,7 @@
             </div>
         </form>
         <div class="register__link">
-            <a class="register__button-submit" href="/login">ログインはこちら</a>
+            <a class="register__button-submit" href="auth/login">ログインはこちら</a>
         </div>
     </div>
 @endsection

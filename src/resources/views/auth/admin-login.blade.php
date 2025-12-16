@@ -9,7 +9,7 @@
         <div class="login-form__heading">
             <h2>ログイン</h2>
         </div>
-        <form class="form" action="/login" method="POST">
+        <form class="form" action="auth/admin-login" method="POST">
             @csrf
             <div class="form__group">
                 <div class="form__error">
@@ -50,8 +50,5 @@
                 <button class="form__button-submit" type="submit">ログイン</button>
             </div>
         </form>
-        <div class="login__link">
-            <a class="login__button-submit" href="/register">会員登録はこちら</a>
-        </div>
     </div>
 @endsection
