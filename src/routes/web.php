@@ -23,9 +23,9 @@ Route::get('/email/verify', [VerifyEmailController::class, 'index'])->middleware
 Route::get('/email/verify/{id}/{hash}', [VerifyEmailController::class, 'verifyEmail'])->middleware(['auth', 'signed'])->name('verification.verify');
 Route::post('/email/verification-notification', [VerifyEmailController::class, 'resendVerificationEmail'])->middleware(['auth', 'throttle:6,1'])->name('verification.send');
 
-Route::post('auth/register', [AuthController::class, 'register']);
-Route::post('auth/login', [AuthController::class, 'login']);
-Route::post('auth/logout', [AuthController::class, 'destroy']);
+Route::post('/auth/register', [AuthController::class, 'register']);
+Route::post('/auth/login', [AuthController::class, 'login']);
+Route::post('/auth/logout', [AuthController::class, 'destroy']);
 
 Route::get('/attendance', [AttendanceController::class, 'index']);
 Route::post('/attendance', [AttendanceController::class, 'updateAttendance']);
@@ -43,8 +43,8 @@ Route::get('/admin/attendance/staff/detail', [AdminController::class, 'showStaff
 Route::get('/stamp_correction_request/approve/detail', [AdminController::class, 'requestApprove']);
 
 
-
-Route::post('auth/admin-login', [AdminAuthController::class, 'login']);
-Route::post('auth/admin-logout', [AdminAuthController::class, 'destroy']);
+Route::get('/auth/admin-login', [AdminAuthController::class, 'showLogin']);
+Route::post('/auth/admin-login', [AdminAuthController::class, 'login']);
+Route::post('/auth/admin-logout', [AdminAuthController::class, 'destroy']);
 
 Route::get('/admin/attendance/list', [AdminController::class, 'showAttendanceList']);
