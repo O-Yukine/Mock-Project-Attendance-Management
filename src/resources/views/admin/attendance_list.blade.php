@@ -24,14 +24,16 @@
                     <th>合計</th>
                     <th>詳細</th>
                 </tr>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td><a href="/admin/attendance/detail">詳細</a></td>
-                </tr>
+                @foreach ($attendances as $attendance)
+                    <tr>
+                        <td>{{ $attendance->user->name }}</td>
+                        <td>{{ optional($attendance->clock_in)->format('H:i') ?? '' }}</td>
+                        <td>{{ optional($attendance->clock_out)->format('H:i') ?? '' }}</td>
+                        {{-- <td>{{ $attendance->breaks->break_start }}</td>
+                        <td>{{ $attendance->breaks->break_end }}</td> --}}
+                        <td><a href="/admin/attendance/detail/{{ $attendance->id }}">詳細</a></td>
+                    </tr>
+                @endforeach
             </table>
         </div>
     </div>

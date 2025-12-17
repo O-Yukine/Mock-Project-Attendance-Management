@@ -3,12 +3,19 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Attendance;
 
 class AdminController extends Controller
 {
     public function showAttendanceList()
     {
-        return view('admin/attendance_list', ['day' => now()->format('Y年m月d日')]);
+        $day = now()->subMonth()->toDateString();
+
+        $attendances = Attendance::with(['breaks', 'user'])
+            ->where('work_date', $day)
+            ->get();
+
+        return view('admin/attendance_list', compact('attendances', 'day'));
     }
 
     public function showDetail()
