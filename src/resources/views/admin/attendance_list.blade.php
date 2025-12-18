@@ -8,12 +8,12 @@
 @section('content')
     <div class="attendance-list">
         <div class="list__title">
-            <h1>{{ $day }} の勤怠</h1>
+            <h1>{{ $dateShow }} の勤怠</h1>
         </div>
         <div class="list__day"></div>
-        <a href="">←前日</a>
-        <a href="">{{ $day }}</a>
-        <a href="">翌日→</a>
+        <a href="/admin/attendance/list?day={{ $yesterday }}">←前日</a>
+        <a href="/admin/attendance/list">{{ $dateShow }}</a>
+        <a href="/admin/attendance/list?day={{ $tomorrow }}">翌日→</a>
         <div class="list__content">
             <table class="list__table">
                 <tr class="list__table-row">

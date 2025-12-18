@@ -4,15 +4,18 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Attendance;
+use Carbon\Carbon;
 
 class AdminController extends Controller
 {
-    public function showAttendanceList()
+    public function showAttendanceList(Request $request)
     {
-        $day = now()->subMonth()->toDateString();
+        $dayParam = $request->query('day');
+
+        $date = $dayParam ? Carbon::createFromFormat('Y/m/d', $dayParam) : today()->subMonth();
 
         $attendances = Attendance::with(['breaks', 'user'])
-            ->where('work_date', $day)
+            ->where('work_date', $date->toDateString())
             ->get();
 
         $attendances->each(function ($attendance) {
@@ -27,7 +30,12 @@ class AdminController extends Controller
             $attendance->total_break = ($attendance->total_break === '00:00') ? '' : $attendance->total_break;
         });
 
-        return view('admin/attendance_list', compact('attendances', 'day'));
+        $dateShow  = $date->format('Y/m/d');
+        $yesterday = $date->clone()->subDay()->format('Y/m/d');
+        $tomorrow = $date->clone()->addDay()->format('Y/m/d');
+
+
+        return view('admin/attendance_list', compact('attendances', 'yesterday', 'dateShow', 'tomorrow'));
     }
 
     public function showDetail()
