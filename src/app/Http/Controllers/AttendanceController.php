@@ -139,7 +139,8 @@ class AttendanceController extends Controller
             'clock_in' => $request->clock_in,
             'clock_out' => $request->clock_out,
             'reason' => $request->reason,
-            'status' => 'pending'
+            'status' => 'pending',
+            'requested_by' => 'user'
         ]);
 
         $breaks = $request->breaks;

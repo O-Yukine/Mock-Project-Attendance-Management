@@ -31,8 +31,8 @@ class Attendance extends Model
         return $this->hasMany(BreakTime::class);
     }
 
-    public function attendanceLog()
+    public function attendanceLogs()
     {
-        return $this->hasOne(AttendanceLog::class);
+        return $this->hasMany(AttendanceLog::class);
     }
 }

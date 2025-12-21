@@ -48,3 +48,4 @@ Route::post('/auth/admin-logout', [AdminAuthController::class, 'destroy']);
 
 Route::get('/admin/attendance/list', [AdminController::class, 'showAttendanceList']);
 Route::get('/admin/attendance/detail/{id}', [AdminController::class, 'showDetail']);
+Route::patch('/admin/attendance/detail/{id}', [AdminController::class, 'updateDetail']);

@@ -13,7 +13,7 @@ class AttendanceLog extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['user_id', 'attendance_id', 'work_date', 'clock_in', 'clock_out', 'reason', 'status'];
+    protected $fillable = ['user_id', 'attendance_id', 'work_date', 'clock_in', 'clock_out', 'reason', 'status', 'requested_by'];
 
     protected $casts = ['work_date' => 'date', 'clock_in' => 'datetime:H:i', 'clock_out' => 'datetime:H:i'];
 

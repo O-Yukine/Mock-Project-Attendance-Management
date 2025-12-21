@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Attendance;
+use App\Models\BreakTime;
 use Carbon\Carbon;
 
 class AdminController extends Controller
@@ -43,8 +44,38 @@ class AdminController extends Controller
         $attendance = Attendance::with(['breaks', 'user'])
             ->findOrFail($id);
 
-        // dd($attendance);
         return view('admin/attendance_detail', compact('attendance'));
+    }
+
+    public function updateDetail(Request $request, $id)
+    {
+
+        $attendance = Attendance::findOrFail($id);
+
+        $attendance->update([
+            'clock_in'  => $request->clock_in,
+            'clock_out' => $request->clock_out,
+        ]);
+
+        foreach ($request->breaks as $break) {
+            if (!empty($break['id'])) {
+
+                $attendance->breaks()->where('id', $break['id'])->update([
+                    'break_start' => $break['break_start'],
+                    'break_end'   => $break['break_end'],
+                    'reason'      => $break['reason'],
+                ]);
+            } else {
+
+                $attendance->breaks()->create([
+                    'break_start' => $break['break_start'],
+                    'break_end'   => $break['break_end'],
+                    'reason'      => $break['reason'],
+                ]);
+            }
+        }
+
+        return redirect("/admin/attendance/detail/{$id}");
     }
 
     public function showStaff()

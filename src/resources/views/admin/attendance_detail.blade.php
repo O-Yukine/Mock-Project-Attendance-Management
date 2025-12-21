@@ -5,12 +5,14 @@
     <link rel="stylesheet" href="{{ asset('css/admin/attendance_detail.css') }}">
 @endsection
 @section('content')
-    <div class="attendacne-detail">
+    <div class="attendance-detail">
         <div class="detail__title">
             <h1>勤怠詳細</h1>
         </div>
-        <form class="detail__table" action="" class="form">
-            <table>
+        <form class="form" action="/admin/attendance/detail/{{ $attendance->id }}" method="post">
+            @csrf
+            @method('patch')
+            <table class="detail__table">
                 <tr>
                     <th>名前</th>
                     <td>{{ $attendance->user->name }}</td>
@@ -30,11 +32,11 @@
                 @foreach ($attendance->breaks as $index => $break)
                     <tr>
                         <th>休憩{{ $index + 1 }}</th>
-                        <td><input type="hidden" name="break[{{ $index }}][id]" value="{{ $break->id }}">
-                            <input type="text" name="break[{{ $index }}][break_start]"
+                        <td><input type="hidden" name="breaks[{{ $index }}][id]" value="{{ $break->id }}">
+                            <input type="text" name="breaks[{{ $index }}][break_start]"
                                 value="{{ optional($break->break_start)->format('H:i') }}">
                             〜
-                            <input type="text" name="break[{{ $index }}][break_end]"
+                            <input type="text" name="breaks[{{ $index }}][break_end]"
                                 value="{{ optional($break->break_end)->format('H:i') }}">
                         </td>
                     </tr>
@@ -44,15 +46,15 @@
                 @endphp
                 <tr>
                     <th>休憩{{ $newInput + 1 }}</th>
-                    <td> <input type="text" name="break[{{ $newInput }}][break_start]">
+                    <td> <input type="text" name="breaks[{{ $newInput }}][break_start]">
                         〜
-                        <input type="text" name="break[{{ $newInput }}][break_end]">
+                        <input type="text" name="breaks[{{ $newInput }}][break_end]">
                     </td>
                 </tr>
                 <tr>
                     <th>備考</th>
                     <td>
-                        <textarea name="" id=""></textarea>
+                        <textarea name="reason"></textarea>
                     </td>
                 </tr>
             </table>

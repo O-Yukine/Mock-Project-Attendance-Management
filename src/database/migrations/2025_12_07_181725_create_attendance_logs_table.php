@@ -22,6 +22,7 @@ class CreateAttendanceLogsTable extends Migration
             $table->time('clock_out');
             $table->string('reason');
             $table->string('status')->default('pending');
+            $table->string('requested_by');
             $table->timestamps();
         });
     }
