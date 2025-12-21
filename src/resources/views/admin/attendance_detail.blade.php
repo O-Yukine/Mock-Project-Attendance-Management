@@ -13,25 +13,41 @@
             <table>
                 <tr>
                     <th>名前</th>
-                    <td></td>
+                    <td>{{ $attendance->user->name }}</td>
                 </tr>
                 <tr>
                     <th>日付</th>
-                    <td></td>
+                    <td>{{ $attendance->work_date->format('Y年m月d日') }}</td>
                 </tr>
                 <tr>
                     <th>出勤・退勤</th>
-                    <td><input type="text">〜<input type="text"></td>
-
+                    <td><input type="text" name="clock_in" value="{{ optional($attendance->clock_in)->format('H:i') }}">
+                        〜
+                        <input type="text" name="clock_out"
+                            value="{{ optional($attendance->clock_out)->format('H:i') }}">
+                    </td>
                 </tr>
+                @foreach ($attendance->breaks as $index => $break)
+                    <tr>
+                        <th>休憩{{ $index + 1 }}</th>
+                        <td><input type="hidden" name="break[{{ $index }}][id]" value="{{ $break->id }}">
+                            <input type="text" name="break[{{ $index }}][break_start]"
+                                value="{{ optional($break->break_start)->format('H:i') }}">
+                            〜
+                            <input type="text" name="break[{{ $index }}][break_end]"
+                                value="{{ optional($break->break_end)->format('H:i') }}">
+                        </td>
+                    </tr>
+                @endforeach
+                @php
+                    $newInput = $attendance->breaks->count();
+                @endphp
                 <tr>
-                    <th>休憩</th>
-                    <td><input type="text">〜<input type="text"></td>
-
-                </tr>
-                <tr>
-                    <th>休憩２</th>
-                    <td><input type="text">〜<input type="text"></td>
+                    <th>休憩{{ $newInput + 1 }}</th>
+                    <td> <input type="text" name="break[{{ $newInput }}][break_start]">
+                        〜
+                        <input type="text" name="break[{{ $newInput }}][break_end]">
+                    </td>
                 </tr>
                 <tr>
                     <th>備考</th>
