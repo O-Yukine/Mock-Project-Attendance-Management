@@ -29,26 +29,25 @@ Route::get('/auth/login', [AuthController::class, 'showLogin']);
 Route::post('/auth/login', [AuthController::class, 'login']);
 Route::post('/auth/logout', [AuthController::class, 'destroy']);
 
-Route::get('/attendance', [AttendanceController::class, 'index']);
-Route::post('/attendance', [AttendanceController::class, 'updateAttendance']);
-
-Route::get('/attendance/list', [AttendanceController::class, 'showList']);
-Route::get('/attendance/detail/{id}', [AttendanceController::class, 'showDetail']);
-Route::post('/attendance/detail/{id}', [AttendanceController::class, 'updateDetail']);
-
-Route::get('/stamp_correction_request/list', [AttendanceController::class, 'showRequest']);
-
-
-Route::get('/stamp_correction_request/approve/detail', [AdminController::class, 'requestApprove']);
-
+Route::middleware(['auth'])->group(function () {
+    Route::get('/attendance', [AttendanceController::class, 'index']);
+    Route::post('/attendance', [AttendanceController::class, 'updateAttendance']);
+    Route::get('/attendance/list', [AttendanceController::class, 'showList']);
+    Route::get('/attendance/detail/{id}', [AttendanceController::class, 'showDetail']);
+    Route::post('/attendance/detail/{id}', [AttendanceController::class, 'updateDetail']);
+    Route::get('/stamp_correction_request/list', [AttendanceController::class, 'showRequest']);
+});
 
 Route::get('/auth/admin-login', [AdminAuthController::class, 'showLogin']);
 Route::post('/auth/admin-login', [AdminAuthController::class, 'login']);
 Route::post('/auth/admin-logout', [AdminAuthController::class, 'destroy']);
 
-Route::get('/admin/attendance/list', [AdminController::class, 'showAttendanceList']);
-Route::get('/admin/attendance/{id}', [AdminController::class, 'showDetail']);
-Route::patch('/admin/attendance/{id}', [AdminController::class, 'updateDetail']);
-
-Route::get('/admin/staff/list', [AdminController::class, 'showStaffList']);
-Route::get('/admin/attendance/staff/{id}', [AdminController::class, 'showStaffAttendanceList']);
+Route::middleware(['admin.auth'])->group(function () {
+    Route::get('/admin/attendance/list', [AdminController::class, 'showAttendanceList']);
+    Route::get('/admin/attendance/{id}', [AdminController::class, 'showDetail']);
+    Route::patch('/admin/attendance/{id}', [AdminController::class, 'updateDetail']);
+    Route::get('/admin/staff/list', [AdminController::class, 'showStaffList']);
+    Route::get('/admin/attendance/staff/{id}', [AdminController::class, 'showStaffAttendanceList']);
+    Route::get('/stamp_correction_request/list', [AdminController::class, 'showRequest']);
+    Route::get('/stamp_correction_request/approve/detail', [AdminController::class, 'requestApprove']);
+});
