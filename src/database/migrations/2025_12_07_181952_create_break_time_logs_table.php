@@ -19,7 +19,6 @@ class CreateBreakTimeLogsTable extends Migration
             $table->foreignId('break_time_id')->nullable()->constrained()->cascadeOnDelete();
             $table->time('break_start')->nullable();
             $table->time('break_end')->nullable();
-            $table->string('action');
             $table->timestamps();
         });
     }
