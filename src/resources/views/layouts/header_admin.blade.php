@@ -1,10 +1,13 @@
 <nav class="nav">
     <ul class="header-nav">
         <li class="header-nav__item">
-            <a class="header-nav__link" href="">スタッフ一覧</a>
+            <a class="header-nav__link" href="/admin/attendance/list">勤怠一覧</a>
         </li>
         <li class="header-nav__item">
-            <a class="header-nav__sell" href="">申請一覧</a>
+            <a class="header-nav__link" href="/admin/staff/list">スタッフ一覧</a>
+        </li>
+        <li class="header-nav__item">
+            <a class="header-nav__sell" href="/stamp_correction_request/list">申請一覧</a>
         </li>
         <li class="header-nav__item">
             <form action="/logout" method="POST">
