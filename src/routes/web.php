@@ -23,7 +23,9 @@ Route::get('/email/verify', [VerifyEmailController::class, 'index'])->middleware
 Route::get('/email/verify/{id}/{hash}', [VerifyEmailController::class, 'verifyEmail'])->middleware(['auth', 'signed'])->name('verification.verify');
 Route::post('/email/verification-notification', [VerifyEmailController::class, 'resendVerificationEmail'])->middleware(['auth', 'throttle:6,1'])->name('verification.send');
 
+Route::get('/auth/register', [AuthController::class, 'showRegister']);
 Route::post('/auth/register', [AuthController::class, 'register']);
+Route::get('/auth/login', [AuthController::class, 'showLogin']);
 Route::post('/auth/login', [AuthController::class, 'login']);
 Route::post('/auth/logout', [AuthController::class, 'destroy']);
 
