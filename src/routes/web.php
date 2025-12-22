@@ -52,3 +52,4 @@ Route::get('/admin/attendance/{id}', [AdminController::class, 'showDetail']);
 Route::patch('/admin/attendance/{id}', [AdminController::class, 'updateDetail']);
 
 Route::get('/admin/staff/list', [AdminController::class, 'showStaffList']);
+Route::get('/admin/attendance/staff/{id}', [AdminController::class, 'showStaffAttendanceList']);

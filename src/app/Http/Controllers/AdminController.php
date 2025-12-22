@@ -112,12 +112,12 @@ class AdminController extends Controller
 
     public function showStaffList()
     {
-        $staffs = User::select('name', 'email')->get();
+        $staffs = User::select('id', 'name', 'email')->get();
 
         return view('admin/staff_list', compact('staffs'));
     }
 
-    public function showStaffAttendanceList()
+    public function showStaffAttendanceList($id)
     {
 
         return view('admin/staff_attendance_list', [
