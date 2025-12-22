@@ -8,30 +8,33 @@
 @section('content')
     <div class="attendance-list">
         <div class="list__title">
-            <h1>さんの勤怠</h1>
+            <h1>{{ $staff->name }}さんの勤怠</h1>
         </div>
         <div class="list__day"></div>
-        <a href="">←前月</a>
-        <a href="">{{ $month }}</a>
-        <a href="">翌月→</a>
+        <a href="/admin/attendance/staff/{{ $staff->id }}?month={{ $last_month }}">←前月</a>
+        <a href="">{{ $month->format('Y/m') }}</a>
+        <a href="/admin/attendance/staff/{{ $staff->id }}?month={{ $next_month }}">翌月→</a>
         <div class="list__content">
-            <table>
-                <tr>
-                    <th>日付</th>
-                    <th>出勤</th>
-                    <th>退勤</th>
-                    <th>休憩</th>
-                    <th>合計</th>
-                    <th>詳細</th>
+            <table class="list__table">
+                <tr class="list__table-row">
+                    <th class="list__table-title">日付</th>
+                    <th class="list__table-title">出勤</th>
+                    <th class="list__table-title">退勤</th>
+                    <th class="list__table-title">休憩</th>
+                    <th class="list__table-title">合計</th>
+                    <th class="list__table-title">詳細</th>
                 </tr>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td><a href="/admin/attendance/detail">詳細</a></td>
-                </tr>
+                @foreach ($attendances as $attendance)
+                    <tr class="list__table-row">
+                        <td class="list__table-date">{{ $attendance->work_date->format('m/d') }}</td>
+                        <td class="list__table-date">{{ optional($attendance->clock_in)->format('H:i') ?? '' }}</td>
+                        <td class="list__table-date">{{ optional($attendance->clock_out)->format('H:i') ?? '' }}</td>
+                        <td class="list__table-date">{{ $attendance->total_break ?? '' }}</td>
+                        <td class="list__table-date">
+                            {{ $attendance->clock_in?->diff($attendance->clock_out)?->format('%H:%I') ?? '' }}</td>
+                        <td class="list__table-date"><a href="/admin/attendance/{{ $attendance->id }}">詳細</a></td>
+                    </tr>
+                @endforeach
             </table>
         </div>
         <button>CSV出力</button>

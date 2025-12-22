@@ -38,7 +38,6 @@ Route::post('/attendance/detail/{id}', [AttendanceController::class, 'updateDeta
 
 Route::get('/stamp_correction_request/list', [AttendanceController::class, 'showRequest']);
 
-Route::get('/admin/attendance/staff/detail', [AdminController::class, 'showStaffAttendanceList']);
 
 Route::get('/stamp_correction_request/approve/detail', [AdminController::class, 'requestApprove']);
 

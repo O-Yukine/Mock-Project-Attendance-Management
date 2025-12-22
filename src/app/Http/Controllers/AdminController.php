@@ -14,7 +14,7 @@ class AdminController extends Controller
     {
         $dayParam = $request->query('day');
 
-        $date = $dayParam ? Carbon::createFromFormat('Y/m/d', $dayParam) : today()->subMonth();
+        $date = $dayParam ? Carbon::createFromFormat('Y/m/d', $dayParam) : today();
 
         $attendances = Attendance::with(['breaks', 'user'])
             ->where('work_date', $date->toDateString())
@@ -117,12 +117,39 @@ class AdminController extends Controller
         return view('admin/staff_list', compact('staffs'));
     }
 
-    public function showStaffAttendanceList($id)
+    public function showStaffAttendanceList(Request $request, $id)
     {
 
-        return view('admin/staff_attendance_list', [
-            'month' => now()->format('Y/m')
-        ]);
+        $month = \Carbon\Carbon::createFromFormat(
+            'Y/m',
+            $request->query('month', now()->format('Y/m'))
+        );
+
+        $staff = User::findOrFail($id);
+
+        $attendances = Attendance::with('breaks')
+            ->where('user_id', $id)
+            ->whereYear('work_date', $month->year)
+            ->whereMonth('work_date', $month->month)
+            ->get();
+
+
+        $attendances->each(function ($attendance) {
+            $totalBreak = $attendance->breaks
+                ->filter(fn($b) => $b->break_start && $b->break_end)
+                ->sum(fn($b) => $b->break_start->diffInMinutes($b->break_end));
+
+            $hours = floor($totalBreak / 60);
+            $minutes = $totalBreak % 60;
+
+            $attendance->total_break = sprintf('%02d:%02d', $hours, $minutes);
+            $attendance->total_break = ($attendance->total_break === '00:00') ? '' : $attendance->total_break;
+        });
+
+        $last_month = $month->clone()->subMonth()->format('Y/m');
+        $next_month = $month->clone()->addMonth()->format('Y/m');
+
+        return view('admin/staff_attendance_list', compact('last_month', 'next_month', 'month', 'staff', 'attendances'));
     }
 
     public function requestApprove()
