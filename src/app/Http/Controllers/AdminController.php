@@ -81,7 +81,7 @@ class AdminController extends Controller
 
         foreach ($request->breaks as $break) {
 
-            $attendanceLog->breakTimeLogs()->create([
+            $attendanceLog->breaks()->create([
                 'break_time_id' => $break['id'] ?? null,
                 'break_start' => $break['break_start'],
                 'break_end'   => $break['break_end'],
@@ -104,10 +104,13 @@ class AdminController extends Controller
             }
         }
 
-        return redirect("/admin/attendance/detail/{$id}");
+        return redirect(
+            '/admin/attendance/list?day=' .
+                Carbon::parse($attendance->work_date)->format('Y/m/d')
+        );
     }
 
-    public function showStaff()
+    public function showStaffList()
     {
 
         return view('admin/staff_list');

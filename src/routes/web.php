@@ -38,7 +38,6 @@ Route::post('/attendance/detail/{id}', [AttendanceController::class, 'updateDeta
 
 Route::get('/stamp_correction_request/list', [AttendanceController::class, 'showRequest']);
 
-Route::get('/admin/staff/list', [AdminController::class, 'showStaff']);
 Route::get('/admin/attendance/staff/detail', [AdminController::class, 'showStaffAttendanceList']);
 
 Route::get('/stamp_correction_request/approve/detail', [AdminController::class, 'requestApprove']);
@@ -51,3 +50,5 @@ Route::post('/auth/admin-logout', [AdminAuthController::class, 'destroy']);
 Route::get('/admin/attendance/list', [AdminController::class, 'showAttendanceList']);
 Route::get('/admin/attendance/detail/{id}', [AdminController::class, 'showDetail']);
 Route::patch('/admin/attendance/detail/{id}', [AdminController::class, 'updateDetail']);
+
+Route::get('/admin/staff/list', [AdminController::class, 'showStaffList']);
