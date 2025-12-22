@@ -16,7 +16,7 @@ class CreateBreakTimeLogsTable extends Migration
         Schema::create('break_time_logs', function (Blueprint $table) {
             $table->id();
             $table->foreignId('attendance_log_id')->constrained()->cascadeOnDelete();
-            $table->foreignID('break_time_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('break_time_id')->nullable()->constrained()->cascadeOnDelete();
             $table->time('break_start')->nullable();
             $table->time('break_end')->nullable();
             $table->string('action');

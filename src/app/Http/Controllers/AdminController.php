@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Attendance;
+use App\Models\AttendanceLog;
 use App\Models\BreakTime;
 use Carbon\Carbon;
 
@@ -52,14 +53,35 @@ class AdminController extends Controller
 
         $attendance = Attendance::findOrFail($id);
 
+        $attendanceLog = $attendance->attendanceLogs()->create(
+            [
+                'attendance_id' => $id,
+                'user_id' => $attendance->user->id,
+                'work_date' => Carbon::parse($request->work_date)->format('Y-m-d'),
+                'clock_in' => $request->clock_in,
+                'clock_out' => $request->clock_out,
+                'reason' => $request->reason,
+                'status' => 'approved',
+                'requested_by' => 'admin'
+            ]
+        );
+
+        foreach ($request->breaks as $break) {
+
+            $attendanceLog->breakTimeLogs()->create([
+                'break_start' => $break['break_start'],
+                'break_end'   => $break['break_end'],
+            ]);
+        }
+
         $attendance->update([
+            'work_date' => $request->work_date,
             'clock_in'  => $request->clock_in,
             'clock_out' => $request->clock_out,
         ]);
 
         foreach ($request->breaks as $break) {
             if (!empty($break['id'])) {
-
                 $attendance->breaks()->where('id', $break['id'])->update([
                     'break_start' => $break['break_start'],
                     'break_end'   => $break['break_end'],

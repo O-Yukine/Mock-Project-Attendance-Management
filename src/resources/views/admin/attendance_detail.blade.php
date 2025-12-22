@@ -19,7 +19,9 @@
                 </tr>
                 <tr>
                     <th>日付</th>
-                    <td>{{ $attendance->work_date->format('Y年m月d日') }}</td>
+                    <td><input type="hidden" name="work_date" value="{{ $attendance->work_date->format('Y年m月d日') }}">
+                        {{ $attendance->work_date->format('Y年m月d日') }}
+                    </td>
                 </tr>
                 <tr>
                     <th>出勤・退勤</th>
