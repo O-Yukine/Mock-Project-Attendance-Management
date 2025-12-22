@@ -9,7 +9,7 @@
         <div class="detail__title">
             <h1>勤怠詳細</h1>
         </div>
-        <form class="form" action="/admin/attendance/detail/{{ $attendance->id }}" method="post">
+        <form class="form" action="/admin/attendance/{{ $attendance->id }}" method="post">
             @csrf
             @method('patch')
             <fieldset class="{{ $hasPendingRequest ? 'is-disabled' : '' }}" {{ $hasPendingRequest ? 'disabled' : '' }}>

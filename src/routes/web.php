@@ -48,7 +48,7 @@ Route::post('/auth/admin-login', [AdminAuthController::class, 'login']);
 Route::post('/auth/admin-logout', [AdminAuthController::class, 'destroy']);
 
 Route::get('/admin/attendance/list', [AdminController::class, 'showAttendanceList']);
-Route::get('/admin/attendance/detail/{id}', [AdminController::class, 'showDetail']);
-Route::patch('/admin/attendance/detail/{id}', [AdminController::class, 'updateDetail']);
+Route::get('/admin/attendance/{id}', [AdminController::class, 'showDetail']);
+Route::patch('/admin/attendance/{id}', [AdminController::class, 'updateDetail']);
 
 Route::get('/admin/staff/list', [AdminController::class, 'showStaffList']);

@@ -32,7 +32,7 @@
                         <td class="list__table-date">{{ $attendance->total_break ?? '' }}</td>
                         <td class="list__table-date">
                             {{ $attendance->clock_in?->diff($attendance->clock_out)?->format('%H:%I') ?? '' }}</td>
-                        <td class="list__table-date"><a href="/admin/attendance/detail/{{ $attendance->id }}">詳細</a></td>
+                        <td class="list__table-date"><a href="/admin/attendance/{{ $attendance->id }}">詳細</a></td>
                     </tr>
                 @endforeach
             </table>
