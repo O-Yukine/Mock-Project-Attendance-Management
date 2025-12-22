@@ -42,10 +42,17 @@ class AdminController extends Controller
 
     public function showDetail($id)
     {
+        $attendanceLog = AttendanceLog::with('breaks')
+            ->where('attendance_id', $id)
+            ->where('status', 'pending')
+            ->first();
+
         $attendance = Attendance::with(['breaks', 'user'])
             ->findOrFail($id);
 
-        return view('admin/attendance_detail', compact('attendance'));
+        $hasPendingRequest = $attendanceLog !== null;
+
+        return view('admin/attendance_detail', compact('attendance', 'id', 'hasPendingRequest'));
     }
 
     public function updateDetail(Request $request, $id)
