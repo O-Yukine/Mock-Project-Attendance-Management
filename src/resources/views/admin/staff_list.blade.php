@@ -11,16 +11,18 @@
         </div>
         <div class="list__table">
             <table>
-                <tr>
-                    <th>名前</th>
-                    <th>メールアドレス</th>
-                    <th>月次勤怠</th>
+                <tr class="list__table-row">
+                    <th class="list__table-title">名前</th>
+                    <th class="list__table-title">メールアドレス</th>
+                    <th class="list__table-title">月次勤怠</th>
                 </tr>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td><a href="/admin/attendance/staff/detail">詳細</a></td>
-                </tr>
+                @foreach ($staffs as $staff)
+                    <tr class="list__table-row">
+                        <td class="list__table-date">{{ $staff->name }}</td>
+                        <td class="list__table-date">{{ $staff->email }}</td>
+                        <td class="list__table-date"><a href="/admin/attendance/staff/{{ $staff->id }}">詳細</a></td>
+                    </tr>
+                @endforeach
             </table>
         </div>
     </div>

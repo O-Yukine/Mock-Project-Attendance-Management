@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Attendance;
 use App\Models\AttendanceLog;
-use App\Models\BreakTime;
+use App\Models\User;
 use Carbon\Carbon;
 
 class AdminController extends Controller
@@ -112,8 +112,9 @@ class AdminController extends Controller
 
     public function showStaffList()
     {
+        $staffs = User::select('name', 'email')->get();
 
-        return view('admin/staff_list');
+        return view('admin/staff_list', compact('staffs'));
     }
 
     public function showStaffAttendanceList()
