@@ -66,14 +66,6 @@ class AdminController extends Controller
             ]
         );
 
-        foreach ($request->breaks as $break) {
-
-            $attendanceLog->breakTimeLogs()->create([
-                'break_start' => $break['break_start'],
-                'break_end'   => $break['break_end'],
-            ]);
-        }
-
         $attendance->update([
             'work_date' => $request->work_date,
             'clock_in'  => $request->clock_in,
@@ -81,18 +73,26 @@ class AdminController extends Controller
         ]);
 
         foreach ($request->breaks as $break) {
+
+            $attendanceLog->breakTimeLogs()->create([
+                'break_time_id' => $break['id'] ?? null,
+                'break_start' => $break['break_start'],
+                'break_end'   => $break['break_end'],
+            ]);
+        }
+
+        foreach ($request->breaks as $break) {
             if (!empty($break['id'])) {
                 $attendance->breaks()->where('id', $break['id'])->update([
                     'break_start' => $break['break_start'],
                     'break_end'   => $break['break_end'],
-                    'reason'      => $break['reason'],
+
                 ]);
             } else {
 
                 $attendance->breaks()->create([
                     'break_start' => $break['break_start'],
                     'break_end'   => $break['break_end'],
-                    'reason'      => $break['reason'],
                 ]);
             }
         }

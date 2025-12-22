@@ -1,0 +1,12 @@
+fieldset {
+    border: none;
+}
+.is-disabled input,
+.is-disabled textarea {
+    border: none;
+    background: transparent;
+    opacity: 1;
+}
+.detail__notice {
+    color: red;
+}
