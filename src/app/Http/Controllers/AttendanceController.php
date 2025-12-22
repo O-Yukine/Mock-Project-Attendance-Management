@@ -14,7 +14,9 @@ class AttendanceController extends Controller
     public function index()
 
     {
-        $attendance =  Attendance::where('user_id', auth()->id())->whereDate('created_at', today())->first();
+        $attendance =  Attendance::where('user_id', auth()->id())
+            ->whereDate('work_date', today())
+            ->first();
 
         $status = $attendance->status ?? 'off';
         $statusLabel = [
@@ -121,7 +123,10 @@ class AttendanceController extends Controller
 
     public function showDetail($id)
     {
-        $attendanceLog = AttendanceLog::with('breaks')->where('attendance_id', $id)->first();
+        $attendanceLog = AttendanceLog::with('breaks')
+            ->where('attendance_id', $id)
+            ->first();
+
         $attendance = $attendanceLog ?? Attendance::with('breaks')->findOrFail($id);
 
         $userName = auth()->user()->name;
@@ -163,7 +168,8 @@ class AttendanceController extends Controller
         $status = in_array($tab, ['pending', 'approved']) ? $tab : 'pending';
 
 
-        $attendances = AttendanceLog::where('status', $status)
+        $attendances = AttendanceLog::where('user_id', auth()->id())
+            ->where('status', $status)
             ->select(['id', 'attendance_id', 'status', 'work_date', 'created_at', 'reason'])
             ->get();
 

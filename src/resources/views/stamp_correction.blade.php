@@ -11,9 +11,9 @@
         </div>
         <div class="request__content">
             <div class="request__upper">
-                <a class="tab{{ $tab === 'pending' ? 'active' : '' }}"
+                <a class="tab {{ $tab === 'pending' ? 'active' : '' }}"
                     href="/stamp_correction_request/list?tab=pending">承認待ち</a>
-                <a class="tab{{ $tab === 'approved' ? 'active' : '' }}"
+                <a class="tab {{ $tab === 'approved' ? 'active' : '' }}"
                     href="/stamp_correction_request/list?tab=approved">承認済み</a>
             </div>
             <div class="request__request__lower">
