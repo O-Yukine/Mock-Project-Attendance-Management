@@ -10,7 +10,7 @@
             <a class="header-nav__sell" href="/stamp_correction_request/list">申請一覧</a>
         </li>
         <li class="header-nav__item">
-            <form action="/logout" method="POST">
+            <form action="/auth/admin-logout" method="POST">
                 @csrf
                 <button type="submit" class="header-nav__button">
                     ログアウト
