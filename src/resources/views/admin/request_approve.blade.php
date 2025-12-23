@@ -9,7 +9,7 @@
         <div class="detail__title">
             <h1>勤怠詳細</h1>
         </div>
-        <form class="form" action="/admin/attendance/{{ $attendance->id }}" method="post">
+        <form class="form" action="/stamp_correction_request/approve/{{ $attendance->id }}" method="post">
             @csrf
             @method('patch')
             <table class="detail__table">
@@ -60,7 +60,11 @@
                     </td>
                 </tr>
             </table>
-            <button class="detail__submit" type="submit">承認</button>
+            @if ($attendance->status === 'pending')
+                <button class="detail__submit" type="submit">承認</button>
+            @else
+                <p>承認済み</p>
+            @endif
         </form>
     </div>
 @endsection

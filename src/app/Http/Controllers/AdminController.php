@@ -49,9 +49,7 @@ class AdminController extends Controller
 
         $hasPendingRequest = $attendanceLog !== null;
 
-        $attendance = Attendance::with(['breaks', 'user'])
-            ->findOrFail($id);
-
+        $attendance = $attendanceLog ?? Attendance::with('breaks')->findOrFail($id);
 
         return view('admin/attendance_detail', compact('attendance', 'id', 'hasPendingRequest'));
     }

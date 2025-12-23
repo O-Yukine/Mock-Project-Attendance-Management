@@ -15,7 +15,7 @@
                 <table class="detail__table">
                     <tr>
                         <th>名前</th>
-                        <td>{{ $userName }}</td>
+                        <td>{{ $attendance->user->name }}</td>
                     </tr>
                     <tr>
                         <th>日付</th>

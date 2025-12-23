@@ -53,13 +53,47 @@ class StampCorrectionController extends Controller
         }
     }
 
-    public function requestApprove($attendance_correct_request_id)
+    public function requestShow($attendance_correct_request_id)
     {
         $attendance = AttendanceLog::with('breaks', 'user')
-            ->where('attendance_id', $attendance_correct_request_id)
+            ->where('id', $attendance_correct_request_id)
+            ->firstOrFail();
+
+        return view('admin/request_approve', compact('attendance'));
+    }
+
+    public function requestApprove(Request $request, $attendance_correct_request_id)
+    {
+        $attendanceLog = AttendanceLog::with('attendance.breaks')
+            ->where('id', $attendance_correct_request_id)
             ->where('status', 'pending')
             ->firstOrFail();
 
-        return view('admin/request_approve', compact('attendance', 'attendance_correct_request_id'));
+        $attendance = $attendanceLog->attendance;
+
+        $attendance->update([
+            'clock_in'  => $request->clock_in,
+            'clock_out' => $request->clock_out,
+        ]);
+
+        foreach ($request->breaks as $break) {
+            if (!empty($break['id'])) {
+                $attendance->breaks()->where('id', $break['id'])->update([
+                    'break_start' => $break['break_start'],
+                    'break_end'   => $break['break_end'],
+
+                ]);
+            } else {
+
+                $attendance->breaks()->create([
+                    'break_start' => $break['break_start'],
+                    'break_end'   => $break['break_end'],
+                ]);
+            }
+        }
+
+        $attendanceLog->update(['status' => 'approved']);
+
+        return redirect("/stamp_correction_request/approve/{$attendance_correct_request_id}");
     }
 }

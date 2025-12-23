@@ -49,7 +49,8 @@ Route::middleware(['admin.auth'])->group(function () {
     Route::get('/admin/staff/list', [AdminController::class, 'showStaffList']);
     Route::get('/admin/attendance/staff/{id}', [AdminController::class, 'showStaffAttendanceList']);
     // Route::get('/stamp_correction_request/list', [AdminController::class, 'showRequest']);
-    Route::get('/stamp_correction_request/approve/{attendance_correct_request_id}', [StampCorrectionController::class, 'requestApprove']);
+    Route::get('/stamp_correction_request/approve/{attendance_correct_request_id}', [StampCorrectionController::class, 'requestShow']);
+    Route::patch('/stamp_correction_request/approve/{attendance_correct_request_id}', [StampCorrectionController::class, 'requestApprove']);
 });
 
 Route::get('/stamp_correction_request/list', [StampCorrectionController::class, 'index']);

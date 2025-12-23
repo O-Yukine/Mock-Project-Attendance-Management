@@ -128,13 +128,11 @@ class AttendanceController extends Controller
             ->where('status', 'pending')
             ->first();
 
-        $attendance = $attendanceLog ?? Attendance::with('breaks')->findOrFail($id);
-
-        $userName = auth()->user()->name;
+        $attendance = $attendanceLog ?? Attendance::with('breaks', 'user')->findOrFail($id);
 
         $hasPendingRequest = $attendanceLog !== null;
 
-        return view('attendance_detail', compact('attendance', 'userName', 'id', 'hasPendingRequest'));
+        return view('attendance_detail', compact('attendance', 'id', 'hasPendingRequest'));
     }
 
     public function updateDetail(Request $request, $id)
