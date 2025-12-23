@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\AttendanceLog;
+use App\Models\Attendance;
+
 
 class StampCorrectionController extends Controller
 {
@@ -47,18 +49,17 @@ class StampCorrectionController extends Controller
                 $attendance->name = auth()->user()->name;
             });
 
-            // if ($status === 'approved') {
-            //     $attendances->push((object)[
-            //         'id' => 9999,
-            //         'attendnce_id' => 9999,
-            //         'status' => '承認済み',
-            //         'work_date' => now(),
-            //         'reason' => 'ダミー申請理由',
-            //         'created_at' => now(),
-            //         'name' => auth()->user()->name,
-            //     ]);
-            // }
             return view('stamp_correction', compact('tab', 'attendances'));
         }
+    }
+
+    public function requestApprove($attendance_correct_request_id)
+    {
+        $attendance = AttendanceLog::with('breaks', 'user')
+            ->where('attendance_id', $attendance_correct_request_id)
+            ->where('status', 'pending')
+            ->firstOrFail();
+
+        return view('admin/request_approve', compact('attendance', 'attendance_correct_request_id'));
     }
 }

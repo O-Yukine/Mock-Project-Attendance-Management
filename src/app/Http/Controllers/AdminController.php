@@ -47,10 +47,11 @@ class AdminController extends Controller
             ->where('status', 'pending')
             ->first();
 
+        $hasPendingRequest = $attendanceLog !== null;
+
         $attendance = Attendance::with(['breaks', 'user'])
             ->findOrFail($id);
 
-        $hasPendingRequest = $attendanceLog !== null;
 
         return view('admin/attendance_detail', compact('attendance', 'id', 'hasPendingRequest'));
     }
@@ -150,15 +151,5 @@ class AdminController extends Controller
         $next_month = $month->clone()->addMonth()->format('Y/m');
 
         return view('admin/staff_attendance_list', compact('last_month', 'next_month', 'month', 'staff', 'attendances'));
-    }
-
-    public function showRequest()
-    {
-        return view('admin/stamp_correction');
-    }
-
-    public function requestApprove()
-    {
-        return view('admin/request_approve');
     }
 }
