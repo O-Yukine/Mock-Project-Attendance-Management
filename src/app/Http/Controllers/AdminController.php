@@ -152,6 +152,11 @@ class AdminController extends Controller
         return view('admin/staff_attendance_list', compact('last_month', 'next_month', 'month', 'staff', 'attendances'));
     }
 
+    public function showRequest()
+    {
+        return view('admin/stamp_correction');
+    }
+
     public function requestApprove()
     {
         return view('admin/request_approve');

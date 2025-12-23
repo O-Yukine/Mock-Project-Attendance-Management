@@ -163,36 +163,4 @@ class AttendanceController extends Controller
 
         return redirect("/attendance/detail/$id");
     }
-
-    public function showRequest(Request $request)
-    {
-        $tab = $request->query('tab', 'pending');
-
-        $status = in_array($tab, ['pending', 'approved']) ? $tab : 'pending';
-
-
-        $attendances = AttendanceLog::where('user_id', auth()->id())
-            ->where('status', $status)
-            ->select(['id', 'attendance_id', 'status', 'work_date', 'created_at', 'reason'])
-            ->get();
-
-        $attendances->each(function ($attendance) {
-
-            $attendance->status = $attendance->status === 'pending' ? '承認待ち' : '承認済み';
-            $attendance->name = auth()->user()->name;
-        });
-
-        // if ($status === 'approved') {
-        //     $attendances->push((object)[
-        //         'id' => 9999,
-        //         'attendnce_id' => 9999,
-        //         'status' => '承認済み',
-        //         'work_date' => now(),
-        //         'reason' => 'ダミー申請理由',
-        //         'created_at' => now(),
-        //         'name' => auth()->user()->name,
-        //     ]);
-        // }
-        return view('stamp_correction', compact('tab', 'attendances'));
-    }
 }
