@@ -29,7 +29,7 @@
                     @foreach ($attendances as $attendance)
                         <tr>
                             <td class="request__table--date">{{ $attendance->status }}</td>
-                            <td class="request__table--date">{{ $attendance->name }}</td>
+                            <td class="request__table--date">{{ $attendance->user->name }}</td>
                             <td class="request__table--date">{{ $attendance->work_date->format('Y/m/d') }}</td>
                             <td class="request__table--date">{{ $attendance->reason }}</td>
                             <td class="request__table--date">{{ $attendance->created_at->format('Y/m/d') }}</td>

@@ -15,20 +15,19 @@ class StampCorrectionController extends Controller
 
             $status = in_array($tab, ['pending', 'approved']) ? $tab : 'pending';
 
-
-            $attendances = AttendanceLog::where('user_id', auth()->id())
+            $attendances = AttendanceLog::with('user')
                 ->where('status', $status)
-                ->select(['id', 'attendance_id', 'status', 'work_date', 'created_at', 'reason'])
+                ->where('requested_by', 'user')
+                ->select(['id', 'user_id', 'attendance_id', 'status', 'work_date', 'created_at', 'reason'])
                 ->get();
 
             $attendances->each(function ($attendance) {
 
                 $attendance->status = $attendance->status === 'pending' ? '承認待ち' : '承認済み';
-                $attendance->name = auth()->user()->name;
+                $attendance->name = $attendance->user->name;
             });
 
             return view('admin/stamp_correction', compact('tab', 'attendances'));
-            return view('admin/stamp_correction');
         } elseif (auth()->check()) {
 
             $tab = $request->query('tab', 'pending');
