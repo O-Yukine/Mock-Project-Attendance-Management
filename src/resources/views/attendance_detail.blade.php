@@ -5,7 +5,7 @@
     <link rel="stylesheet" href="{{ asset('css/attendance_detail.css') }}">
 @endsection
 @section('content')
-    <div class="attendacne-detail">
+    <div class="attendance-detail">
         <div class="detail__title">
             <h1>勤怠詳細</h1>
         </div>
@@ -26,10 +26,13 @@
                     <tr>
                         <th>出勤・退勤</th>
                         <td><input type="text" name="clock_in"
-                                value="{{ optional($attendance->clock_in)->format('H:i') }}">
+                                value="{{ old('clock_in', optional($attendance->clock_in)->format('H:i')) }}">
                             〜
                             <input type="text" name="clock_out"
-                                value="{{ optional($attendance->clock_out)->format('H:i') }}">
+                                value="{{ old('clock_out', optional($attendance->clock_out)->format('H:i')) }}">
+                            @error('clock_in')
+                                <div class="form__error">{{ $message }}</div>
+                            @enderror
                         </td>
                     </tr>
                     @foreach ($attendance->breaks as $index => $break)
@@ -38,16 +41,26 @@
                             <td><input type="hidden" name="breaks[{{ $index }}][id]"
                                     value="{{ $break->id ?? '' }}">
                                 <input type="text" name="breaks[{{ $index }}][break_start]"
-                                    value="{{ optional($break->break_start)->format('H:i') }}">〜<input type="text"
-                                    name="breaks[{{ $index }}][break_end]"
-                                    value="{{ optional($break->break_end)->format('H:i') }}">
+                                    value="{{ old("breaks.$index.break_start", optional($break->break_start)->format('H:i')) }}">〜<input
+                                    type="text" name="breaks[{{ $index }}][break_end]"
+                                    value="{{ old("breaks.$index.break_end", optional($break->break_end)->format('H:i')) }}">
+                                @error("breaks.$index.break_start")
+                                    <div class="form__error">{{ $message }}</div>
+                                @enderror
+                                @error("breaks.$index.break_end")
+                                    <div class="form__error">{{ $message }}</div>
+                                @enderror
+
                             </td>
                         </tr>
                     @endforeach
                     <tr>
                         <th>備考</th>
                         <td>
-                            <textarea name="reason">{{ $attendance->reason }}</textarea>
+                            <textarea name="reason">{{ old('reason', $attendance->reason) }}</textarea>
+                            @error('reason')
+                                <div class="form__error">{{ $message }}</div>
+                            @enderror
                         </td>
                     </tr>
                 </table>

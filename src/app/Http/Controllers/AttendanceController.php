@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\AttendancDetailRequest;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use App\Models\Attendance;
@@ -135,7 +136,7 @@ class AttendanceController extends Controller
         return view('attendance_detail', compact('attendance', 'id', 'hasPendingRequest'));
     }
 
-    public function updateDetail(Request $request, $id)
+    public function updateDetail(AttendancDetailRequest $request, $id)
     {
 
         $detail = AttendanceLog::create([
