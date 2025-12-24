@@ -10,10 +10,11 @@
         <div class="list__title">
             <h1>勤怠一覧</h1>
         </div>
-        <div class="list__day"></div>
-        <a href="/attendance/list?month={{ $lastMonth }}">←前月</a>
-        <a href="">{{ $dateShow }}</a>
-        <a href="/attendance/list?month={{ $nextMonth }}">翌月→</a>
+        <div class="list__date">
+            <a href="/attendance/list?month={{ $lastMonth }}">←前月</a>
+            <a href="">{{ $dateShow }}</a>
+            <a href="/attendance/list?month={{ $nextMonth }}">翌月→</a>
+        </div>
         <div class="list__content">
             <table class="list__table">
                 <tr class="list__table-row">

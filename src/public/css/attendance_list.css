@@ -1,3 +1,48 @@
+body {
+    background-color: rgb(210, 213, 213);
+}
+.attendance-list {
+    max-width: 1540px;
+    margin: 5px 100px;
+}
+.list__title {
+    margin: 30px 0;
+}
+.list__title h1 {
+    padding: 5px 20px;
+    border-left: 8px solid black;
+}
+
+.list__date {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin: 20px auto;
+    background-color: #fff;
+    border-radius: 5px;
+    padding: 15px;
+}
+
+a {
+    text-decoration: none;
+    color: black;
+}
+.list__content {
+    background-color: #fff;
+    border-radius: 5px;
+    margin-top: 50px;
+}
+.list__table {
+    width: 100%;
+}
+.list__table-row {
+    border-bottom: 1px solid black;
+}
+.list__table-row a {
+    font-weight: bold;
+}
+
 .list__table-title {
     padding: 20px;
 }
