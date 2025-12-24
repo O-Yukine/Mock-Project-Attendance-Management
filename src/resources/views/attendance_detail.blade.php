@@ -13,19 +13,25 @@
             @csrf
             <fieldset class="{{ $hasPendingRequest ? 'is-disabled' : '' }}" {{ $hasPendingRequest ? 'disabled' : '' }}>
                 <table class="detail__table">
-                    <tr>
-                        <th>名前</th>
-                        <td>{{ $attendance->user->name }}</td>
+                    <tr class="detail__table--row">
+                        <th class="detail__table--title">名前</th>
+                        <td class="detail__table--date name-field">{{ $attendance->user->name }}</td>
                     </tr>
-                    <tr>
-                        <th>日付</th>
-                        <td><input type="hidden" name="work_date" value="{{ $attendance->work_date->format('Y-m-d') }}">
-                            {{ $attendance->work_date->format('Y年m月d日') }}
+                    <tr class="detail__table--row">
+                        <th class="detail__table--title">日付</th>
+                        <td class="detail__table--date"><input type="hidden" name="work_date"
+                                value="{{ $attendance->work_date->format('Y-m-d') }}">
+                            <span class="date__year">
+                                {{ $attendance->work_date->format('Y年') }}
+                            </span>
+                            <span class="date__md">
+                                {{ $attendance->work_date->format('m月d日') }}
+                            </span>
                         </td>
                     </tr>
-                    <tr>
-                        <th>出勤・退勤</th>
-                        <td><input type="text" name="clock_in"
+                    <tr class="detail__table--row">
+                        <th class="detail__table--title">出勤・退勤</th>
+                        <td class="detail__table--date"><input type="text" name="clock_in"
                                 value="{{ old('clock_in', optional($attendance->clock_in)->format('H:i')) }}">
                             〜
                             <input type="text" name="clock_out"
@@ -36,13 +42,14 @@
                         </td>
                     </tr>
                     @foreach ($attendance->breaks as $index => $break)
-                        <tr>
-                            <th>休憩{{ $index + 1 }}</th>
-                            <td><input type="hidden" name="breaks[{{ $index }}][id]"
+                        <tr class="detail__table--row">
+                            <th class="detail__table--title">休憩{{ $index + 1 }}</th>
+                            <td class="detail__table--date"><input type="hidden" name="breaks[{{ $index }}][id]"
                                     value="{{ $break->id ?? '' }}">
                                 <input type="text" name="breaks[{{ $index }}][break_start]"
-                                    value="{{ old("breaks.$index.break_start", optional($break->break_start)->format('H:i')) }}">〜<input
-                                    type="text" name="breaks[{{ $index }}][break_end]"
+                                    value="{{ old("breaks.$index.break_start", optional($break->break_start)->format('H:i')) }}">
+                                〜
+                                <input type="text" name="breaks[{{ $index }}][break_end]"
                                     value="{{ old("breaks.$index.break_end", optional($break->break_end)->format('H:i')) }}">
                                 @error("breaks.$index.break_start")
                                     <div class="form__error">{{ $message }}</div>
@@ -54,9 +61,9 @@
                             </td>
                         </tr>
                     @endforeach
-                    <tr>
-                        <th>備考</th>
-                        <td>
+                    <tr class="detail__table--row">
+                        <th class="detail__table--title">備考</th>
+                        <td class="detail__table--date">
                             <textarea name="reason">{{ old('reason', $attendance->reason) }}</textarea>
                             @error('reason')
                                 <div class="form__error">{{ $message }}</div>
@@ -65,13 +72,15 @@
                     </tr>
                 </table>
             </fieldset>
-            @if ($hasPendingRequest)
-                <p class="detail__notice">
-                    *承認待ちのため修正はできません。
-                </p>
-            @else
-                <button class="detail__submit" type="submit">修正</button>
-            @endif
+            <div class="detail__submit">
+                @if ($hasPendingRequest)
+                    <p class="detail__notice">
+                        *承認待ちのため修正はできません。
+                    </p>
+                @else
+                    <button class="detail__submit--button" type="submit">修正</button>
+                @endif
+            </div>
         </form>
     </div>
 @endsection
