@@ -33,7 +33,7 @@ fieldset {
     text-align: left;
 }
 .detail__table--row {
-    border-bottom: 1px solid rgb(205, 201, 201);
+    border-bottom: 1px solid rgb(114, 112, 112);
 }
 .detail__table--row a {
     font-weight: bold;
@@ -41,7 +41,7 @@ fieldset {
 
 .detail__table--title {
     padding: 20px 30px;
-    color: rgb(205, 201, 201);
+    color: rgb(114, 112, 112);
 }
 .detail__table--date {
     padding: 20px 30px;
@@ -56,12 +56,12 @@ fieldset {
     width: 100px;
     height: 30px;
     padding-left: 20px;
-    border: 1px solid rgb(205, 201, 201);
+    border: 1px solid rgb(114, 112, 112);
 }
 .detail__table--date textarea {
     width: 250px;
     height: 50px;
-    border: 1px solid rgb(205, 201, 201);
+    border: 1px solid rgb(114, 112, 112);
 }
 .detail__submit {
     display: flex;
