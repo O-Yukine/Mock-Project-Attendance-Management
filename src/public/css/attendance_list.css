@@ -37,7 +37,7 @@ a {
     width: 100%;
 }
 .list__table-row {
-    border-bottom: 1px solid black;
+    border-bottom: 1px solid rgb(114, 112, 112);
 }
 .list__table-row a {
     font-weight: bold;

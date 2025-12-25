@@ -18,7 +18,7 @@
             </div>
             <div class="request__lower">
                 <table class="request__table">
-                    <tr class="request__table--row">
+                    <tr class="request__table--row-title">
                         <th class="request__table--title">状態</th>
                         <th class="request__table--title">名前</th>
                         <th class="request__table--title">対象日時</th>

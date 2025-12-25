@@ -14,16 +14,17 @@ body {
 }
 .request__upper {
     padding-bottom: 10px;
-    border-bottom: 1px solid black;
+    border-bottom: 1px solid rgb(114, 112, 112);
 }
 .tab {
     padding: 8px 30px;
-    color: #666;
+    color: rgb(114, 112, 112);
     text-decoration: none;
 }
 
 .tab.active {
     font-weight: bold;
+    color: black;
 }
 .request__lower {
     width: 100%;
@@ -33,22 +34,25 @@ body {
     background-color: #fff;
     border-radius: 5px;
     margin-top: 50px;
-}
-.request__table--row {
-    border-bottom: 1px solid black;
-}
-.request__table--row a {
+    color: rgb(114, 112, 112);
     font-weight: bold;
 }
-
-.request__table--title {
-    padding: 15px;
+.request__table--row {
+    border-bottom: 1px solid rgb(114, 112, 112);
 }
-
+.request__table--row a {
+    color: black;
+}
+.request__table--row-title {
+    border-bottom: 2px solid rgb(114, 112, 112);
+}
+.request__table--title,
 .request__table--date {
     padding: 15px;
 }
-
+.request__table--date {
+    font-size: 14px;
+}
 a {
     text-decoration: none;
     color: black;

@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\AttendanceLog;
-use App\Models\Attendance;
 
 
 class StampCorrectionController extends Controller
@@ -30,7 +29,7 @@ class StampCorrectionController extends Controller
             });
 
             return view('admin/stamp_correction', compact('tab', 'attendances'));
-        } elseif (auth()->check()) {
+        } elseif (auth('web')->check()) {
 
             $tab = $request->query('tab', 'pending');
 
