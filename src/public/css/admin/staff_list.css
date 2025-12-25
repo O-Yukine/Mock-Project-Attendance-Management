@@ -17,6 +17,7 @@ body {
     background-color: #fff;
     border-radius: 5px;
     margin-top: 50px;
+    font-weight: bold;
 }
 .list__table {
     width: 100%;
@@ -27,7 +28,6 @@ body {
 }
 .list__table--row a {
     text-decoration: none;
-    font-weight: bold;
     color: rgb(114, 112, 112);
 }
 .list__table--row-title {

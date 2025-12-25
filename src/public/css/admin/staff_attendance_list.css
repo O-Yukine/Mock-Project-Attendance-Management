@@ -1,7 +1,67 @@
-.list__table-title {
+body {
+    background-color: rgb(210, 213, 213);
+}
+.attendance-list {
+    max-width: 1540px;
+    margin: 5px 100px;
+}
+.list__title {
+    margin: 30px 0;
+}
+.list__title h1 {
+    padding: 5px 20px;
+    border-left: 8px solid black;
+}
+
+.list__day {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin: 20px auto;
+    background-color: #fff;
+    border-radius: 5px;
+    padding: 15px;
+}
+
+a {
+    text-decoration: none;
+    color: black;
+}
+.list__content {
+    background-color: #fff;
+    border-radius: 5px;
+    margin-top: 50px;
+}
+.list__table {
+    width: 100%;
+}
+.list__table--row {
+    border-bottom: 1px solid black;
+}
+.list__table--row a {
+    font-weight: bold;
+}
+
+.list__table--title {
     padding: 20px;
 }
 
-.list__table-date {
+.list__table--date {
     padding: 20px;
+}
+.csv {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.csv__button {
+    margin-top: 20px;
+    background-color: black;
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    width: 100px;
+    height: 30px;
+    padding: 5px;
 }
