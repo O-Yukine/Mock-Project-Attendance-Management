@@ -16,9 +16,9 @@
                 <a class="tab {{ $tab === 'approved' ? 'active' : '' }}"
                     href="/stamp_correction_request/list?tab=approved">承認済み</a>
             </div>
-            <div class="request__request__lower">
-                <table>
-                    <tr>
+            <div class="request__lower">
+                <table class="request__table">
+                    <tr class="request__table--row">
                         <th class="request__table--title">状態</th>
                         <th class="request__table--title">名前</th>
                         <th class="request__table--title">対象日時</th>
@@ -27,7 +27,7 @@
                         <th class="request__table--title">詳細</th>
                     </tr>
                     @foreach ($attendances as $attendance)
-                        <tr>
+                        <tr class="request__table--row">
                             <td class="request__table--date">{{ $attendance->status }}</td>
                             <td class="request__table--date">{{ $attendance->name }}</td>
                             <td class="request__table--date">{{ $attendance->work_date->format('Y/m/d') }}</td>
