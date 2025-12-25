@@ -7,7 +7,7 @@
             <a class="header-nav__link" href="/attendance/list">勤怠一覧</a>
         </li>
         <li class="header-nav__item">
-            <a class="header-nav__sell" href="/stamp_correction_request/list">申請</a>
+            <a class="header-nav__link" href="/stamp_correction_request/list">申請</a>
         </li>
         <li class="header-nav__item">
             <form action="/auth/logout" method="POST">

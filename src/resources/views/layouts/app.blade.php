@@ -16,8 +16,7 @@
     <header class="header">
         <div class="header__inner">
             <div class="header-utilities">
-                <a class="header__logo" href="/"><img src="{{ asset('images/COACHTECH.png') }}"
-                        alt="coachtech logo"></a>
+                <img src="{{ asset('images/COACHTECH.png') }}" alt="coachtech logo">
                 @unless (Request::is('register') || Request::is('login') || Request::is('/email/verify'))
                     @auth('admin')
                         @include('layouts.header_admin')
