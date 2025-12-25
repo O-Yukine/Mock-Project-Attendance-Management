@@ -26,21 +26,26 @@ body {
 
 a {
     text-decoration: none;
-    color: black;
+    color: rgb(114, 112, 112);
 }
 .list__content {
     background-color: #fff;
     border-radius: 5px;
     margin-top: 50px;
+    color: rgb(114, 112, 112);
 }
 .list__table {
     width: 100%;
 }
 .list__table--row {
-    border-bottom: 1px solid black;
+    border-bottom: 1px solid rgb(114, 112, 112);
+}
+.list__table--row-title {
+    border-bottom: 2px solid rgb(114, 112, 112);
 }
 .list__table--row a {
     font-weight: bold;
+    color: black;
 }
 
 .list__table--title {
