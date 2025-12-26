@@ -11,9 +11,11 @@
             <h1>{{ $staff->name }}さんの勤怠</h1>
         </div>
         <div class="list__day">
-            <a href="/admin/attendance/staff/{{ $staff->id }}?month={{ $last_month }}">←前月</a>
-            <a href="">{{ $month->format('Y/m') }}</a>
-            <a href="/admin/attendance/staff/{{ $staff->id }}?month={{ $next_month }}">翌月→</a>
+            <a class="{{ request('month') == $last_month ? 'active' : '' }}"
+                href="/admin/attendance/staff/{{ $staff->id }}?month={{ $last_month }}">←前月</a>
+            <a class="{{ 'active' }}" href="">{{ $month->format('Y/m') }}</a>
+            <a class="{{ request('month') == $next_month ? 'active' : '' }}"
+                href="/admin/attendance/staff/{{ $staff->id }}?month={{ $next_month }}">翌月→</a>
         </div>
         <div class="list__content">
             <table class="list__table">

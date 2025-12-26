@@ -23,7 +23,10 @@ body {
     border-radius: 5px;
     padding: 15px;
 }
-
+.list__day a.active {
+    color: black;
+    font-weight: bold;
+}
 a {
     text-decoration: none;
     color: rgb(114, 112, 112);
@@ -33,6 +36,7 @@ a {
     border-radius: 5px;
     margin-top: 50px;
     color: rgb(114, 112, 112);
+    font-weight: bold;
 }
 .list__table {
     width: 100%;
@@ -43,18 +47,18 @@ a {
 .list__table--row-title {
     border-bottom: 2px solid rgb(114, 112, 112);
 }
+.list__table--row:last-child {
+    border-bottom: none;
+}
 .list__table--row a {
-    font-weight: bold;
     color: black;
 }
 
-.list__table--title {
-    padding: 20px;
-}
-
+.list__table--title,
 .list__table--date {
     padding: 20px;
 }
+
 .csv {
     display: flex;
     justify-content: flex-end;
