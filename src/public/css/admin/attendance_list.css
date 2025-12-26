@@ -22,6 +22,10 @@ body {
     border-radius: 5px;
     padding: 15px;
 }
+.list__day a.active {
+    color: black;
+    font-weight: bold;
+}
 
 a {
     text-decoration: none;
@@ -31,6 +35,7 @@ a {
     background-color: #fff;
     border-radius: 5px;
     margin-top: 50px;
+    font-weight: bold;
 }
 .list__table {
     width: 100%;
@@ -45,5 +50,5 @@ a {
     border-bottom: 1px solid rgb(114, 112, 112);
 }
 .list__table--row a {
-    font-weight: bold;
+    color: black;
 }

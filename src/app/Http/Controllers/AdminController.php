@@ -32,7 +32,7 @@ class AdminController extends Controller
             $attendance->total_break = ($attendance->total_break === '00:00') ? '' : $attendance->total_break;
         });
 
-        $dateShow  = $date->format('Y/m/d');
+        $dateShow  = $date->clone();
         $yesterday = $date->clone()->subDay()->format('Y/m/d');
         $tomorrow = $date->clone()->addDay()->format('Y/m/d');
 
