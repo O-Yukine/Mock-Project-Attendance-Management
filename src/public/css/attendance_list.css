@@ -13,7 +13,7 @@ body {
     border-left: 8px solid black;
 }
 
-.list__date {
+.list__day {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -26,27 +26,36 @@ body {
 
 a {
     text-decoration: none;
+    color: rgb(114, 112, 112);
+}
+.list__day a.active {
     color: black;
+    font-weight: bold;
 }
 .list__content {
     background-color: #fff;
     border-radius: 5px;
     margin-top: 50px;
+    font-weight: bold;
+    color: rgb(114, 112, 112);
 }
 .list__table {
     width: 100%;
 }
-.list__table-row {
+.list__table--row {
     border-bottom: 1px solid rgb(114, 112, 112);
 }
-.list__table-row a {
-    font-weight: bold;
+.list__table--row:last-child {
+    border-bottom: none;
 }
-
-.list__table-title {
+.list__table--row-title {
+    border-bottom: 2px solid rgb(114, 112, 112);
+}
+.list__table--title,
+.list__table--date {
     padding: 20px;
 }
-
-.list__table-date {
-    padding: 20px;
+.list__table--date a {
+    text-decoration: none;
+    color: black;
 }
