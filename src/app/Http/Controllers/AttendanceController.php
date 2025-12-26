@@ -150,8 +150,16 @@ class AttendanceController extends Controller
             'requested_by' => 'user'
         ]);
 
-        $breaks = $request->breaks;
+        $breaks = $request->input('breaks', []);
+
         foreach ($breaks as $break) {
+
+            if (
+                empty($break['break_start']) ||
+                empty($break['break_end'])
+            ) {
+                continue;
+            }
 
             $detail->breaks()->create([
                 'break_time_id' => $break['id'] ?? null,
