@@ -46,6 +46,9 @@ body {
 .request__table--row-title {
     border-bottom: 2px solid rgb(114, 112, 112);
 }
+.request__table--row:last-child {
+    border-bottom: none;
+}
 .request__table--title,
 .request__table--date {
     padding: 15px;
