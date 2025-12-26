@@ -19,11 +19,14 @@ fieldset {
     border: none;
     padding: 0px;
 }
-.is-disabled input,
-.is-disabled textarea {
+fieldset.is-disabled input,
+fieldset.is-disabled textarea {
     border: none;
     background: transparent;
     opacity: 1;
+    padding: 20px 30px;
+    font-weight: bold;
+    font-size: 16px;
 }
 
 .detail__table {
@@ -33,12 +36,14 @@ fieldset {
     text-align: left;
 }
 .detail__table--row {
-    border-bottom: 1px solid rgb(114, 112, 112);
+    border-bottom: 2px solid rgb(114, 112, 112);
 }
 .detail__table--row a {
     font-weight: bold;
 }
-
+.detail__table--row:last-child {
+    border-bottom: none;
+}
 .detail__table--title {
     padding: 20px 30px;
     color: rgb(114, 112, 112);
@@ -47,11 +52,16 @@ fieldset {
     padding: 20px 30px;
     font-weight: bold;
 }
-.detail__table--date:not(.name-field) {
+.input-day {
     display: flex;
-    justify-content: space-evenly;
+    text-align: center;
+    gap: 100px;
 }
-
+.input-row {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+}
 .detail__table--date input {
     width: 100px;
     height: 30px;
