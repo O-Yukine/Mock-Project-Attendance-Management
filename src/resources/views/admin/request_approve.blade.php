@@ -5,40 +5,51 @@
     <link rel="stylesheet" href="{{ asset('css/admin/request_approve.css') }}">
 @endsection
 @section('content')
-    <div class="attendance-detail">
-        <div class="detail__title">
+    <div class="request-approve">
+        <div class="approve__title">
             <h1>勤怠詳細</h1>
         </div>
         <form class="form" action="/stamp_correction_request/approve/{{ $attendance->id }}" method="post">
             @csrf
             @method('patch')
-            <table class="detail__table">
-                <tr>
-                    <th>名前</th>
-                    <td>{{ $attendance->user->name }}</td>
+            <table class="approve__table">
+                <tr class="approve__table--row">
+                    <th class="approve__table--title">名前</th>
+                    <td class="approve__table--date">{{ $attendance->user->name }}</td>
                 </tr>
-                <tr>
-                    <th>日付</th>
-                    <td><input type="hidden" name="work_date" value="{{ $attendance->work_date->format('Y-m-d') }}">
-                        {{ $attendance->work_date->format('Y年m月d日') }}
+                <tr class="approve__table--row">
+                    <th class="approve__table--title">日付</th>
+                    <td class="detail__table--date"><input type="hidden" name="work_date"
+                            value="{{ $attendance->work_date->format('Y-m-d') }}">
+                        <span class="date__year">
+                            {{ $attendance->work_date->format('Y年') }}
+                        </span>
+                        <span class="date__md">
+                            {{ $attendance->work_date->format('m月d日') }}
+                        </span>
                     </td>
                 </tr>
-                <tr>
-                    <th>出勤・退勤</th>
-                    <td><input type="hidden" name="clock_in" value="{{ optional($attendance->clock_in)->format('H:i') }}">
-                        {{ optional($attendance->clock_in)->format('H:i') }}〜{{ optional($attendance->clock_out)->format('H:i') }}
+                <tr class="approve__table--row">
+                    <th class="approve__table--title">出勤・退勤</th>
+                    <td class="approve__table--date"><input type="hidden" name="clock_in"
+                            value="{{ optional($attendance->clock_in)->format('H:i') }}">
+                        {{ optional($attendance->clock_in)->format('H:i') }}
+                        〜
+                        {{ optional($attendance->clock_out)->format('H:i') }}
                         <input type="hidden" name="clock_out"
                             value="{{ optional($attendance->clock_out)->format('H:i') }}">
                     </td>
                 </tr>
                 @foreach ($attendance->breaks as $index => $break)
-                    <tr>
-                        <th>休憩{{ $index + 1 }}</th>
-                        <td><input type="hidden" name="breaks[{{ $index }}][id]" value="{{ $break->id }}">
+                    <tr class="approve__table--row">
+                        <th class="approve__table--title">休憩{{ $index + 1 }}</th>
+                        <td class="approve__table--date"><input type="hidden" name="breaks[{{ $index }}][id]"
+                                value="{{ $break->id }}">
                             <input type="hidden" name="breaks[{{ $index }}][break_start]"
                                 value="{{ optional($break->break_start)->format('H:i') }}">
                             {{ optional($break->break_start)->format('H:i') }}
-                            〜{{ optional($break->break_end)->format('H:i') }}
+                            〜
+                            {{ optional($break->break_end)->format('H:i') }}
                             <input type="hidden" name="breaks[{{ $index }}][break_end]"
                                 value="{{ optional($break->break_end)->format('H:i') }}">
                         </td>
@@ -47,24 +58,27 @@
                 @php
                     $newInput = $attendance->breaks->count();
                 @endphp
-                <tr>
-                    <th>休憩{{ $newInput + 1 }}</th>
-                    <td> <input type="hidden" name="breaks[{{ $newInput }}][break_start]">
+                <tr class="approve__table--row">
+                    <th class="approve__table--title">休憩{{ $newInput + 1 }}</th>
+                    <td class="approve__table--date"> <input type="hidden"
+                            name="breaks[{{ $newInput }}][break_start]">
                         <input type="hidden" name="breaks[{{ $newInput }}][break_end]">
                     </td>
                 </tr>
-                <tr>
-                    <th>備考</th>
-                    <td>
+                <tr class="approve__table--row">
+                    <th class="approve__table--title">備考</th>
+                    <td class="approve__table--date">
                         {{ $attendance->reason }}
                     </td>
                 </tr>
             </table>
-            @if ($attendance->status === 'pending')
-                <button class="detail__submit" type="submit">承認</button>
-            @else
-                <p>承認済み</p>
-            @endif
+            <div class="approve__submit">
+                @if ($attendance->status === 'pending')
+                    <button class="approve__submit--button" type="submit">承認</button>
+                @else
+                    <p class="approve__notice">承認済み</p>
+                @endif
+            </div>
         </form>
     </div>
 @endsection
