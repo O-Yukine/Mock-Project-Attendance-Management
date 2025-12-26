@@ -52,3 +52,9 @@ a {
 .list__table--row a {
     color: black;
 }
+.list__table--row:last-child {
+    border-bottom: none;
+}
+.list__table--row-title {
+    border-bottom: 2px solid rgb(114, 112, 112);
+}

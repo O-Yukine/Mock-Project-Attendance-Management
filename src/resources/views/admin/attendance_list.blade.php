@@ -19,7 +19,7 @@
         </div>
         <div class="list__content">
             <table class="list__table">
-                <tr class="list__table--row">
+                <tr class="list__table--row-title">
                     <th class="list__table--title">名前</th>
                     <th class="list__table--title">出勤</th>
                     <th class="list__table--title">退勤</th>
