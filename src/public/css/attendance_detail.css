@@ -33,12 +33,14 @@ fieldset {
     text-align: left;
 }
 .detail__table--row {
-    border-bottom: 1px solid rgb(114, 112, 112);
+    border-bottom: 2px solid rgb(114, 112, 112);
 }
 .detail__table--row a {
     font-weight: bold;
 }
-
+.detail__table--row:last-child {
+    border-bottom: none;
+}
 .detail__table--title {
     padding: 20px 30px;
     color: rgb(114, 112, 112);
@@ -46,12 +48,17 @@ fieldset {
 .detail__table--date {
     padding: 20px 30px;
     font-weight: bold;
-}
-.detail__table--date:not(.name-field) {
     display: flex;
-    justify-content: space-evenly;
+    align-items: center;
+    gap: 30px;
 }
-
+.detail__table--day {
+    padding: 20px 30px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 100px;
+}
 .detail__table--date input {
     width: 100px;
     height: 30px;
