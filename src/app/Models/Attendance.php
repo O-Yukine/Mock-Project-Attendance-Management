@@ -35,4 +35,17 @@ class Attendance extends Model
     {
         return $this->hasMany(AttendanceLog::class);
     }
+
+    public function getTotalBreakAttribute()
+    {
+
+        $totalMinutes = $this->breaks
+            ->filter(fn($b) => $b->break_start && $b->break_end)
+            ->sum(fn($b) => $b->break_start->diffInMinutes($b->break_end));
+
+        $hours = floor($totalMinutes / 60);
+        $minutes = $totalMinutes % 60;
+
+        return sprintf('%02d:%02d', $hours, $minutes);
+    }
 }
