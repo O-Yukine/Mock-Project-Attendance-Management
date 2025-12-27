@@ -6,46 +6,46 @@
 
 1. リポジトリをクローン
 
-git clone git@github.com:O-Yukine/Mock-Project-Attendance-Management.git
+`git clone git@github.com:O-Yukine/Mock-Project-Attendance-Management.git`
 
 2. Docker アプリを立ち上げる
 
 3. Docker ビルド
 
-docker-compose up -d --builed
+`docker-compose up -d --builed`
 
 ### Laravel 環境構築
 
 1. PHP コンテナに入る
 
-docker-compose exec php bash
+`docker-compose exec php bash`
 
 2. Composer パッケージをインストール
 
-composer install
+`composer install`
 
 3. 環境設定ファイルをコピー
 
-cp .env.example .env
+`cp .env.example .env`
 
 4. .env ファイルを編集
 
-DB_HOST=mysql
+DB_HOST=mysql`
 DB_DATABASE=laravel_db
 DB_USERNAME=laravel_user
 DB_PASSWORD=laravel_pass
 
 5. アプリケーションキーの作成
 
-php artisan key:generate
+`php artisan key:generate`
 
 6. マイグレーションの実行
 
-php artisan migrate
+`php artisan migrate`
 
 7. シーディングの実行
 
-php artisan db:seed
+`php artisan db:seed`
 
 ### ユーザー登録時のメール認証システムの設定(mailtrap の利用)
 
@@ -68,16 +68,16 @@ MAIL_FROM_NAME="${APP_NAME}"
 
 1. MySQL のコンテナへ入る
 
-docker-compose exex mysql bash  
-mysql -u root -p
+`docker-compose exex mysql bash`  
+`mysql -u root -p`
 
 2. laravel_test テーブルを作成
 
-CREATE DATABASE laravel_test;
+`CREATE DATABASE laravel_test;`
 
 3. テスト用.env を作る
 
-cp .env.testing
+`cp .env.testing`
 
 4. .env.testing ファイルを編集
 
@@ -92,15 +92,15 @@ DB_PASSWORD=root
 
 6. マイグレーションの実行
 
-php artisan migrate --env=testing
+`php artisan migrate --env=testing`
 
 7. テストの実行は以下のコマンド
 
-php artisan test tests/Feature
+`php artisan test tests/Feature`
 
 もしくは
 
-vender/bin/phpunit tests/Feature
+`vender/bin/phpunit tests/Feature`
 
 ### 使用技術
 

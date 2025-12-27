@@ -7,7 +7,8 @@ use Illuminate\Http\Request;
 use Carbon\Carbon;
 use App\Models\Attendance;
 use App\Models\AttendanceLog;
-use App\Models\BreakTime;
+use Illuminate\Support\Facades\DB;
+
 
 
 class AttendanceController extends Controller
@@ -43,38 +44,59 @@ class AttendanceController extends Controller
         $attendance = Attendance::firstOrCreate([
             'user_id' => auth()->id(),
             'work_date' => $request->work_date,
+        ], [
+            'status' => 'off',
         ]);
 
-        switch ($request->action) {
-            case 'start_working':
-                $attendance->update([
-                    'clock_in' => $request->time,
-                    'status' => 'working'
-                ]);
-                break;
+        DB::transaction(function () use ($attendance, $request) {
 
-            case 'finish_working':
-                $attendance->update([
-                    'clock_out' => $request->time,
-                    'status' => 'clock_out'
-                ]);
-                break;
 
-            case 'break_start':
-                $attendance->breaks()->create(['break_start' => $request->time]);
-                $attendance->update(['status' => 'on_break']);
-                break;
+            switch ($request->action) {
+                case 'start_working':
 
-            case 'break_end':
-                $break = $attendance->breaks()->whereNull('break_end')->orderBy('id', 'desc')->first();
+                    if ($attendance->status !== 'off') {
+                        abort(400);
+                    }
 
-                if ($break) {
-                    $break->update(['break_end' => $request->time]);
-                }
+                    $attendance->update([
+                        'clock_in' => $request->time,
+                        'status' => 'working'
+                    ]);
+                    break;
 
-                $attendance->update(['status' => 'working']);
-                break;
-        }
+                case 'finish_working':
+                    if ($attendance->status !== 'working') {
+                        abort(400);
+                    }
+                    $attendance->update([
+                        'clock_out' => $request->time,
+                        'status' => 'clock_out'
+                    ]);
+                    break;
+
+                case 'break_start':
+
+                    if ($attendance->status !== 'working') {
+                        abort(400);
+                    }
+                    $attendance->breaks()->create(['break_start' => $request->time]);
+                    $attendance->update(['status' => 'on_break']);
+                    break;
+
+                case 'break_end':
+                    if ($attendance->status !== 'on_break') {
+                        abort(400);
+                    }
+                    $break = $attendance->breaks()->whereNull('break_end')->orderBy('id', 'desc')->first();
+
+                    if ($break) {
+                        $break->update(['break_end' => $request->time]);
+                    }
+
+                    $attendance->update(['status' => 'working']);
+                    break;
+            }
+        });
 
         return redirect('/attendance');
     }
