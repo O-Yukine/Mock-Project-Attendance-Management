@@ -55,7 +55,7 @@
                         @endphp
                         <tr class="detail__table--row">
                             <th class="detail__table--title">
-                                {{ $index === 0 ? '休憩' : '休憩' . ($index + 1) }}
+                                {{ $i === 0 ? '休憩' : '休憩' . ($i + 1) }}
                             </th>
                             <td class="detail__table--date">
                                 <div class="input-row">

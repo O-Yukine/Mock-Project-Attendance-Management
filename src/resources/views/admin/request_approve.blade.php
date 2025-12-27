@@ -43,8 +43,8 @@
                 @foreach ($attendance->breaks as $index => $break)
                     <tr class="approve__table--row">
                         <th class="approve__table--title">休憩{{ $index + 1 }}</th>
-                        <td class="approve__table--date"><input type="hidden" name="breaks[{{ $index }}][id]"
-                                value="{{ $break->id }}">
+                        <td class="approve__table--date"><input type="hidden"
+                                name="breaks[{{ $index }}][break_time_id]" value="{{ $break->break_time_id }}">
                             <input type="hidden" name="breaks[{{ $index }}][break_start]"
                                 value="{{ optional($break->break_start)->format('H:i') }}">
                             {{ optional($break->break_start)->format('H:i') }}

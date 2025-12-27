@@ -35,6 +35,7 @@
                             <td class="request__table--date">{{ $attendance->created_at->format('Y/m/d') }}</td>
                             <td class="request__table--date"><a
                                     href="/stamp_correction_request/approve/{{ $attendance->id }}">詳細</a></td>
+                            {{-- ここで送ってるんはattendanceId --}}
                         </tr>
                     @endforeach
                 </table>

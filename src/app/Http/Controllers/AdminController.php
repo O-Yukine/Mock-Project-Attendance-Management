@@ -30,6 +30,7 @@ class AdminController extends Controller
     }
 
     public function showDetail($id)
+    //この$idはattendanceId
     {
         $attendanceLog = AttendanceLog::with('breaks')
             ->where('attendance_id', $id)

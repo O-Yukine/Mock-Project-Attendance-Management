@@ -93,12 +93,14 @@ class AttendanceController extends Controller
     }
 
     public function showDetail($id)
+    // この$id は attendanceId
     {
         $attendanceLog = AttendanceLog::with('breaks')
             ->where('attendance_id', $id)
             ->where('status', 'pending')
             ->first();
 
+        //logがあればlog ,なければattendance (attendance_id = $attendance->attendance_id / $id)
         $attendance = $attendanceLog ?? Attendance::with('breaks', 'user')->findOrFail($id);
 
         $hasPendingRequest = $attendanceLog !== null;
@@ -108,6 +110,8 @@ class AttendanceController extends Controller
 
     public function updateDetail(AttendancDetailRequest $request, $id)
     {
+        // この$id は attendanceId
+
         DB::transaction(function () use ($request, $id) {
             $detail = AttendanceLog::create([
                 'user_id' => auth()->id(),
@@ -130,6 +134,8 @@ class AttendanceController extends Controller
                 ) {
                     continue;
                 }
+
+                // breakTimeLog を作成
 
                 $detail->breaks()->create([
                     'break_time_id' => $break['id'] ?? null,
