@@ -7,12 +7,21 @@ use Illuminate\Http\Request;
 use Carbon\Carbon;
 use App\Models\Attendance;
 use App\Models\AttendanceLog;
-use Illuminate\Support\Facades\DB;
+use App\Services\AttendanceService;
+
 
 
 
 class AttendanceController extends Controller
 {
+    protected $attendanceService;
+
+    public function __construct(AttendanceService $attendanceService)
+    {
+        $this->attendanceService = $attendanceService;
+    }
+
+
     public function index()
 
     {
@@ -20,20 +29,19 @@ class AttendanceController extends Controller
             ->whereDate('work_date', today())
             ->first();
 
-        $status = $attendance->status ?? 'off';
+        $statusCode = $attendance->status ?? 'off';
         $statusLabel = [
             'off' => '勤務外',
             'working' => '出勤中',
             'on_break' => '休憩中',
             'clock_out' => '退勤済'
-        ];
-
-        $statusText = $statusLabel[$status];
+        ][$statusCode];
 
         Carbon::setLocale('ja');
 
         return view('attendance', [
-            'status' => $statusText,
+            'statusCode' => $statusCode,
+            'statusLabel' => $statusLabel,
             'today' => now()->isoformat('Y年M月D日(dd)'),
             'time' => now()->format('H:i'),
         ]);
@@ -48,55 +56,7 @@ class AttendanceController extends Controller
             'status' => 'off',
         ]);
 
-        DB::transaction(function () use ($attendance, $request) {
-
-
-            switch ($request->action) {
-                case 'start_working':
-
-                    if ($attendance->status !== 'off') {
-                        abort(400);
-                    }
-
-                    $attendance->update([
-                        'clock_in' => $request->time,
-                        'status' => 'working'
-                    ]);
-                    break;
-
-                case 'finish_working':
-                    if ($attendance->status !== 'working') {
-                        abort(400);
-                    }
-                    $attendance->update([
-                        'clock_out' => $request->time,
-                        'status' => 'clock_out'
-                    ]);
-                    break;
-
-                case 'break_start':
-
-                    if ($attendance->status !== 'working') {
-                        abort(400);
-                    }
-                    $attendance->breaks()->create(['break_start' => $request->time]);
-                    $attendance->update(['status' => 'on_break']);
-                    break;
-
-                case 'break_end':
-                    if ($attendance->status !== 'on_break') {
-                        abort(400);
-                    }
-                    $break = $attendance->breaks()->whereNull('break_end')->orderBy('id', 'desc')->first();
-
-                    if ($break) {
-                        $break->update(['break_end' => $request->time]);
-                    }
-
-                    $attendance->update(['status' => 'working']);
-                    break;
-            }
-        });
+        $this->attendanceService->updateAttendance($attendance, $request->action, $request->time);
 
         return redirect('/attendance');
     }

@@ -8,7 +8,7 @@
 @section('content')
     <div class="attendance">
         <div class="attendance__status">
-            <p>{{ $status }}</p>
+            <p>{{ $statusLabel }}</p>
         </div>
         <form action="/attendance" method="post" class="form">
             @csrf
@@ -21,16 +21,16 @@
                 {{ $time }}
             </div>
             <div class="attendance__submit">
-                @if ($status == '勤務外')
+                @if ($statusCode == 'off')
                     <button class="attendance__submit--button" name="action" value="start_working"
                         type="submit">出勤</button>
-                @elseif($status == '出勤中')
+                @elseif($statusCode == 'working')
                     <button class="attendance__submit--button" name="action" value="finish_working"
                         type="submit">退勤</button>
                     <button class="break__submit--button" name="action" value="break_start" type="submit">休憩入</button>
-                @elseif($status == '休憩中')
+                @elseif($statusCode == 'on_break')
                     <button class="break__submit--button" name="action" value="break_end" type="submit">休憩戻</button>
-                @elseif($status == '退勤済')
+                @elseif($statusCode == 'clock_out')
                     <p class="status__notice">お疲れ様でした。</p>
                 @endif
             </div>
