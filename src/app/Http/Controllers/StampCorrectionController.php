@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\AttendanceLog;
+use Illuminate\Support\Facades\DB;
 
 
 class StampCorrectionController extends Controller
@@ -70,28 +71,31 @@ class StampCorrectionController extends Controller
 
         $attendance = $attendanceLog->attendance;
 
-        $attendance->update([
-            'clock_in'  => $request->clock_in,
-            'clock_out' => $request->clock_out,
-        ]);
+        DB::transaction(function () use ($attendance, $attendanceLog, $request) {
 
-        foreach ($request->breaks as $break) {
-            if (!empty($break['id'])) {
-                $attendance->breaks()->where('id', $break['id'])->update([
-                    'break_start' => $break['break_start'],
-                    'break_end'   => $break['break_end'],
+            $attendance->update([
+                'clock_in'  => $request->clock_in,
+                'clock_out' => $request->clock_out,
+            ]);
 
-                ]);
-            } else {
+            foreach ($request->breaks as $break) {
+                if (!empty($break['id'])) {
+                    $attendance->breaks()->where('id', $break['id'])->update([
+                        'break_start' => $break['break_start'],
+                        'break_end'   => $break['break_end'],
 
-                $attendance->breaks()->create([
-                    'break_start' => $break['break_start'],
-                    'break_end'   => $break['break_end'],
-                ]);
+                    ]);
+                } else {
+
+                    $attendance->breaks()->create([
+                        'break_start' => $break['break_start'],
+                        'break_end'   => $break['break_end'],
+                    ]);
+                }
             }
-        }
 
-        $attendanceLog->update(['status' => 'approved']);
+            $attendanceLog->update(['status' => 'approved']);
+        });
 
         return redirect("/stamp_correction_request/approve/{$attendance_correct_request_id}");
     }
