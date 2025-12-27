@@ -20,18 +20,6 @@ class AdminController extends Controller
             ->where('work_date', $date->toDateString())
             ->get();
 
-        // $attendances->each(function ($attendance) {
-        //     $totalBreak = $attendance->breaks
-        //         ->filter(fn($b) => $b->break_start && $b->break_end)
-        //         ->sum(fn($b) => $b->break_start->diffInMinutes($b->break_end));
-
-        //     $hours = floor($totalBreak / 60);
-        //     $minutes = $totalBreak % 60;
-
-        //     $attendance->total_break = sprintf('%02d:%02d', $hours, $minutes);
-        //     $attendance->total_break = ($attendance->total_break === '00:00') ? '' : $attendance->total_break;
-        // });
-
         $dateShow  = $date->clone();
         $yesterday = $date->clone()->subDay()->format('Y/m/d');
         $tomorrow = $date->clone()->addDay()->format('Y/m/d');
@@ -79,6 +67,10 @@ class AdminController extends Controller
         ]);
 
         foreach ($request->breaks as $break) {
+
+            if (empty($break['break_start']) && empty($break['break_end'])) {
+                continue;
+            }
 
             $attendanceLog->breaks()->create([
                 'break_time_id' => $break['id'] ?? null,
@@ -131,19 +123,6 @@ class AdminController extends Controller
             ->whereYear('work_date', $month->year)
             ->whereMonth('work_date', $month->month)
             ->get();
-
-
-        // $attendances->each(function ($attendance) {
-        //     $totalBreak = $attendance->breaks
-        //         ->filter(fn($b) => $b->break_start && $b->break_end)
-        //         ->sum(fn($b) => $b->break_start->diffInMinutes($b->break_end));
-
-        //     $hours = floor($totalBreak / 60);
-        //     $minutes = $totalBreak % 60;
-
-        //     $attendance->total_break = sprintf('%02d:%02d', $hours, $minutes);
-        //     $attendance->total_break = ($attendance->total_break === '00:00') ? '' : $attendance->total_break;
-        // });
 
         $last_month = $month->clone()->subMonth()->format('Y/m');
         $next_month = $month->clone()->addMonth()->format('Y/m');

@@ -46,18 +46,25 @@
                             @enderror
                         </td>
                     </tr>
-                    @foreach ($attendance->breaks as $index => $break)
+                    @php
+                        $breaks = $attendance->breaks->concat([
+                            ['id' => null, 'break_start' => null, 'break_end' => null],
+                        ]);
+                    @endphp
+                    @foreach ($breaks as $index => $break)
                         <tr class="detail__table--row">
-                            <th class="detail__table--title">休憩{{ $index + 1 }}</th>
+                            <th class="detail__table--title">
+                                {{ $index === 0 ? '休憩' : '休憩' . ($index + 1) }}
+                            </th>
                             <td class="detail__table--date">
                                 <div class="input-row">
                                     <input type="hidden" name="breaks[{{ $index }}][id]"
-                                        value="{{ $break->id }}">
+                                        value="{{ $break['id'] ?? '' }}">
                                     <input type="text" name="breaks[{{ $index }}][break_start]"
-                                        value="{{ optional($break->break_start)->format('H:i') }}">
+                                        value="{{ old("breaks.$index.break_start", optional($break['break_start'])->format('H:i')) }}">
                                     〜
                                     <input type="text" name="breaks[{{ $index }}][break_end]"
-                                        value="{{ optional($break->break_end)->format('H:i') }}">
+                                        value="{{ old("breaks.$index.break_end", optional($break['break_end'])->format('H:i')) }}">
                                 </div>
                                 @error("breaks.$index.break_start")
                                     <div class="form__error">{{ $message }}</div>
@@ -68,19 +75,7 @@
                             </td>
                         </tr>
                     @endforeach
-                    @php
-                        $newInput = $attendance->breaks->count();
-                    @endphp
-                    <tr class="detail__table--row">
-                        <th class="detail__table--title">休憩{{ $newInput + 1 }}</th>
-                        <td class="detail__table--date">
-                            <div class="input-row">
-                                <input type="text" name="breaks[{{ $newInput }}][break_start]">
-                                〜
-                                <input type="text" name="breaks[{{ $newInput }}][break_end]">
-                            </div>
-                        </td>
-                    </tr>
+
                     <tr class="detail__table--row">
                         <th class="detail__table--title">備考</th>
                         <td class="detail__table--date">

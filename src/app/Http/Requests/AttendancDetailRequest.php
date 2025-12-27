@@ -27,8 +27,8 @@ class AttendancDetailRequest extends FormRequest
             'clock_in' => ['required', 'date_format:H:i', 'before:clock_out'],
             'clock_out' => ['required', 'date_format:H:i'],
             'reason' => ['required', 'string'],
-            'breaks.*.break_start' => ['after:clock_in', 'before:clock_out'],
-            'breaks.*.break_end' => 'before:clock_out',
+            'breaks.*.break_start' => ['nullable', 'after:clock_in', 'before:clock_out'],
+            'breaks.*.break_end' => ['nullable', 'before:clock_out'],
 
         ];
     }

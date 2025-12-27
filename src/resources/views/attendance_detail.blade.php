@@ -46,28 +46,34 @@
                             @enderror
                         </td>
                     </tr>
-                    @foreach ($attendance->breaks as $index => $break)
+                    @php
+                        $breakCount = max($attendance->breaks->count(), 0) + 1;
+                    @endphp
+                    @for ($i = 0; $i < $breakCount; $i++)
+                        @php
+                            $break = $attendance->breaks[$i] ?? null;
+                        @endphp
                         <tr class="detail__table--row">
-                            <th class="detail__table--title">休憩{{ $index + 1 }}</th>
+                            <th class="detail__table--title">休憩{{ $i + 1 }}</th>
                             <td class="detail__table--date">
                                 <div class="input-row">
-                                    <input type="hidden" name="breaks[{{ $index }}][id]"
+                                    <input type="hidden" name="breaks[{{ $i }}][id]"
                                         value="{{ $break->id ?? '' }}">
-                                    <input type="text" name="breaks[{{ $index }}][break_start]"
-                                        value="{{ old("breaks.$index.break_start", optional($break->break_start)->format('H:i')) }}">
+                                    <input type="text" name="breaks[{{ $i }}][break_start]"
+                                        value="{{ old("breaks.$i.break_start", optional($break)?->break_start?->format('H:i')) }}">
                                     〜
-                                    <input type="text" name="breaks[{{ $index }}][break_end]"
-                                        value="{{ old("breaks.$index.break_end", optional($break->break_end)->format('H:i')) }}">
+                                    <input type="text" name="breaks[{{ $i }}][break_end]"
+                                        value="{{ old("breaks.$i.break_end", optional($break)?->break_end?->format('H:i')) }}">
                                 </div>
-                                @error("breaks.$index.break_start")
+                                @error("breaks.$i.break_start")
                                     <div class="form__error">{{ $message }}</div>
                                 @enderror
-                                @error("breaks.$index.break_end")
+                                @error("breaks.$i.break_end")
                                     <div class="form__error">{{ $message }}</div>
                                 @enderror
                             </td>
                         </tr>
-                    @endforeach
+                    @endfor
                     <tr class="detail__table--row">
                         <th class="detail__table--title">備考</th>
                         <td class="detail__table--date">
