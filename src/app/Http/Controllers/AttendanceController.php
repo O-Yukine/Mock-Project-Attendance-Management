@@ -8,7 +8,7 @@ use Carbon\Carbon;
 use App\Models\Attendance;
 use App\Models\AttendanceLog;
 use App\Services\AttendanceService;
-
+use Illuminate\Support\Facades\DB;
 
 
 
@@ -108,36 +108,36 @@ class AttendanceController extends Controller
 
     public function updateDetail(AttendancDetailRequest $request, $id)
     {
-
-        $detail = AttendanceLog::create([
-            'user_id' => auth()->id(),
-            'attendance_id' => $id,
-            'work_date' => $request->work_date,
-            'clock_in' => $request->clock_in,
-            'clock_out' => $request->clock_out,
-            'reason' => $request->reason,
-            'status' => 'pending',
-            'requested_by' => 'user'
-        ]);
-
-        $breaks = $request->input('breaks', []);
-
-        foreach ($breaks as $break) {
-
-            if (
-                empty($break['break_start']) ||
-                empty($break['break_end'])
-            ) {
-                continue;
-            }
-
-            $detail->breaks()->create([
-                'break_time_id' => $break['id'] ?? null,
-                'break_start' => $break['break_start'],
-                'break_end' => $break['break_end'],
+        DB::transaction(function () use ($request, $id) {
+            $detail = AttendanceLog::create([
+                'user_id' => auth()->id(),
+                'attendance_id' => $id,
+                'work_date' => $request->work_date,
+                'clock_in' => $request->clock_in,
+                'clock_out' => $request->clock_out,
+                'reason' => $request->reason,
+                'status' => 'pending',
+                'requested_by' => 'user'
             ]);
-        }
 
+            $breaks = $request->input('breaks', []);
+
+            foreach ($breaks as $break) {
+
+                if (
+                    empty($break['break_start']) ||
+                    empty($break['break_end'])
+                ) {
+                    continue;
+                }
+
+                $detail->breaks()->create([
+                    'break_time_id' => $break['id'] ?? null,
+                    'break_start' => $break['break_start'],
+                    'break_end' => $break['break_end'],
+                ]);
+            }
+        });
         return redirect("/attendance/detail/$id");
     }
 }
