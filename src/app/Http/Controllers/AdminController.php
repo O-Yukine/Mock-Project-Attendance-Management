@@ -19,12 +19,13 @@ class AdminController extends Controller
 
         $attendances = Attendance::with(['breaks', 'user'])
             ->where('work_date', $date->toDateString())
+            ->orderByRaw('clock_in IS NULL')
+            ->orderBy('clock_in', 'asc')
             ->get();
 
         $dateShow  = $date->clone();
         $yesterday = $date->clone()->subDay()->format('Y/m/d');
         $tomorrow = $date->clone()->addDay()->format('Y/m/d');
-
 
         return view('admin/attendance_list', compact('attendances', 'yesterday', 'dateShow', 'tomorrow'));
     }
