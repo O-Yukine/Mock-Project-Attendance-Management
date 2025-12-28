@@ -43,6 +43,10 @@ class Attendance extends Model
             ->filter(fn($b) => $b->break_start && $b->break_end)
             ->sum(fn($b) => $b->break_start->diffInMinutes($b->break_end));
 
+        if ($totalMinutes === 0) {
+            return '';
+        }
+
         $hours = floor($totalMinutes / 60);
         $minutes = $totalMinutes % 60;
 

@@ -75,7 +75,6 @@
                             </td>
                         </tr>
                     @endforeach
-
                     <tr class="detail__table--row">
                         <th class="detail__table--title">備考</th>
                         <td class="detail__table--date">

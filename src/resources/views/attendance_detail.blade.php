@@ -47,6 +47,7 @@
                         </td>
                     </tr>
                     @php
+                        //この$attendance->breaksはbreakTimeLogsのデータなのでbreakTimeに変える必要あり
                         $breakCount = max($attendance->breaks->count(), 0) + 1;
                     @endphp
                     @for ($i = 0; $i < $breakCount; $i++)

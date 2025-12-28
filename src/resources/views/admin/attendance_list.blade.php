@@ -13,7 +13,7 @@
         <div class="list__day">
             <a class="{{ request('day') == $yesterday ? 'active' : '' }}"
                 href="/admin/attendance/list?day={{ $yesterday }}">←前日</a>
-            <a class="{{ 'active' }}" href="/admin/attendance/list">{{ $dateShow->format('Y/m/d') }}</a>
+            <a class="{{ 'active' }}" href="#">{{ $dateShow->format('Y/m/d') }}</a>
             <a class="{{ request('day') == $tomorrow ? 'active' : '' }}"
                 href="/admin/attendance/list?day={{ $tomorrow }}">翌日→</a>
         </div>
@@ -30,8 +30,8 @@
                 @foreach ($attendances as $attendance)
                     <tr class="list__table--row">
                         <td class="list__table--date">{{ $attendance->user->name }}</td>
-                        <td class="list__table--date">{{ optional($attendance->clock_in)->format('H:i') ?? '' }}</td>
-                        <td class="list__table--date">{{ optional($attendance->clock_out)->format('H:i') ?? '' }}</td>
+                        <td class="list__table--date">{{ $attendance->clock_in?->format('H:i') ?? '' }}</td>
+                        <td class="list__table--date">{{ $attendance->clock_out?->format('H:i') ?? '' }}</td>
                         <td class="list__table--date">{{ $attendance->total_break ?? '' }}</td>
                         <td class="list__table--date">
                             {{ $attendance->clock_in?->diff($attendance->clock_out)?->format('%H:%I') ?? '' }}</td>
