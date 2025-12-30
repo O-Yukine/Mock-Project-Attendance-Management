@@ -138,7 +138,8 @@ class AdminController extends Controller
 
         $last_month = $month->clone()->subMonth()->format('Y/m');
         $next_month = $month->clone()->addMonth()->format('Y/m');
+        $showMonth = $month->format('Y/m');
 
-        return view('admin/staff_attendance_list', compact('last_month', 'next_month', 'month', 'staff', 'attendances'));
+        return view('admin/staff_attendance_list', compact('last_month', 'next_month', 'showMonth', 'staff', 'attendances'));
     }
 }

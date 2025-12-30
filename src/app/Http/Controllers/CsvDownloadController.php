@@ -25,7 +25,7 @@ class CsvDownloadController extends Controller
             ->whereMonth('work_date', $month->month)
             ->get();
 
-        $csvHeader = ['日付', '勤務', '退勤', '休憩', '合計'];
+        $csvHeader = ['work_date', 'clock_in', 'clock_out', 'break', 'total_work_time'];
 
         $fileName = 'attendance_' . $staff->name . '_' . $month->format('Ym');
 
