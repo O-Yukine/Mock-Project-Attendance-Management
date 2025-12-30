@@ -34,7 +34,7 @@
                         <td class="list__table--date">{{ $attendance->clock_out?->format('H:i') ?? '' }}</td>
                         <td class="list__table--date">{{ $attendance->total_break ?? '' }}</td>
                         <td class="list__table--date">
-                            {{ $attendance->clock_in?->diff($attendance->clock_out)?->format('%H:%I') ?? '' }}</td>
+                            {{ $attendance->total_work_time ?? '' }}</td>
                         <td class="list__table--date"><a href="/attendance/detail/{{ $attendance->id }}">詳細</a></td>
                     </tr>
                 @endforeach

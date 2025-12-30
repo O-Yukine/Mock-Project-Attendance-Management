@@ -59,12 +59,12 @@ a {
     padding: 20px;
 }
 
-.csv {
+.csv__export {
     display: flex;
     justify-content: flex-end;
 }
 
-.csv__button {
+.csv__export--button {
     margin-top: 20px;
     background-color: black;
     color: #fff;

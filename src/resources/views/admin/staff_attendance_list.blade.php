@@ -13,7 +13,7 @@
         <div class="list__day">
             <a class="{{ request('month') == $last_month ? 'active' : '' }}"
                 href="/admin/attendance/staff/{{ $staff->id }}?month={{ $last_month }}">←前月</a>
-            <a class="{{ 'active' }}" href="">{{ $month->format('Y/m') }}</a>
+            <a class="{{ 'active' }}" href="#">{{ $month->format('Y/m') }}</a>
             <a class="{{ request('month') == $next_month ? 'active' : '' }}"
                 href="/admin/attendance/staff/{{ $staff->id }}?month={{ $next_month }}">翌月→</a>
         </div>
@@ -34,14 +34,17 @@
                         <td class="list__table--date">{{ $attendance->clock_out?->format('H:i') ?? '' }}</td>
                         <td class="list__table--date">{{ $attendance->total_break ?? '' }}</td>
                         <td class="list__table--date">
-                            {{ $attendance->clock_in?->diff($attendance->clock_out)?->format('%H:%I') ?? '' }}</td>
+                            {{ $attendance->total_work_time ?? '' }}</td>
                         <td class="list__table--date"><a href="/admin/attendance/{{ $attendance->id }}">詳細</a></td>
                     </tr>
                 @endforeach
             </table>
         </div>
-        <div class="csv">
-            <button class="csv__button" type="submit">CSV出力</button>
-        </div>
+        <form action="/csv/export/{{ $staff->id }}?month={{ $month }}" class="csv" method="get">
+            @csrf
+            <div class="csv__export">
+                <button class="csv__export--button" type="submit">CSV出力</button>
+            </div>
+        </form>
     </div>
 @endsection

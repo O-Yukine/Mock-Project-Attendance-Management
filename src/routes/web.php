@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\VerifyEmailController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AdminAuthController;
+use App\Http\Controllers\CsvDownloadController;
 use App\Http\Controllers\StampCorrectionController;
 
 /*
@@ -48,6 +49,7 @@ Route::middleware(['admin.auth'])->group(function () {
     Route::patch('/admin/attendance/{id}', [AdminController::class, 'updateDetail']);
     Route::get('/admin/staff/list', [AdminController::class, 'showStaffList']);
     Route::get('/admin/attendance/staff/{id}', [AdminController::class, 'showStaffAttendanceList']);
+    Route::get('/csv/export/{id}', [CsvDownloadController::class, 'export']);
     // Route::get('/stamp_correction_request/list', [AdminController::class, 'showRequest']);
     Route::get('/stamp_correction_request/approve/{attendance_correct_request_id}', [StampCorrectionController::class, 'requestShow']);
     Route::patch('/stamp_correction_request/approve/{attendance_correct_request_id}', [StampCorrectionController::class, 'requestApprove']);

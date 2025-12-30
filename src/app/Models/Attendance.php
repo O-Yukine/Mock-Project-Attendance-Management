@@ -36,20 +36,42 @@ class Attendance extends Model
         return $this->hasMany(AttendanceLog::class);
     }
 
+    public function getBreakMinutesAttribute()
+    {
+        return $this->breaks
+            ->filter(fn($b) => $b->break_start && $b->break_end)
+            ->sum(fn($b) => $b->break_start->diffInMinutes($b->break_end));
+    }
     public function getTotalBreakAttribute()
     {
 
-        $totalMinutes = $this->breaks
-            ->filter(fn($b) => $b->break_start && $b->break_end)
-            ->sum(fn($b) => $b->break_start->diffInMinutes($b->break_end));
-
-        if ($totalMinutes === 0) {
+        if ($this->break_minutes === 0) {
             return '';
         }
 
-        $hours = floor($totalMinutes / 60);
-        $minutes = $totalMinutes % 60;
+        return sprintf(
+            '%02d:%02d',
+            floor($this->break_minutes / 60),
+            $this->break_minutes % 60
+        );
+    }
 
-        return sprintf('%02d:%02d', $hours, $minutes);
+    public function getTotalWorkTimeAttribute()
+    {
+        if (!$this->clock_in || !$this->clock_out) {
+            return '';
+        }
+
+        $totalMinutes = max(
+            0,
+            $this->clock_in->diffInMinutes($this->clock_out)
+                - $this->break_minutes
+        );
+
+        return sprintf(
+            '%02d:%02d',
+            floor($totalMinutes / 60),
+            $totalMinutes % 60
+        );
     }
 }
