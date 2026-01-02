@@ -30,7 +30,7 @@ class AuthController extends Controller
 
         $user->sendEmailVerificationNotification();
 
-        return redirect('/email/verify');
+        return redirect('/attendance');
     }
 
     public function showLogin()

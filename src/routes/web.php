@@ -30,7 +30,7 @@ Route::get('/auth/login', [AuthController::class, 'showLogin']);
 Route::post('/auth/login', [AuthController::class, 'login']);
 Route::post('/auth/logout', [AuthController::class, 'destroy']);
 
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/attendance', [AttendanceController::class, 'index']);
     Route::post('/attendance', [AttendanceController::class, 'updateAttendance']);
     Route::get('/attendance/list', [AttendanceController::class, 'showList']);

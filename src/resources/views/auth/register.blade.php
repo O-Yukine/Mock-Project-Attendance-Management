@@ -76,7 +76,7 @@
             </div>
         </form>
         <div class="register__link">
-            <a class="register__button-submit" href="auth/login">ログインはこちら</a>
+            <a class="register__button-submit" href="/auth/login">ログインはこちら</a>
         </div>
     </div>
 @endsection
