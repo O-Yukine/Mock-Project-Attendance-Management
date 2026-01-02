@@ -66,18 +66,18 @@ MAIL_FROM_NAME="${APP_NAME}"
 
 #### テスト用のデータベースを作る
 
-1. MySQL のコンテナへ入る
+1. MySQL のコンテナへ入る(パスワードは docker-compose.yml に記載しているものを使用)
 
-`docker-compose exex mysql bash`  
+`docker-compose exec mysql bash`  
 `mysql -u root -p`
 
 2. laravel_test テーブルを作成
 
 `CREATE DATABASE laravel_test;`
 
-3. テスト用.env を作る
+3. MySQL のコンテナから出て、php のコンテナに入る。テスト用.env を作る
 
-`cp .env.testing`
+`cp .env .env.testing`
 
 4. .env.testing ファイルを編集
 
@@ -89,6 +89,8 @@ DB_USERNAME=root
 DB_PASSWORD=root
 
 5. テスト用アプリケーションキーの作成
+
+`php artisan key:generate --env=testing`
 
 6. マイグレーションの実行
 
