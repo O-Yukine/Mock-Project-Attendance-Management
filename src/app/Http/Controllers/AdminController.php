@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\AdminAttendanceDetailRequest;
 use Illuminate\Http\Request;
 use App\Models\Attendance;
 use App\Models\AttendanceLog;
@@ -45,7 +46,7 @@ class AdminController extends Controller
         return view('admin/attendance_detail', compact('attendance', 'id', 'hasPendingRequest'));
     }
 
-    public function updateDetail(Request $request, $id)
+    public function updateDetail(AdminAttendanceDetailRequest $request, $id)
     {
 
         $attendance = Attendance::with('user', 'breaks')->findOrFail($id);
