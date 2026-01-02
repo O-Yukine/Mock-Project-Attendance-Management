@@ -100,7 +100,7 @@ DB_PASSWORD=root
 
 もしくは
 
-`vender/bin/phpunit tests/Feature`
+`vendor/bin/phpunit tests/Feature`
 
 ### 使用技術
 
