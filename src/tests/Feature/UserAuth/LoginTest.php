@@ -9,23 +9,20 @@ use App\Models\User;
 
 class LoginTest extends TestCase
 {
-    /**
-     * A basic feature test example.
-     *
-     * @return void
-     */
-    public function test_admin_validation_email_is_empty()
+    use RefreshDatabase;
+
+    public function test_user_validation_email_is_empty()
     {
-        $response = $this->post('/auth/admin-login', [
+        $response = $this->post('/auth/login', [
             'email' => '',
             'password' => 'password'
         ]);
         $response->assertSessionHasErrors(['email' => 'メールアドレスを入力してください',]);
     }
 
-    public function test_admin_validation_password_is_empty()
+    public function test_user_validation_password_is_empty()
     {
-        $response = $this->post('/login', [
+        $response = $this->post('/auth/login', [
             'email' => 'test@example.com',
             'password' => '',
         ]);
@@ -33,15 +30,15 @@ class LoginTest extends TestCase
         $response->assertSessionHasErrors(['password' => 'パスワードを入力してください',]);
     }
 
-    public function test_admin_login_validation_information_notmatch()
+    public function test_user_login_validation_information_notmatch()
     {
-        Admin::insert([
+        User::create([
             'name' => 'test',
             'email' => 'test@example.com',
             'password' => 'password',
         ]);
 
-        $response = $this->post('/login', [
+        $response = $this->post('/auth/login', [
             'email' => 'test@test.com',
             'password' => 'password',
         ]);
