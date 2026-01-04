@@ -65,4 +65,19 @@ class RegisterTest extends TestCase
         ]);
         $response->assertSessionHasErrors(['password_confirmation' => 'パスワードと一致しません',]);
     }
+
+    public function test_user_can_make_registration()
+    {
+        $this->post('/auth/register', [
+            'name' => 'test',
+            'email' => 'test@test.com',
+            'password' => 'password',
+            'password_confirmation' => 'password'
+        ]);
+
+        $this->assertDatabaseHas('users', [
+            'name' => 'test',
+            'email' => 'test@test.com'
+        ]);
+    }
 }
