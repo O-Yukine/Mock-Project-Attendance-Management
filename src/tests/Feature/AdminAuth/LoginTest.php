@@ -10,11 +10,7 @@ use Illuminate\Support\Facades\Hash;
 class LoginTest extends TestCase
 {
     use RefreshDatabase;
-    /**
-     * A basic feature test example.
-     *
-     * @return void
-     */
+
     public function test_admin_validation_email_is_empty()
     {
         $response = $this->post('/auth/admin-login', [
