@@ -64,7 +64,7 @@ class AttendanceTest extends TestCase
             ->assertSee('勤務外')
             ->assertSee('出勤');
 
-        $response = $this->post('/attendance', [
+        $this->post('/attendance', [
             'work_date' => '2026-01-01',
             'time' => '10:30',
             'action' => 'start_working'
