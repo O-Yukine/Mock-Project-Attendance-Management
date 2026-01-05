@@ -3,7 +3,6 @@
 namespace Tests\Feature\StaffAttendance;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 use App\Models\User;
 use App\Models\Attendance;
@@ -42,7 +41,7 @@ class BreakTimeTest extends TestCase
             ->assertSee('休憩中');
     }
 
-    public function test_user_can_go_on_break_as_many_time()
+    public function test_user_can_go_on_break_multiple_times()
     {
         Carbon::setTestNow(Carbon::parse('2026-01-01 10:30'));
 
@@ -58,7 +57,7 @@ class BreakTimeTest extends TestCase
             ->get('/attendance')
             ->assertSee('休憩入');
 
-        $response = $this->post('/attendance', [
+        $this->post('/attendance', [
             'work_date' => '2026-01-01',
             'time' => '12:30',
             'action' => 'break_start'
@@ -67,7 +66,7 @@ class BreakTimeTest extends TestCase
         $this->actingAs($user)
             ->get('/attendance');
 
-        $response = $this->post('/attendance', [
+        $this->post('/attendance', [
             'work_date' => '2026-01-01',
             'time' => '13:30',
             'action' => 'break_end'
@@ -116,7 +115,7 @@ class BreakTimeTest extends TestCase
             ->assertSee('出勤中');
     }
 
-    public function test_user_can_come_back_from_break_as_many_time()
+    public function test_user_can_come_back_from_break_multiple_times()
     {
 
         Carbon::setTestNow(Carbon::parse('2026-01-01 10:30'));
