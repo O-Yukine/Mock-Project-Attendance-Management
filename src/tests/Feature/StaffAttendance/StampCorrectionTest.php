@@ -4,6 +4,7 @@ namespace Tests\Feature\StaffAttendance;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
+use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 use App\Models\Attendance;
 use App\Models\BreakTime;
@@ -43,7 +44,7 @@ class StampCorrectionTest extends TestCase
                 'reason' => '電車遅延のため'
             ]);
 
-        $response->assertSessionHasErrors('clock_in', '出勤時間もしくは退勤時間が不適切な値です');
+        $response->assertSessionHasErrors(['clock_in' => '出勤時間もしくは退勤時間が不適切な値です']);
     }
 
     public function test_user_stamp_correction_break_start_after_clock_out()
@@ -69,18 +70,18 @@ class StampCorrectionTest extends TestCase
         $response = $this->actingAs($user)
             ->post('/attendance/detail/' . $attendance->id, [
                 'work_date' => '2025-12-01',
-                'clock_in' => '18:00',
-                'clock_out' => '09:00',
+                'clock_in' => '09:00',
+                'clock_out' => '18:00',
                 'breaks' => [
                     [
-                        'break_start' => '12:30',
-                        'break_end'   => '13:30',
+                        'break_start' => '18:30',
+                        'break_end'   => '19:30',
                     ],
                 ],
                 'reason' => '電車遅延のため'
             ]);
 
-        $response->assertSessionHasErrors('breaks.0.break_start', '休憩時間が不適切な値です');
+        $response->assertSessionHasErrors(['breaks.0.break_start' => '休憩時間が不適切な値です']);
     }
 
     public function test_user_stamp_correction_break_end_after_clock_out()
@@ -106,18 +107,18 @@ class StampCorrectionTest extends TestCase
         $response = $this->actingAs($user)
             ->post('/attendance/detail/' . $attendance->id, [
                 'work_date' => '2025-12-01',
-                'clock_in' => '18:00',
-                'clock_out' => '09:00',
+                'clock_in' => '09:00',
+                'clock_out' => '18:00',
                 'breaks' => [
                     [
                         'break_start' => '12:30',
-                        'break_end'   => '13:30',
+                        'break_end'   => '18:30',
                     ],
                 ],
                 'reason' => '電車遅延のため'
             ]);
 
-        $response->assertSessionHasErrors('breaks.0.break_end', '休憩時間もしくは退勤時間が不適切な値です');
+        $response->assertSessionHasErrors(['breaks.0.break_end' => '休憩時間もしくは退勤時間が不適切な値です']);
     }
 
 
@@ -139,8 +140,8 @@ class StampCorrectionTest extends TestCase
         $response = $this->actingAs($user)
             ->post('/attendance/detail/' . $attendance->id, [
                 'work_date' => '2025-12-01',
-                'clock_in' => '18:00',
-                'clock_out' => '09:00',
+                'clock_in' => '10:00',
+                'clock_out' => '18:00',
                 'breaks' => [
                     [
                         'break_start' => '12:30',
@@ -150,15 +151,15 @@ class StampCorrectionTest extends TestCase
                 'reason' => ''
             ]);
 
-        $response->assertSessionHasErrors('reason', '備考を記入してください');
+        $response->assertSessionHasErrors(['reason' => '備考を記入してください']);
     }
 
-    public function test_user_can_request_to_correct_attemdamce_detail()
+    public function test_user_can_request_to_correct_attendance_detail()
     {
         Carbon::setTestNow(Carbon::parse('2025-12-03'));
 
         $user = User::factory()->create();
-        $admin = Admin::create(['email' => 'test@admin.com', 'password' => 'password']);
+        $admin = Admin::create(['email' => 'test@admin.com', 'password' => Hash::make('password'),]);
 
         $attendance = Attendance::create([
             'user_id' => $user->id,
@@ -247,7 +248,7 @@ class StampCorrectionTest extends TestCase
         Carbon::setTestNow(Carbon::parse('2025-12-03'));
 
         $user = User::factory()->create();
-        $admin = Admin::create(['email' => 'test@admin.com', 'password' => 'password']);
+        $admin = Admin::create(['email' => 'test@admin.com', 'password' => Hash::make('password'),]);
 
         $attendance = Attendance::create([
             'user_id' => $user->id,
