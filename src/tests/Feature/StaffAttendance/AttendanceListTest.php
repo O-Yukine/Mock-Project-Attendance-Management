@@ -140,4 +140,45 @@ class AttendanceListTest extends TestCase
             ->assertSee('12:00')
             ->assertSee('13:00');
     }
+
+    public function test_admin_can_access_to_staff_attendance_detail()
+    {
+
+        Carbon::setTestNow(Carbon::parse('2025-12-03'));
+
+        $user = User::factory()->create();
+
+        $attendance = Attendance::create([
+            'user_id' => $user->id,
+            'work_date' => '2025-12-01',
+            'clock_in' => '09:00',
+            'clock_out' => '18:00',
+            'status' => 'clock_out',
+        ]);
+        BreakTime::create([
+            'attendance_id' => $attendance->id,
+            'break_start' => '12:00',
+            'break_end' => '13:00',
+        ]);
+
+
+        $this->actingAs($user)
+            ->get('/attendance/list')
+            ->assertSee('2025/12')
+            ->assertSee('12/01')
+            ->assertSee('09:00')
+            ->assertSee('18:00')
+            ->assertSee('詳細');
+
+        $this->actingAs($user)
+            ->get('/attendance/detail/' . $attendance->id)
+            ->assertStatus(200)
+            ->assertSee($user->name)
+            ->assertSee('2025年')
+            ->assertSee('12月01日')
+            ->assertSee('09:00')
+            ->assertSee('18:00')
+            ->assertSee('12:00')
+            ->assertSee('13:00');
+    }
 }

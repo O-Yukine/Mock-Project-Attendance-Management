@@ -4,6 +4,7 @@ namespace Tests\Feature\AdminAttendance;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
+use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 use App\Models\Attendance;
 use App\Models\Admin;
@@ -17,7 +18,7 @@ class AttendanceListTest extends TestCase
     {
         Carbon::setTestNow(Carbon::parse('2025-12-01'));
 
-        $admin = Admin::create(['email' => 'test@admin.com', 'password' => 'password']);
+        $admin = Admin::create(['email' => 'test@admin.com', 'password' => Hash::make('password'),]);
         $users = User::factory()->count(3)->create();
 
         $times = [
@@ -27,7 +28,7 @@ class AttendanceListTest extends TestCase
         ];
 
         foreach ($users as $index => $user) {
-            $attendance = Attendance::create([
+            Attendance::create([
                 'user_id' => $user->id,
                 'work_date' => '2025/12/01',
                 'clock_in'  => $times[$index][0],
@@ -51,7 +52,7 @@ class AttendanceListTest extends TestCase
 
         Carbon::setTestNow(Carbon::parse('2025-12-01'));
 
-        $admin = Admin::create(['email' => 'test@admin.com', 'password' => 'password']);
+        $admin = Admin::create(['email' => 'test@admin.com', 'password' => Hash::make('password'),]);
 
         $this->actingAs($admin, 'admin')
             ->get('/admin/attendance/list')
@@ -62,7 +63,7 @@ class AttendanceListTest extends TestCase
     {
         Carbon::setTestNow(Carbon::parse('2025-12-02'));
 
-        $admin = Admin::create(['email' => 'test@admin.com', 'password' => 'password']);
+        $admin = Admin::create(['email' => 'test@admin.com', 'password' => Hash::make('password'),]);
 
         $this->actingAs($admin, 'admin')
             ->get('/admin/attendance/list')
