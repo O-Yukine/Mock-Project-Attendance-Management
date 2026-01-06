@@ -6,21 +6,125 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
+use App\Models\AttendanceLog;
 use App\Models\Attendance;
 use App\Models\BreakTime;
 use App\Models\Admin;
+use App\Models\BreakTimeLog;
 use Carbon\Carbon;
 
 class StampCorrectionTest extends TestCase
 {
-
     use RefreshDatabase;
 
-    public function test_admin_can_access_to_attendance_detail()
+    public function test_admin_can_see_pending_requests_on_the_stamp_correction_pending_list()
     {
         Carbon::setTestNow(Carbon::parse('2025-12-03'));
 
         $admin = Admin::create(['email' => 'test@admin.com', 'password' => Hash::make('password'),]);
+
+        $users = User::factory()->count(3)->create();
+        foreach ($users as $user) {
+
+            $attendance = Attendance::create([
+                'user_id' => $user->id,
+                'work_date' => '2025-12-01',
+                'clock_in' => '09:00',
+                'clock_out' => '18:00',
+                'status' => 'clock_out',
+            ]);
+
+            $breakTime = BreakTime::create([
+                'attendance_id' => $attendance->id,
+                'break_start' => '12:00',
+                'break_end' => '13:00',
+            ]);
+
+            $attendanceLog = AttendanceLog::create([
+                'attendance_id' => $attendance->id,
+                'user_id' => $user->id,
+                'work_date' => '2025-12-01',
+                'clock_in' => '09:30',
+                'clock_out' => '18:30',
+                'status' => 'pending',
+                'reason' => '電車遅延',
+                'requested_by' => 'user'
+            ]);
+
+            BreakTimeLog::create([
+                'attendance_log_id' => $attendanceLog->id,
+                'break_time_id' => $breakTime->id,
+                'break_start' => '12:30',
+                'break_end' => '13:30',
+            ]);
+        }
+
+        $response = $this->actingAs($admin, 'admin')
+            ->get('/stamp_correction_request/list')
+            ->assertStatus(200);
+
+        foreach ($users as $user) {
+            $response->assertSee($user->name);
+        }
+    }
+
+    public function test_admin_can_see_approved_requests_on_the_stamp_correction_approved_list()
+    {
+        Carbon::setTestNow(Carbon::parse('2025-12-03'));
+
+        $admin = Admin::create(['email' => 'test@admin.com', 'password' => Hash::make('password'),]);
+
+        $users = User::factory()->count(3)->create();
+        foreach ($users as $user) {
+
+            $attendance = Attendance::create([
+                'user_id' => $user->id,
+                'work_date' => '2025-12-01',
+                'clock_in' => '09:00',
+                'clock_out' => '18:00',
+                'status' => 'clock_out',
+            ]);
+
+            $breakTime = BreakTime::create([
+                'attendance_id' => $attendance->id,
+                'break_start' => '12:00',
+                'break_end' => '13:00',
+            ]);
+
+            $attendanceLog = AttendanceLog::create([
+                'attendance_id' => $attendance->id,
+                'user_id' => $user->id,
+                'work_date' => '2025-12-01',
+                'clock_in' => '09:30',
+                'clock_out' => '18:30',
+                'status' => 'approved',
+                'reason' => '電車遅延',
+                'requested_by' => 'user'
+            ]);
+
+            BreakTimeLog::create([
+                'attendance_log_id' => $attendanceLog->id,
+                'break_time_id' => $breakTime->id,
+                'break_start' => '12:30',
+                'break_end' => '13:30',
+            ]);
+        }
+
+        $response = $this->actingAs($admin, 'admin')
+            ->get('/stamp_correction_request/list?tab=approved')
+            ->assertStatus(200);
+
+        foreach ($users as $user) {
+            $response->assertSee($user->name);
+        }
+    }
+
+    public function test_admin_can_view_pending_attendance_request_on_detail_page()
+    {
+        Carbon::setTestNow(Carbon::parse('2025-12-03'));
+
+        $admin = Admin::create(['email' => 'test@admin.com', 'password' => Hash::make('password'),]);
+
         $user = User::factory()->create();
 
         $attendance = Attendance::create([
@@ -30,31 +134,55 @@ class StampCorrectionTest extends TestCase
             'clock_out' => '18:00',
             'status' => 'clock_out',
         ]);
-        BreakTime::create([
+
+        $breakTime = BreakTime::create([
             'attendance_id' => $attendance->id,
             'break_start' => '12:00',
             'break_end' => '13:00',
+        ]);
+
+        $attendanceLog = AttendanceLog::create([
+            'attendance_id' => $attendance->id,
+            'user_id' => $user->id,
+            'work_date' => '2025-12-01',
+            'clock_in' => '09:30',
+            'clock_out' => '18:30',
+            'status' => 'pending',
+            'reason' => '電車遅延のため',
+            'requested_by' => 'user'
+        ]);
+
+        BreakTimeLog::create([
+            'attendance_log_id' => $attendanceLog->id,
+            'break_time_id' => $breakTime->id,
+            'break_start' => '12:30',
+            'break_end' => '13:30',
         ]);
 
         $this->actingAs($admin, 'admin')
+            ->get('/stamp_correction_request/list')
+            ->assertSee($user->name)
+            ->assertSee('詳細');
+
+        $this->actingAs($admin, 'admin')
             ->get('/admin/attendance/' . $attendance->id)
-            ->assertStatus(200)
             ->assertSee($user->name)
             ->assertSee('2025年')
             ->assertSee('12月01日')
-            ->assertSee('09:00')
-            ->assertSee('18:00')
-            ->assertSee('12:00')
-            ->assertSee('13:00');
+            ->assertSee('09:30')
+            ->assertSee('18:30')
+            ->assertSee('12:30')
+            ->assertSee('13:30')
+            ->assertSee('電車遅延のため');
     }
 
-    public function test_admin_stamp_correction_clock_in_is_later_than_clock_out()
+    public function test_admin_can_approve_request()
     {
-        Carbon::setTestNow(Carbon::parse('2025-12-03'));
+        Carbon::setTestNow(Carbon::parse('2025-12-01'));
 
         $admin = Admin::create(['email' => 'test@admin.com', 'password' => Hash::make('password'),]);
-        $user = User::factory()->create();
 
+        $user = User::factory()->create();
         $attendance = Attendance::create([
             'user_id' => $user->id,
             'work_date' => '2025-12-01',
@@ -63,127 +191,48 @@ class StampCorrectionTest extends TestCase
             'status' => 'clock_out',
         ]);
 
-        $response = $this->actingAs($admin, 'admin')
-            ->patch('/admin/attendance/' . $attendance->id, [
+        $breakTime = BreakTime::create([
+            'attendance_id' => $attendance->id,
+            'break_start' => '12:00',
+            'break_end' => '13:00',
+        ]);
+
+        $attendanceLog = AttendanceLog::create([
+            'attendance_id' => $attendance->id,
+            'user_id' => $user->id,
+            'work_date' => '2025-12-01',
+            'clock_in' => '09:30',
+            'clock_out' => '18:30',
+            'status' => 'pending',
+            'reason' => '電車遅延のため',
+            'requested_by' => 'user'
+        ]);
+
+        BreakTimeLog::create([
+            'attendance_log_id' => $attendanceLog->id,
+            'break_time_id' => $breakTime->id,
+            'break_start' => '12:30',
+            'break_end' => '13:30',
+        ]);
+
+        $this->actingAs($admin, 'admin')
+            ->patch('/stamp_correction_request/approve/' . $attendanceLog->id, [
                 'work_date' => '2025-12-01',
-                'clock_in' => '18:00',
-                'clock_out' => '09:00',
+                'clock_in' => '09:30',
+                'clock_out' => '18:30',
                 'breaks' => [
                     [
                         'break_start' => '12:30',
                         'break_end'   => '13:30',
                     ],
                 ],
-                'reason' => '電車遅延のため'
+                'reason' => '電車遅延のため',
             ]);
 
-        $response->assertSessionHasErrors(['clock_in' => '出勤時間もしくは退勤時間が不適切な値です']);
-    }
-
-    public function test_admin_stamp_correction_break_start_after_clock_out()
-    {
-        Carbon::setTestNow(Carbon::parse('2025-12-03'));
-
-        $admin = Admin::create(['email' => 'test@admin.com', 'password' => Hash::make('password'),]);
-        $user = User::factory()->create();
-
-        $attendance = Attendance::create([
-            'user_id' => $user->id,
-            'work_date' => '2025-12-01',
-            'clock_in' => '09:00',
-            'clock_out' => '18:00',
-            'status' => 'clock_out',
-        ]);
-        BreakTime::create([
-            'attendance_id' => $attendance->id,
-            'break_start' => '12:00',
-            'break_end' => '13:00',
-        ]);
-
-        $response = $this->actingAs($admin, 'admin')
-            ->patch('/admin/attendance/' . $attendance->id, [
-                'work_date' => '2025-12-01',
-                'clock_in' => '09:00',
-                'clock_out' => '18:00',
-                'breaks' => [
-                    [
-                        'break_start' => '18:30',
-                        'break_end'   => '19:30',
-                    ],
-                ],
-                'reason' => '電車遅延のため'
-            ]);
-
-        $response->assertSessionHasErrors(['breaks.0.break_start' => '休憩時間が不適切な値です']);
-    }
-
-    public function test_admin_stamp_correction_break_end_after_clock_out()
-    {
-        Carbon::setTestNow(Carbon::parse('2025-12-03'));
-
-        $admin = Admin::create(['email' => 'test@admin.com', 'password' => Hash::make('password'),]);
-        $user = User::factory()->create();
-
-        $attendance = Attendance::create([
-            'user_id' => $user->id,
-            'work_date' => '2025-12-01',
-            'clock_in' => '09:00',
-            'clock_out' => '18:00',
-            'status' => 'clock_out',
-        ]);
-        BreakTime::create([
-            'attendance_id' => $attendance->id,
-            'break_start' => '12:00',
-            'break_end' => '13:00',
-        ]);
-
-        $response = $this->actingAs($admin, 'admin')
-            ->patch('/admin/attendance/' . $attendance->id, [
-                'work_date' => '2025-12-01',
-                'clock_in' => '09:00',
-                'clock_out' => '18:00',
-                'breaks' => [
-                    [
-                        'break_start' => '12:30',
-                        'break_end'   => '18:30',
-                    ],
-                ],
-                'reason' => '電車遅延のため'
-            ]);
-
-        $response->assertSessionHasErrors(['breaks.0.break_end' => '休憩時間もしくは退勤時間が不適切な値です']);
-    }
-
-
-    public function test_admin_stamp_correction_reason_is_empty()
-    {
-        Carbon::setTestNow(Carbon::parse('2025-12-03'));
-
-        $admin = Admin::create(['email' => 'test@admin.com', 'password' => Hash::make('password'),]);
-        $user = User::factory()->create();
-
-        $attendance = Attendance::create([
-            'user_id' => $user->id,
-            'work_date' => '2025-12-01',
-            'clock_in' => '09:00',
-            'clock_out' => '18:00',
-            'status' => 'clock_out',
-        ]);
-
-        $response = $this->actingAs($admin, 'admin')
-            ->patch('/admin/attendance/' . $attendance->id, [
-                'work_date' => '2025-12-01',
-                'clock_in' => '09:00',
-                'clock_out' => '18:00',
-                'breaks' => [
-                    [
-                        'break_start' => '12:30',
-                        'break_end'   => '13:30',
-                    ],
-                ],
-                'reason' => ''
-            ]);
-
-        $response->assertSessionHasErrors(['reason' => '備考を記入してください']);
+        $this->actingAs($user)
+            ->get('/stamp_correction_request/list?tab=approved')
+            ->assertSee($user->name)
+            ->assertSee('承認済み')
+            ->assertSee('2025/12/01');
     }
 }

@@ -78,7 +78,7 @@
                     <tr class="detail__table--row">
                         <th class="detail__table--title">備考</th>
                         <td class="detail__table--date">
-                            <textarea name="reason"></textarea>
+                            <textarea name="reason">{{ old('reason', $attendance->reason ?? '') }}</textarea>
                             @error('reason')
                                 <div class="form__error">{{ $message }}</div>
                             @enderror
