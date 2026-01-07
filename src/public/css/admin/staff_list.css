@@ -1,5 +1,5 @@
 body {
-    background-color: rgb(210, 213, 213);
+    background-color: #f8f8f8;
 }
 .staff-list {
     max-width: 1540px;
@@ -24,14 +24,14 @@ body {
     text-align: center;
 }
 .list__table--row {
-    border-bottom: 1px solid rgb(114, 112, 112);
+    border-bottom: 1px solid #e8e8e8;
 }
 .list__table--row a {
     text-decoration: none;
-    color: rgb(114, 112, 112);
+    color: #e8e8e8;
 }
 .list__table--row-title {
-    border-bottom: 2px solid rgb(114, 112, 112);
+    border-bottom: 2px solid #e8e8e8;
 }
 .list__table--row:last-child {
     border-bottom: none;
@@ -39,5 +39,5 @@ body {
 .list__table--title,
 .list__table--date {
     padding: 20px;
-    color: rgb(114, 112, 112);
+    color: #e8e8e8;
 }

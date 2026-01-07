@@ -53,4 +53,4 @@ Route::middleware(['admin.auth'])->group(function () {
     Route::patch('/stamp_correction_request/approve/{attendance_correct_request_id}', [StampCorrectionController::class, 'requestApprove']);
 });
 
-Route::get('/stamp_correction_request/list', [StampCorrectionController::class, 'index'])->middleware(['auth']);
+Route::get('/stamp_correction_request/list', [StampCorrectionController::class, 'index']);

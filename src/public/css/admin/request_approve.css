@@ -1,5 +1,5 @@
 body {
-    background-color: rgb(210, 213, 213);
+    background-color: #f8f8f8;
 }
 .request-approve {
     max-width: 1540px;
@@ -24,12 +24,12 @@ body {
     text-align: left;
 }
 .approve__table--row {
-    border-bottom: 1px solid rgb(114, 112, 112);
+    border-bottom: 1px solid #e8e8e8;
 }
 
 .approve__table--title {
     padding: 20px 30px;
-    color: rgb(114, 112, 112);
+    color: #e8e8e8;
 }
 .approve__table--date {
     padding: 20px 30px;
@@ -52,7 +52,7 @@ body {
 }
 .approve__notice {
     margin-top: 20px;
-    background-color: rgb(88, 78, 78);
+    background-color: #e8e8e8;
     color: #fff;
     border: none;
     border-radius: 3px;

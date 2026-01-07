@@ -1,5 +1,5 @@
 body {
-    background-color: rgb(210, 213, 213);
+    background-color: #f8f8f8;
 }
 .request-list {
     max-width: 1540px;
@@ -14,11 +14,11 @@ body {
 }
 .request__upper {
     padding-bottom: 10px;
-    border-bottom: 1px solid rgb(114, 112, 112);
+    border-bottom: 1px solid #e8e8e8;
 }
 .tab {
     padding: 8px 30px;
-    color: rgb(114, 112, 112);
+    color: #e8e8e8;
     text-decoration: none;
 }
 
@@ -34,17 +34,17 @@ body {
     background-color: #fff;
     border-radius: 5px;
     margin-top: 50px;
-    color: rgb(114, 112, 112);
+    color: #e8e8e8;
     font-weight: bold;
 }
 .request__table--row {
-    border-bottom: 1px solid rgb(114, 112, 112);
+    border-bottom: 1px solid #e8e8e8;
 }
 .request__table--row a {
     color: black;
 }
 .request__table--row-title {
-    border-bottom: 2px solid rgb(114, 112, 112);
+    border-bottom: 2px solid #e8e8e8;
 }
 .request__table--row:last-child {
     border-bottom: none;

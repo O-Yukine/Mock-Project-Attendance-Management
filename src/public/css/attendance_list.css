@@ -1,5 +1,5 @@
 body {
-    background-color: rgb(210, 213, 213);
+    background-color: #f8f8f8;
 }
 .attendance-list {
     max-width: 1540px;
@@ -26,7 +26,7 @@ body {
 
 a {
     text-decoration: none;
-    color: rgb(114, 112, 112);
+    color: #989494;
 }
 .list__day a.active {
     color: black;
@@ -37,19 +37,19 @@ a {
     border-radius: 5px;
     margin-top: 50px;
     font-weight: bold;
-    color: rgb(114, 112, 112);
+    color: #989494;
 }
 .list__table {
     width: 100%;
 }
 .list__table--row {
-    border-bottom: 1px solid rgb(114, 112, 112);
+    border-bottom: 1px solid #e8e8e8;
 }
 .list__table--row:last-child {
     border-bottom: none;
 }
 .list__table--row-title {
-    border-bottom: 2px solid rgb(114, 112, 112);
+    border-bottom: 2px solid #989494;
 }
 .list__table--title,
 .list__table--date {

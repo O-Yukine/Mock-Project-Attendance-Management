@@ -1,5 +1,5 @@
 body {
-    background-color: rgb(210, 213, 213);
+    background-color: #f8f8f8;
 }
 .attendance-detail {
     max-width: 1540px;
@@ -24,7 +24,7 @@ fieldset.is-disabled textarea {
     border: none;
     background: transparent;
     opacity: 1;
-    padding: 20px 30px;
+    padding: 20px 10px;
     font-weight: bold;
     font-size: 16px;
 }
@@ -36,7 +36,7 @@ fieldset.is-disabled textarea {
     text-align: left;
 }
 .detail__table--row {
-    border-bottom: 2px solid rgb(114, 112, 112);
+    border-bottom: 2px solid #e8e8e8;
 }
 .detail__table--row a {
     font-weight: bold;
@@ -46,7 +46,7 @@ fieldset.is-disabled textarea {
 }
 .detail__table--title {
     padding: 20px 30px;
-    color: rgb(114, 112, 112);
+    color: #989494;
 }
 .detail__table--date {
     padding: 20px 30px;
@@ -58,6 +58,9 @@ fieldset.is-disabled textarea {
     text-align: center;
     gap: 100px;
 }
+.input-day span {
+    font-size: 14px;
+}
 .input-row {
     display: flex;
     align-items: center;
@@ -68,12 +71,16 @@ fieldset.is-disabled textarea {
     width: 100px;
     height: 30px;
     padding-left: 20px;
-    border: 1px solid rgb(114, 112, 112);
+    font-size: 16px;
+    font-weight: bold;
+    border: 1px solid #e8e8e8;
 }
 .detail__table--date textarea {
     width: 250px;
     height: 50px;
-    border: 1px solid rgb(114, 112, 112);
+    font-size: 16px;
+    font-weight: bold;
+    border: 1px solid #e8e8e8;
 }
 .detail__submit {
     display: flex;
@@ -81,15 +88,45 @@ fieldset.is-disabled textarea {
 }
 
 .detail__submit--button {
-    margin-top: 20px;
+    margin-top: 30px;
     background-color: black;
     color: #fff;
     border: none;
     border-radius: 3px;
     width: 80px;
     height: 30px;
-    padding: 3px;
+    padding: 5px;
+    font-weight: bold;
 }
 .detail__notice {
     color: red;
+}
+
+@media screen and (min-width: 1400px) and (max-width: 1540px) {
+    .attendance-detail {
+        width: 90%;
+        max-width: 1540px;
+        margin: 5px auto;
+    }
+    .form {
+        width: 60%;
+    }
+    .detail__title {
+        margin-bottom: 50px;
+    }
+    .detail__title h1 {
+        margin-left: 250px;
+    }
+    .detail__table--title {
+        padding: 20px 50px;
+    }
+    .detail__table--date {
+        padding: 20px 50px;
+    }
+
+    .detail__submit--button {
+        margin-top: 50px;
+        width: 100px;
+        height: 40px;
+    }
 }
