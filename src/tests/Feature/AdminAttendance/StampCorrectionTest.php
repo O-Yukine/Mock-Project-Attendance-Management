@@ -215,7 +215,7 @@ class StampCorrectionTest extends TestCase
             'break_end' => '13:30',
         ]);
 
-        $this->actingAs($admin, 'admin')
+        $response = $this->actingAs($admin, 'admin')
             ->patch('/stamp_correction_request/approve/' . $attendanceLog->id, [
                 'work_date' => '2025-12-01',
                 'clock_in' => '09:30',
@@ -229,10 +229,29 @@ class StampCorrectionTest extends TestCase
                 'reason' => '電車遅延のため',
             ]);
 
-        $this->actingAs($user)
-            ->get('/stamp_correction_request/list?tab=approved')
-            ->assertSee($user->name)
-            ->assertSee('承認済み')
-            ->assertSee('2025/12/01');
+        $response->assertStatus(302);
+
+        $this->assertDatabaseHas('attendance_logs', [
+            'id' => $attendanceLog->id,
+            'status' => 'approved',
+        ]);
+
+        $this->assertDatabaseHas('attendances', [
+            'id' => $attendance->id,
+            'clock_in' => Carbon::parse('09:30')->format('H:i:s'),
+            'clock_out' => Carbon::parse('18:30')->format('H:i:s'),
+        ]);
+
+        $this->assertDatabaseMissing('break_times', [
+            'attendance_id' => $attendance->id,
+            'break_start' => Carbon::parse('12:00')->format('H:i:s'),
+            'break_end' => Carbon::parse('13:00')->format('H:i:s'),
+        ]);
+
+        $this->assertDatabaseHas('break_times', [
+            'attendance_id' => $attendance->id,
+            'break_start' => Carbon::parse('12:30')->format('H:i:s'),
+            'break_end' => Carbon::parse('13:30')->format('H:i:s'),
+        ]);
     }
 }
