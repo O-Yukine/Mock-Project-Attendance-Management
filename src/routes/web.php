@@ -35,7 +35,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/attendance', [AttendanceController::class, 'updateAttendance']);
     Route::get('/attendance/list', [AttendanceController::class, 'showList']);
     Route::get('/attendance/detail/{id}', [AttendanceController::class, 'showDetail']);
-    Route::post('/attendance/detail/{id}', [AttendanceController::class, 'updateDetail']);   // Route::get('/stamp_correction_request/list', [AttendanceController::class, 'showRequest']);
+    Route::post('/attendance/detail/{id}', [AttendanceController::class, 'updateDetail']);
 });
 
 Route::get('/auth/admin-login', [AdminAuthController::class, 'showLogin']);
@@ -53,4 +53,4 @@ Route::middleware(['admin.auth'])->group(function () {
     Route::patch('/stamp_correction_request/approve/{attendance_correct_request_id}', [StampCorrectionController::class, 'requestApprove']);
 });
 
-Route::get('/stamp_correction_request/list', [StampCorrectionController::class, 'index']);
+Route::get('/stamp_correction_request/list', [StampCorrectionController::class, 'index'])->middleware(['auth']);
