@@ -12,7 +12,7 @@
 
 3. Docker ビルド
 
-`docker-compose up -d --builed`
+`docker-compose up -d --build`
 
 ### Laravel 環境構築
 
@@ -30,7 +30,7 @@
 
 4. .env ファイルを編集
 
-DB_HOST=mysql`
+DB_HOST=mysql
 DB_DATABASE=laravel_db
 DB_USERNAME=laravel_user
 DB_PASSWORD=laravel_pass
@@ -55,8 +55,10 @@ DB_PASSWORD=laravel_pass
 
 MAIL_MAILER=
 MAIL_HOST=
-MAIL_PORT= MAIL_USERNAME=
-MAIL_PASSWORD= MAIL_ENCRYPTION=
+MAIL_PORT=
+MAIL_USERNAME=
+MAIL_PASSWORD=
+MAIL_ENCRYPTION=
 MAIL_FROM_ADDRESS=任意のメールアドレス
 MAIL_FROM_NAME="${APP_NAME}"
 
@@ -68,7 +70,7 @@ MAIL_FROM_NAME="${APP_NAME}"
 
 1. MySQL のコンテナへ入る(パスワードは docker-compose.yml に記載しているものを使用)
 
-`docker-compose exec mysql bash`  
+`docker-compose exec mysql bash`
 `mysql -u root -p`
 
 2. laravel_test テーブルを作成
@@ -112,7 +114,13 @@ DB_PASSWORD=root
 
 ### ER 図
 
+![ER図](attendance-management.drawio.png)
+
 ### URL
 
 - 開発環境:http://localhost/
 - phpMyAdmin:http://localhost:8080/
+
+```
+
+```
