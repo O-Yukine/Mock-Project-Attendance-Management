@@ -37,10 +37,10 @@
                         <td class="detail__table--date">
                             <div class="input-row">
                                 <input type="text" name="clock_in"
-                                    value="{{ old('clock_in', optional($attendance->clock_in)->format('H:i')) }}">
+                                    value="{{ old('clock_in', $attendance->clock_in?->format('H:i') ?? '') }}">
                                 〜
                                 <input type="text" name="clock_out"
-                                    value="{{ old('clock_out', optional($attendance->clock_out)->format('H:i')) }}">
+                                    value="{{ old('clock_out', $attendance->clock_out?->format('H:i') ?? '') }}">
                             </div>
                             @error('clock_in')
                                 <div class="form__error">{{ $message }}</div>
@@ -62,10 +62,10 @@
                                     <input type="hidden" name="breaks[{{ $index }}][id]"
                                         value="{{ $break['id'] ?? '' }}">
                                     <input type="text" name="breaks[{{ $index }}][break_start]"
-                                        value="{{ old("breaks.$index.break_start", optional($break['break_start'])->format('H:i')) }}">
+                                        value="{{ old("breaks.$index.break_start", $break['break_start']?->format('H:i') ?? '') }}">
                                     〜
                                     <input type="text" name="breaks[{{ $index }}][break_end]"
-                                        value="{{ old("breaks.$index.break_end", optional($break['break_end'])->format('H:i')) }}">
+                                        value="{{ old("breaks.$index.break_end", $break['break_end']?->format('H:i') ?? '') }}">
                                 </div>
                                 @error("breaks.$index.break_start")
                                     <div class="form__error">{{ $message }}</div>
@@ -79,7 +79,7 @@
                     <tr class="detail__table--row">
                         <th class="detail__table--title">備考</th>
                         <td class="detail__table--date">
-                            <textarea name="reason">{{ old('reason', $attendance->reason ?? '') }}</textarea>
+                            <textarea name="reason">{{ old('reason', $attendance->reason) }}</textarea>
                             @error('reason')
                                 <div class="form__error">{{ $message }}</div>
                             @enderror
