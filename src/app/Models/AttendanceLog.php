@@ -15,7 +15,7 @@ class AttendanceLog extends Model
 
     protected $fillable = ['user_id', 'attendance_id', 'work_date', 'clock_in', 'clock_out', 'reason', 'status', 'requested_by'];
 
-    protected $casts = ['work_date' => 'date', 'clock_in' => 'datetime:H:i', 'clock_out' => 'datetime:H:i'];
+    protected $casts = ['work_date' => 'date', 'clock_in' => 'datetime', 'clock_out' => 'datetime'];
 
     public function user()
     {

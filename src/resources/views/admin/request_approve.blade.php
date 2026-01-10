@@ -40,11 +40,17 @@
                             value="{{ optional($attendance->clock_out)->format('H:i') }}">
                     </td>
                 </tr>
+                @php
+                    $breaks = $attendance->breaks->concat([['id' => null, 'break_start' => null, 'break_end' => null]]);
+                @endphp
                 @foreach ($attendance->breaks as $index => $break)
                     <tr class="approve__table--row">
-                        <th class="approve__table--title">休憩{{ $index + 1 }}</th>
-                        <td class="approve__table--date"><input type="hidden"
-                                name="breaks[{{ $index }}][break_time_id]" value="{{ $break->break_time_id }}">
+                        <th class="approve__table--title">
+                            {{ $index === 0 ? '休憩' : '休憩' . ($index + 1) }}
+                        </th>
+                        <td class="approve__table--date">
+                            <input type="hidden" name="breaks[{{ $index }}][break_time_id]"
+                                value="{{ $break->break_time_id ?? '' }}">
                             <input type="hidden" name="breaks[{{ $index }}][break_start]"
                                 value="{{ optional($break->break_start)->format('H:i') }}">
                             {{ optional($break->break_start)->format('H:i') }}
@@ -55,16 +61,6 @@
                         </td>
                     </tr>
                 @endforeach
-                @php
-                    $newInput = $attendance->breaks->count();
-                @endphp
-                <tr class="approve__table--row">
-                    <th class="approve__table--title">休憩{{ $newInput + 1 }}</th>
-                    <td class="approve__table--date"> <input type="hidden"
-                            name="breaks[{{ $newInput }}][break_start]">
-                        <input type="hidden" name="breaks[{{ $newInput }}][break_end]">
-                    </td>
-                </tr>
                 <tr class="approve__table--row">
                     <th class="approve__table--title">備考</th>
                     <td class="approve__table--date">

@@ -47,36 +47,34 @@
                         </td>
                     </tr>
                     @php
-                        //この$attendance->breaksはbreakTimeLogsのデータなのでbreakTimeに変える必要あり
-                        $breakCount = max($attendance->breaks->count(), 0) + 1;
+                        $breaks = $attendance->breaks->concat([
+                            ['id' => null, 'break_start' => null, 'break_end' => null],
+                        ]);
                     @endphp
-                    @for ($i = 0; $i < $breakCount; $i++)
-                        @php
-                            $break = $attendance->breaks[$i] ?? null;
-                        @endphp
+                    @foreach ($breaks as $index => $break)
                         <tr class="detail__table--row">
                             <th class="detail__table--title">
-                                {{ $i === 0 ? '休憩' : '休憩' . ($i + 1) }}
+                                {{ $index === 0 ? '休憩' : '休憩' . ($index + 1) }}
                             </th>
                             <td class="detail__table--date">
                                 <div class="input-row">
-                                    <input type="hidden" name="breaks[{{ $i }}][id]"
-                                        value="{{ $break->id ?? '' }}">
-                                    <input type="text" name="breaks[{{ $i }}][break_start]"
-                                        value="{{ old("breaks.$i.break_start", optional($break)?->break_start?->format('H:i')) }}">
+                                    <input type="hidden" name="breaks[{{ $index }}][id]"
+                                        value="{{ $break['id'] ?? '' }}">
+                                    <input type="text" name="breaks[{{ $index }}][break_start]"
+                                        value="{{ old("breaks.$index.break_start", optional($break['break_start'])->format('H:i')) }}">
                                     〜
-                                    <input type="text" name="breaks[{{ $i }}][break_end]"
-                                        value="{{ old("breaks.$i.break_end", optional($break)?->break_end?->format('H:i')) }}">
+                                    <input type="text" name="breaks[{{ $index }}][break_end]"
+                                        value="{{ old("breaks.$index.break_end", optional($break['break_end'])->format('H:i')) }}">
                                 </div>
-                                @error("breaks.$i.break_start")
+                                @error("breaks.$index.break_start")
                                     <div class="form__error">{{ $message }}</div>
                                 @enderror
-                                @error("breaks.$i.break_end")
+                                @error("breaks.$index.break_end")
                                     <div class="form__error">{{ $message }}</div>
                                 @enderror
                             </td>
                         </tr>
-                    @endfor
+                    @endforeach
                     <tr class="detail__table--row">
                         <th class="detail__table--title">備考</th>
                         <td class="detail__table--date">
