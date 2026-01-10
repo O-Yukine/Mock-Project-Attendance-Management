@@ -83,18 +83,23 @@ class StampCorrectionController extends Controller
                 'clock_out' => $request->clock_out,
             ]);
 
-            // $attendance->breaks()->delete();
 
             foreach ($request->breaks as $break) {
                 if (empty($break['break_start']) || empty($break['break_end'])) {
+                    if (!empty($break['break_time_id'])) {
+                        BreakTime::find($break['id'])->delete();
+                    }
                     continue;
                 }
 
-                BreakTime::create([
-                    'attendance_id' => $attendance->id,
-                    'break_start' => $break['break_start'],
-                    'break_end'   => $break['break_end'],
-                ]);
+                BreakTime::updateOrCreate(
+                    ['id' => $break['break_time_id'] ?? 0],
+                    [
+                        'attendance_id' => $attendance->id,
+                        'break_start'   => $break['break_start'],
+                        'break_end'     => $break['break_end'],
+                    ]
+                );
             }
 
             $attendanceLog->update(['status' => 'approved']);
