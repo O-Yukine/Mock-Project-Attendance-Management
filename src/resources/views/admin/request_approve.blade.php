@@ -19,7 +19,7 @@
                 </tr>
                 <tr class="approve__table--row">
                     <th class="approve__table--title">日付</th>
-                    <td class="detail__table--date"><input type="hidden" name="work_date"
+                    <td class="approve__table--date"><input type="hidden" name="work_date"
                             value="{{ $attendance->work_date->format('Y-m-d') }}">
                         <span class="date__year">
                             {{ $attendance->work_date->format('Y年') }}
