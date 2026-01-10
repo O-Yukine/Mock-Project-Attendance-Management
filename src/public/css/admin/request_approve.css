@@ -29,7 +29,7 @@ body {
 
 .approve__table--title {
     padding: 20px 30px;
-    color: #e8e8e8;
+    color: #989494;
 }
 .approve__table--date {
     padding: 20px 30px;
@@ -52,7 +52,7 @@ body {
 }
 .approve__notice {
     margin-top: 20px;
-    background-color: #e8e8e8;
+    background-color: #6c6767;
     color: #fff;
     border: none;
     border-radius: 3px;

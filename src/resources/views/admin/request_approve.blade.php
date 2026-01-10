@@ -48,14 +48,14 @@
                             {{ $index === 0 ? '休憩' : '休憩' . ($index + 1) }}
                         </th>
                         <td class="approve__table--date"><input type="hidden"
-                                name="breaks[{{ $index }}]['break_time_id']"
+                                name="breaks[{{ $index }}][break_time_id]"
                                 value="{{ $break['break_time_id'] ?? '' }}">
-                            <input type="hidden" name="breaks[{{ $index }}]['break_start']"
+                            <input type="hidden" name="breaks[{{ $index }}][break_start]"
                                 value="{{ $break['break_start']?->format('H:i') ?? '' }}">
                             {{ $break['break_start']?->format('H:i') ?? '' }}
                             〜
                             {{ $break['break_end']?->format('H:i') ?? '' }}
-                            <input type="hidden" name="breaks[{{ $index }}]['break_end']"
+                            <input type="hidden" name="breaks[{{ $index }}][break_end]"
                                 value="{{ $break['break_end']?->format('H:i') ?? '' }}">
                         </td>
                     </tr>

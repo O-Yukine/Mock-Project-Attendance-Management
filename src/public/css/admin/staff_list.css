@@ -28,7 +28,7 @@ body {
 }
 .list__table--row a {
     text-decoration: none;
-    color: #e8e8e8;
+    color: #989494;
 }
 .list__table--row-title {
     border-bottom: 2px solid #e8e8e8;
@@ -39,5 +39,5 @@ body {
 .list__table--title,
 .list__table--date {
     padding: 20px;
-    color: #e8e8e8;
+    color: #989494;
 }

@@ -29,7 +29,7 @@ body {
 
 a {
     text-decoration: none;
-    color: #e8e8e8;
+    color: #989494;
 }
 .list__content {
     background-color: #fff;
@@ -40,12 +40,15 @@ a {
 .list__table {
     width: 100%;
 }
-.list__table--title,
+.list__table--title {
+    text-align: left;
+    padding: 10px 20px;
+    color: #989494;
+}
 .list__table--date {
     padding: 20px;
-    color: #e8e8e8;
+    color: #989494;
 }
-
 .list__table--row {
     border-bottom: 1px solid #e8e8e8;
 }
