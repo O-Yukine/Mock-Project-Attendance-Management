@@ -36,7 +36,7 @@
                         <th class="detail__table--title">出勤・退勤</th>
                         <td class="detail__table--date">
                             <div class="input-row"><input type="text" name="clock_in"
-                                    value="{{ old(optional($attendance->clock_in)->format('H:i')) }}">
+                                    value="{{ old($attendance->clock_in?->format('H:i') ?? '') }}">
                                 〜
                                 <input type="text" name="clock_out"
                                     value="{{ old(optional($attendance->clock_out)->format('H:i')) }}">
