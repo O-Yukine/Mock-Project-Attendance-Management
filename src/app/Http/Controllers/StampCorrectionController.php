@@ -83,7 +83,7 @@ class StampCorrectionController extends Controller
                 'clock_out' => $request->clock_out,
             ]);
 
-            $attendance->breaks()->delete();
+            // $attendance->breaks()->delete();
 
             foreach ($request->breaks as $break) {
                 if (empty($break['break_start']) || empty($break['break_end'])) {

@@ -19,16 +19,20 @@
                 </tr>
                 <tr class="approve__table--row">
                     <th class="approve__table--title">日付</th>
-                    <td class="detail__table--date">
-                        <input type="hidden" name="work_date" value="{{ $attendance->work_date->format('Y-m-d') }}">
-                        <span class="date__year"> {{ $attendance->work_date->format('Y年') }} </span>
-                        <span class="date__md"> {{ $attendance->work_date->format('m月d日') }} </span>
+                    <td class="detail__table--date"><input type="hidden" name="work_date"
+                            value="{{ $attendance->work_date->format('Y-m-d') }}">
+                        <span class="date__year">
+                            {{ $attendance->work_date->format('Y年') }}
+                        </span>
+                        <span class="date__md">
+                            {{ $attendance->work_date->format('m月d日') }}
+                        </span>
                     </td>
                 </tr>
                 <tr class="approve__table--row">
                     <th class="approve__table--title">出勤・退勤</th>
-                    <td class="approve__table--date">
-                        <input type="hidden" name="clock_in" value="{{ $attendance->clock_in?->format('H:i') ?? '' }}">
+                    <td class="approve__table--date"><input type="hidden" name="clock_in"
+                            value="{{ $attendance->clock_in?->format('H:i') ?? '' }}">
                         {{ $attendance->clock_in?->format('H:i') ?? '' }}
                         〜
                         {{ $attendance->clock_out?->format('H:i') ?? '' }}
@@ -38,21 +42,20 @@
                 @php
                     $breaks = $attendance->breaks->concat([['id' => null, 'break_start' => null, 'break_end' => null]]);
                 @endphp
-                @foreach ($attendance->breaks as $index => $break)
+                @foreach ($breaks as $index => $break)
                     <tr class="approve__table--row">
                         <th class="approve__table--title">
                             {{ $index === 0 ? '休憩' : '休憩' . ($index + 1) }}
                         </th>
-                        <td class="approve__table--date">
-                            <input type="hidden" name="breaks[{{ $index }}][break_time_id]"
-                                value="{{ $break->break_time_id ?? '' }}">
-                            <input type="hidden" name="breaks[{{ $index }}][break_start]"
-                                value="{{ $break->break_start?->format('H:i') ?? '' }}">
-                            {{ $break->break_start?->format('H:i') ?? '' }}
+                        <td class="approve__table--date"><input type="hidden" name="breaks[{{ $index }}][id]"
+                                value="{{ $break['id'] ?? '' }}">
+                            <input type="hidden" name="breaks[{{ $index }}]['break_start']"
+                                value="{{ $break['break_start']?->format('H:i') ?? '' }}">
+                            {{ $break['break_start']?->format('H:i') ?? '' }}
                             〜
-                            {{ $break->break_end?->format('H:i') ?? '' }}
-                            <input type="hidden" name="breaks[{{ $index }}][break_end]"
-                                value="{{ $break->break_end?->format('H:i') ?? '' }}">
+                            {{ $break['break_end']?->format('H:i') ?? '' }}
+                            <input type="hidden" name="breaks[{{ $index }}]['break_end']"
+                                value="{{ $break['break_end']?->format('H:i') ?? '' }}">
                         </td>
                     </tr>
                 @endforeach
