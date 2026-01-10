@@ -50,8 +50,7 @@ body {
     border-bottom: none;
 }
 .request__table--title {
-    padding-left: 20px;
-    padding-top: 15px;
+    padding: 15px 20px;
     text-align: left;
 }
 .request__table--date {
