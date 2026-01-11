@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\Attendance;
 use App\Models\AttendanceLog;
+use App\Models\BreakTime;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 
@@ -150,6 +151,41 @@ class AttendanceService
                     ]
                 );
             }
+
+            return $attendanceLog;
+        });
+    }
+
+    /**
+     * 管理者による修正承認
+     */
+
+    public function adminApproveRequest(AttendanceLog $attendanceLog, array $data, array $breaks): AttendanceLog
+    {
+        return DB::transaction(function () use ($attendanceLog, $data, $breaks) {
+
+            $attendance = $attendanceLog->attendance;
+
+            $attendance->update([
+                'clock_in'  => $data['clock_in'],
+                'clock_out' => $data['clock_out'],
+            ]);
+
+
+            foreach ($breaks as $break) {
+                if (empty($break['break_start']) || empty($break['break_end'])) continue;
+
+                BreakTime::updateOrCreate(
+                    ['id' => $break['break_time_id'] ?? null],
+                    [
+                        'attendance_id' => $attendance->id,
+                        'break_start'   => $break['break_start'],
+                        'break_end'     => $break['break_end'],
+                    ]
+                );
+            }
+
+            $attendanceLog->update(['status' => 'approved']);
 
             return $attendanceLog;
         });

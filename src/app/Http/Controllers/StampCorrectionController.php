@@ -4,13 +4,20 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\AttendanceLog;
-use App\Models\Attendance;
-use App\Models\BreakTime;
-use Illuminate\Support\Facades\DB;
+use App\Services\AttendanceService;
 
 
 class StampCorrectionController extends Controller
 {
+
+    protected $attendanceService;
+
+    public function __construct(AttendanceService $attendanceService)
+    {
+        $this->attendanceService = $attendanceService;
+    }
+
+
     public function index(Request $request)
     {
         if (auth('admin')->check()) {
@@ -73,34 +80,11 @@ class StampCorrectionController extends Controller
             ->where('status', 'pending')
             ->firstOrFail();
 
-        $attendance = Attendance::findOrFail($attendanceLog->attendance_id);
-
-        DB::transaction(function () use ($attendance, $attendanceLog, $request) {
-
-            $attendance->update([
-                'clock_in'  => $request->clock_in,
-                'clock_out' => $request->clock_out,
-            ]);
-
-
-            foreach ($request->breaks as $break) {
-                if (empty($break['break_start']) || empty($break['break_end'])) {
-
-                    continue;
-                }
-
-                BreakTime::updateOrCreate(
-                    ['id' => $break['break_time_id'] ?? 0],
-                    [
-                        'attendance_id' => $attendance->id,
-                        'break_start'   => $break['break_start'],
-                        'break_end'     => $break['break_end'],
-                    ]
-                );
-            }
-
-            $attendanceLog->update(['status' => 'approved']);
-        });
+        $this->attendanceService->adminApproveRequest(
+            $attendanceLog,
+            $request->only(['work_date', 'clock_in', 'clock_out']),
+            $request->input('breaks', [])
+        );
 
         return redirect("/stamp_correction_request/approve/{$attendance_correct_request_id}");
     }
