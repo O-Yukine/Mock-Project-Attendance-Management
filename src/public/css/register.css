@@ -49,7 +49,7 @@
     height: 50px;
     border: none;
     border-radius: 3px;
-    background: red;
+    background: #000;
     color: #fff;
     cursor: pointer;
 }
@@ -58,7 +58,7 @@
     margin-top: 20px;
     text-align: center;
 }
-.regster__link a {
+.register__link a {
     text-decoration: none;
     color: blue;
 }
