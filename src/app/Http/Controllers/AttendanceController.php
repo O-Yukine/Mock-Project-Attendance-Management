@@ -109,41 +109,15 @@ class AttendanceController extends Controller
     }
 
     public function updateDetail(AttendanceDetailRequest $request, $id)
-    {
-        // この$id は attendanceId
+    { // この$id は attendanceId
 
-        DB::transaction(function () use ($request, $id) {
-            $detail = AttendanceLog::create([
-                'user_id' => auth()->id(),
-                'attendance_id' => $id,
-                'work_date' => $request->work_date,
-                'clock_in' => $request->clock_in,
-                'clock_out' => $request->clock_out,
-                'reason' => $request->reason,
-                'status' => 'pending',
-                'requested_by' => 'user'
-            ]);
+        $this->attendanceService->requestDetailCorrection(
+            auth()->id(),
+            $id,
+            $request->only(['work_date', 'clock_in', 'clock_out', 'reason']),
+            $request->input('breaks', [])
+        );
 
-            $breaks = $request->input('breaks', []);
-
-            foreach ($breaks as $break) {
-
-                if (
-                    empty($break['break_start']) ||
-                    empty($break['break_end'])
-                ) {
-                    continue;
-                }
-
-                // breakTimeLog を作成
-
-                $detail->breaks()->create([
-                    'break_time_id' => $break['id'] ?? null,
-                    'break_start' => $break['break_start'],
-                    'break_end' => $break['break_end'],
-                ]);
-            }
-        });
         return redirect("/attendance/detail/$id");
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Attendance;
+use App\Models\AttendanceLog;
 use Illuminate\Support\Facades\DB;
 
 class AttendanceService
@@ -56,6 +57,42 @@ class AttendanceService
                     $attendance->update(['status' => 'working']);
                     break;
             }
+        });
+    }
+
+    public function requestDetailCorrection(int $userId, int $attendanceId, array $data, array $breaks): AttendanceLog
+    {
+
+        return DB::transaction(function () use ($userId, $attendanceId, $data, $breaks) {
+            $detail = AttendanceLog::create([
+                'user_id' => $userId,
+                'attendance_id' => $attendanceId,
+                'work_date' => $data['work_date'],
+                'clock_in' => $data['clock_in'],
+                'clock_out' => $data['clock_out'],
+                'reason' => $data['reason'],
+                'status' => 'pending',
+                'requested_by' => 'user'
+            ]);
+
+
+            foreach ($breaks as $break) {
+
+                if (
+                    empty($break['break_start']) ||
+                    empty($break['break_end'])
+                ) {
+                    continue;
+                }
+
+                $detail->breaks()->create([
+                    'break_time_id' => $break['id'] ?? null,
+                    'break_start' => $break['break_start'],
+                    'break_end' => $break['break_end'],
+                ]);
+            }
+
+            return $detail;
         });
     }
 }

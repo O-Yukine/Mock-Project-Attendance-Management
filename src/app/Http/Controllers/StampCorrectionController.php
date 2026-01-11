@@ -78,7 +78,6 @@ class StampCorrectionController extends Controller
         DB::transaction(function () use ($attendance, $attendanceLog, $request) {
 
             $attendance->update([
-
                 'clock_in'  => $request->clock_in,
                 'clock_out' => $request->clock_out,
             ]);
@@ -86,9 +85,7 @@ class StampCorrectionController extends Controller
 
             foreach ($request->breaks as $break) {
                 if (empty($break['break_start']) || empty($break['break_end'])) {
-                    // if (!empty($break['break_time_id'])) {
-                    //     BreakTime::find($break['break_time_id'])->delete();
-                    // }
+
                     continue;
                 }
 
