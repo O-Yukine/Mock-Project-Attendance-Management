@@ -65,12 +65,13 @@ a {
 }
 
 .csv__export--button {
-    margin-top: 20px;
+    margin-top: 30px;
     background-color: black;
     color: #fff;
     border: none;
     border-radius: 3px;
     width: 100px;
-    height: 30px;
-    padding: 5px;
+    height: 40px;
+    padding-left: 15px;
+    padding-top: 10px;
 }

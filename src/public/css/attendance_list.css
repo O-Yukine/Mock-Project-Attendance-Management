@@ -51,10 +51,15 @@ a {
 .list__table--row-title {
     border-bottom: 2px solid #989494;
 }
-.list__table--title,
-.list__table--date {
-    padding: 20px;
+.list__table--title {
+    padding: 15px 20px;
 }
+.list__table--date {
+    font-size: 14px;
+    padding: 20px;
+    text-align: center;
+}
+
 .list__table--date a {
     text-decoration: none;
     color: black;

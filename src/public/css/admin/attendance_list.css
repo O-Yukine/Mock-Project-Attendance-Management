@@ -41,11 +41,11 @@ a {
     width: 100%;
 }
 .list__table--title {
-    text-align: left;
     padding: 10px 20px;
     color: #989494;
 }
 .list__table--date {
+    text-align: center;
     padding: 20px;
     color: #989494;
 }

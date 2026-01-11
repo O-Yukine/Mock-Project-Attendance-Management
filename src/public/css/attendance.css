@@ -40,6 +40,7 @@ body {
     font-weight: bold;
     padding: 8px;
     width: 100px;
+    margin-right: 20px;
 }
 .break__submit--button {
     border: none;
@@ -50,9 +51,31 @@ body {
     font-weight: bold;
     padding: 8px;
     width: 100px;
+    margin-left: 20px;
 }
 .status__notice {
     margin-top: 50px;
     font-weight: bold;
     font-size: 18px;
+}
+@media screen and (min-width: 1400px) and (max-width: 1540px) {
+    .attendance__status {
+        margin: 100px auto 20px auto;
+    }
+    .attendance__status p {
+        width: 100px;
+        padding: 8px;
+        font-size: 16px;
+    }
+    .attendance__date {
+        font-size: 42px;
+        margin: 15px auto 20px;
+    }
+    .attendance__time {
+        font-size: 50px;
+        margin-bottom: 30px;
+    }
+    .status__notice {
+        font-size: 20px;
+    }
 }

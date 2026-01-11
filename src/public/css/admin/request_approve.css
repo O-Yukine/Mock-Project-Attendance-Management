@@ -60,3 +60,18 @@ body {
     height: 40px;
     padding: 8px;
 }
+@media screen and (min-width: 1400px) and (max-width: 1540px) {
+    .form {
+        width: 700px;
+    }
+
+    .approve__table {
+        height: 400px;
+    }
+    .approve__submit--button {
+        margin-top: 50px;
+    }
+    .approve__notice {
+        margin-top: 50px;
+    }
+}

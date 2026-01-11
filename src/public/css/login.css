@@ -64,3 +64,8 @@
 .login__link a:visited {
     color: blue;
 }
+@media screen and (min-width: 1400px) and (max-width: 1540px) {
+    .login-form__content {
+        margin: 100px auto;
+    }
+}

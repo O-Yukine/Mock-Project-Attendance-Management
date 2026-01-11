@@ -51,11 +51,11 @@ body {
 }
 .request__table--title {
     padding: 15px 20px;
-    text-align: left;
 }
 .request__table--date {
     font-size: 14px;
     padding: 20px;
+    text-align: center;
 }
 a {
     text-decoration: none;
