@@ -222,6 +222,7 @@ class StampCorrectionTest extends TestCase
                 'clock_out' => '18:30',
                 'breaks' => [
                     [
+                        'break_time_id' => $breakTime->id,
                         'break_start' => '12:30',
                         'break_end'   => '13:30',
                     ],
