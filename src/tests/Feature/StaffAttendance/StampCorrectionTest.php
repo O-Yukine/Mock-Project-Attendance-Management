@@ -16,7 +16,7 @@ class StampCorrectionTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_user_stamp_correction_in_is_later_than_out()
+    public function test_user_stamp_correction_clock_in_is_later_than_clock_out()
     {
         Carbon::setTestNow(Carbon::parse('2025-12-03'));
 
@@ -44,7 +44,7 @@ class StampCorrectionTest extends TestCase
                 'reason' => '電車遅延のため'
             ]);
 
-        $response->assertSessionHasErrors(['clock_in' => '出勤時間もしくは退勤時間が不適切な値です']);
+        $response->assertSessionHasErrors(['clock_in' => '出勤時間が不適切な値です']);
     }
 
     public function test_user_stamp_correction_break_start_after_clock_out()

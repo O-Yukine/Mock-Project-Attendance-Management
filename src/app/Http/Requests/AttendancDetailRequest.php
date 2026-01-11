@@ -36,7 +36,7 @@ class AttendancDetailRequest extends FormRequest
     public function messages()
     {
         return [
-            'clock_in.before' => '出勤時間もしくは退勤時間が不適切な値です',
+            'clock_in.before' => '出勤時間が不適切な値です',
             'reason.required' => '備考を記入してください',
 
             'breaks.*.break_start.after' => '休憩時間が不適切な値です',

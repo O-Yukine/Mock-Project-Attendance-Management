@@ -42,8 +42,6 @@ class AdminController extends Controller
         $hasPendingRequest = $attendanceLog !== null;
 
         $attendance = $attendanceLog ?? Attendance::with('breaks')->findOrFail($id);
-        // dd($attendance->clock_in, $attendance->clock_out);
-
 
         return view('admin/attendance_detail', compact('attendance', 'id', 'hasPendingRequest'));
     }
@@ -110,10 +108,7 @@ class AdminController extends Controller
             }
         });
 
-        return redirect(
-            '/admin/attendance/list?day=' .
-                Carbon::parse($attendance->work_date)->format('Y/m/d')
-        );
+        return redirect('/admin/attendance/' . $id);
     }
 
     public function showStaffList()
