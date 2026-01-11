@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\AttendancDetailRequest;
+use App\Http\Requests\AttendanceDetailRequest;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use App\Models\Attendance;
@@ -108,7 +108,7 @@ class AttendanceController extends Controller
         return view('attendance_detail', compact('attendance', 'id', 'hasPendingRequest'));
     }
 
-    public function updateDetail(AttendancDetailRequest $request, $id)
+    public function updateDetail(AttendanceDetailRequest $request, $id)
     {
         // この$id は attendanceId
 
