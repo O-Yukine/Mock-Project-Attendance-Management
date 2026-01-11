@@ -68,65 +68,6 @@ class AdminController extends Controller
         );
 
         return redirect('/admin/attendance/' . $id);
-
-        // DB::transaction(function () use ($request, $attendance) {
-
-        //     $attendanceLog = $attendance->attendanceLogs()->create(
-        //         [
-        //             'user_id' => $attendance->user->id,
-        //             'work_date' => Carbon::parse($request->work_date)->format('Y-m-d'),
-        //             'clock_in' => $request->clock_in,
-        //             'clock_out' => $request->clock_out,
-        //             'reason' => $request->reason,
-        //             'status' => 'approved',
-        //             'requested_by' => 'admin'
-        //         ]
-        //     );
-
-        //     $attendance->update([
-        //         'work_date' => $request->work_date,
-        //         'clock_in'  => $request->clock_in,
-        //         'clock_out' => $request->clock_out,
-        //     ]);
-
-        //     foreach ($request->breaks as $break) {
-
-        //         if (empty($break['break_start']) || empty($break['break_end'])) {
-        //             continue;
-        //         }
-
-        //         $attendanceLog->breaks()->create([
-        //             'break_time_id' => $break['id'] ?? null,
-        //             'break_start' => $break['break_start'],
-        //             'break_end'   => $break['break_end'],
-        //         ]);
-        //     }
-
-
-        //     foreach ($request->breaks as $break) {
-
-        //         if (empty($break['break_start']) || empty($break['break_end'])) {
-        //             continue;
-        //         }
-
-
-        //         if (!empty($break['id'])) {
-        //             $attendance->breaks()->where('id', $break['id'])->update([
-        //                 'break_start' => $break['break_start'],
-        //                 'break_end'   => $break['break_end'],
-
-        //             ]);
-        //         } else {
-
-        //             $attendance->breaks()->create([
-        //                 'break_start' => $break['break_start'],
-        //                 'break_end'   => $break['break_end'],
-        //             ]);
-        //         }
-        //     }
-        // });
-
-
     }
 
     public function showStaffList()

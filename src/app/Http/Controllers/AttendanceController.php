@@ -10,8 +10,6 @@ use App\Models\AttendanceLog;
 use App\Services\AttendanceService;
 
 
-
-
 class AttendanceController extends Controller
 {
     protected $attendanceService;
@@ -21,7 +19,6 @@ class AttendanceController extends Controller
         $this->attendanceService = $attendanceService;
     }
 
-
     public function index()
 
     {
@@ -29,7 +26,8 @@ class AttendanceController extends Controller
             ->whereDate('work_date', today())
             ->first();
 
-        $statusCode = $attendance->status ?? 'off';
+        $statusCode = $attendance ? $attendance->status : 'off';
+
         $statusLabel = [
             'off' => '勤務外',
             'working' => '出勤中',
@@ -56,7 +54,11 @@ class AttendanceController extends Controller
             'status' => 'off',
         ]);
 
-        $this->attendanceService->updateAttendance($attendance, $request->action, $request->time);
+        $this->attendanceService->updateAttendance(
+            $attendance,
+            $request->action,
+            $request->time
+        );
 
         return redirect('/attendance');
     }
@@ -95,13 +97,20 @@ class AttendanceController extends Controller
     public function showDetail($id)
     // この$id は attendanceId
     {
-        $attendanceLog = AttendanceLog::with('breaks')
+        $attendance = Attendance::with('breaks', 'user')->findOrFail($id);
+
+        if ($attendance->user_id !== auth()->id()) {
+            abort(403);
+        }
+
+        $attendanceLog = AttendanceLog::with('breaks', 'user')
             ->where('attendance_id', $id)
             ->where('status', 'pending')
+            ->latest()
             ->first();
 
         //logがあればlog ,なければattendance (attendance_id = $attendance->attendance_id / $id)
-        $attendance = $attendanceLog ?? Attendance::with('breaks', 'user')->findOrFail($id);
+        $attendance = $attendanceLog ?? $attendance;
 
         $hasPendingRequest = $attendanceLog !== null;
 

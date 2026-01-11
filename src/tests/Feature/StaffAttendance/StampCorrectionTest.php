@@ -313,7 +313,7 @@ class StampCorrectionTest extends TestCase
             'clock_out' => '18:00',
             'status' => 'clock_out',
         ]);
-        $breakTime = BreakTime::create([
+        BreakTime::create([
             'attendance_id' => $attendance->id,
             'break_start' => '12:00',
             'break_end' => '13:00',
