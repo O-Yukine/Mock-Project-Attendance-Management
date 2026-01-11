@@ -5,9 +5,13 @@ namespace App\Services;
 use App\Models\Attendance;
 use App\Models\AttendanceLog;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class AttendanceService
 {
+    /**
+     * ユーザーの出勤・退勤・休憩管理
+     */
 
     public function updateAttendance(Attendance $attendance, string $action, string $time)
     {
@@ -59,7 +63,9 @@ class AttendanceService
             }
         });
     }
-
+    /**
+     * ユーザーによる勤怠修正リクエスト(LOGの作成)
+     */
     public function requestDetailCorrection(int $userId, int $attendanceId, array $data, array $breaks): AttendanceLog
     {
 
@@ -93,6 +99,59 @@ class AttendanceService
             }
 
             return $detail;
+        });
+    }
+    /**
+     * 管理者による直接の勤怠修正
+     */
+    public function adminUpdateAttendance(Attendance $attendance, array $data, array $breaks): AttendanceLog
+    {
+        return DB::transaction(function () use ($attendance, $data, $breaks) {
+
+            $workDate = Carbon::parse($data['work_date'])->format('Y-m-d');
+
+            $attendanceLog = $attendance->attendanceLogs()->create([
+                'user_id'      => $attendance->user->id,
+                'work_date'    => $workDate,
+                'clock_in'     => $data['clock_in'],
+                'clock_out'    => $data['clock_out'],
+                'reason'       => $data['reason'],
+                'status'       => 'approved',
+                'requested_by' => 'admin',
+            ]);
+
+
+            foreach ($breaks as $break) {
+                if (empty($break['break_start']) || empty($break['break_end'])) continue;
+
+                $attendanceLog->breaks()->create([
+                    'break_time_id' => $break['id'] ?? null,
+                    'break_start'  => $break['break_start'],
+                    'break_end'    => $break['break_end'],
+                ]);
+            }
+
+
+            $attendance->update([
+                'work_date' => $workDate,
+                'clock_in'  => $data['clock_in'],
+                'clock_out' => $data['clock_out'],
+            ]);
+
+
+            foreach ($breaks as $break) {
+                if (empty($break['break_start']) || empty($break['break_end'])) continue;
+
+                $attendance->breaks()->updateOrCreate(
+                    ['id' => $break['id'] ?? null],
+                    [
+                        'break_start' => $break['break_start'],
+                        'break_end'   => $break['break_end'],
+                    ]
+                );
+            }
+
+            return $attendanceLog;
         });
     }
 }

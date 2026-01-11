@@ -8,7 +8,7 @@ use Carbon\Carbon;
 use App\Models\Attendance;
 use App\Models\AttendanceLog;
 use App\Services\AttendanceService;
-use Illuminate\Support\Facades\DB;
+
 
 
 

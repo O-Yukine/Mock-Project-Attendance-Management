@@ -8,10 +8,20 @@ use App\Models\Attendance;
 use App\Models\AttendanceLog;
 use App\Models\User;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\DB;
+use App\Services\AttendanceService;
+
 
 class AdminController extends Controller
 {
+
+    protected $attendanceService;
+
+    public function __construct(AttendanceService $attendanceService)
+    {
+        $this->attendanceService = $attendanceService;
+    }
+
+
     public function showAttendanceList(Request $request)
     {
         $dayParam = $request->query('day');
@@ -51,64 +61,72 @@ class AdminController extends Controller
 
         $attendance = Attendance::with('user', 'breaks')->findOrFail($id);
 
-        DB::transaction(function () use ($request, $attendance) {
-
-            $attendanceLog = $attendance->attendanceLogs()->create(
-                [
-                    'user_id' => $attendance->user->id,
-                    'work_date' => Carbon::parse($request->work_date)->format('Y-m-d'),
-                    'clock_in' => $request->clock_in,
-                    'clock_out' => $request->clock_out,
-                    'reason' => $request->reason,
-                    'status' => 'approved',
-                    'requested_by' => 'admin'
-                ]
-            );
-
-            $attendance->update([
-                'work_date' => $request->work_date,
-                'clock_in'  => $request->clock_in,
-                'clock_out' => $request->clock_out,
-            ]);
-
-            foreach ($request->breaks as $break) {
-
-                if (empty($break['break_start']) || empty($break['break_end'])) {
-                    continue;
-                }
-
-                $attendanceLog->breaks()->create([
-                    'break_time_id' => $break['id'] ?? null,
-                    'break_start' => $break['break_start'],
-                    'break_end'   => $break['break_end'],
-                ]);
-            }
-
-
-            foreach ($request->breaks as $break) {
-
-                if (empty($break['break_start']) || empty($break['break_end'])) {
-                    continue;
-                }
-
-
-                if (!empty($break['id'])) {
-                    $attendance->breaks()->where('id', $break['id'])->update([
-                        'break_start' => $break['break_start'],
-                        'break_end'   => $break['break_end'],
-
-                    ]);
-                } else {
-
-                    $attendance->breaks()->create([
-                        'break_start' => $break['break_start'],
-                        'break_end'   => $break['break_end'],
-                    ]);
-                }
-            }
-        });
+        $this->attendanceService->adminUpdateAttendance(
+            $attendance,
+            $request->only(['work_date', 'clock_in', 'clock_out', 'reason']),
+            $request->input('breaks', [])
+        );
 
         return redirect('/admin/attendance/' . $id);
+
+        // DB::transaction(function () use ($request, $attendance) {
+
+        //     $attendanceLog = $attendance->attendanceLogs()->create(
+        //         [
+        //             'user_id' => $attendance->user->id,
+        //             'work_date' => Carbon::parse($request->work_date)->format('Y-m-d'),
+        //             'clock_in' => $request->clock_in,
+        //             'clock_out' => $request->clock_out,
+        //             'reason' => $request->reason,
+        //             'status' => 'approved',
+        //             'requested_by' => 'admin'
+        //         ]
+        //     );
+
+        //     $attendance->update([
+        //         'work_date' => $request->work_date,
+        //         'clock_in'  => $request->clock_in,
+        //         'clock_out' => $request->clock_out,
+        //     ]);
+
+        //     foreach ($request->breaks as $break) {
+
+        //         if (empty($break['break_start']) || empty($break['break_end'])) {
+        //             continue;
+        //         }
+
+        //         $attendanceLog->breaks()->create([
+        //             'break_time_id' => $break['id'] ?? null,
+        //             'break_start' => $break['break_start'],
+        //             'break_end'   => $break['break_end'],
+        //         ]);
+        //     }
+
+
+        //     foreach ($request->breaks as $break) {
+
+        //         if (empty($break['break_start']) || empty($break['break_end'])) {
+        //             continue;
+        //         }
+
+
+        //         if (!empty($break['id'])) {
+        //             $attendance->breaks()->where('id', $break['id'])->update([
+        //                 'break_start' => $break['break_start'],
+        //                 'break_end'   => $break['break_end'],
+
+        //             ]);
+        //         } else {
+
+        //             $attendance->breaks()->create([
+        //                 'break_start' => $break['break_start'],
+        //                 'break_end'   => $break['break_end'],
+        //             ]);
+        //         }
+        //     }
+        // });
+
+
     }
 
     public function showStaffList()
