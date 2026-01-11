@@ -162,42 +162,44 @@ class BreakTimeTest extends TestCase
             ->assertSee('休憩戻');
     }
 
-    // public function test_user_can_see_break_time_on_attendance_list()
-    // {
-    //     Carbon::setTestNow(Carbon::parse('2026-01-01 10:30'));
+    public function test_user_can_see_total_break_time_on_attendance_list()
+    {
+        Carbon::setTestNow(Carbon::parse('2026-01-01 10:30'));
 
-    //     $user = User::factory()->create();
-    //     Attendance::create([
-    //         'user_id' => $user->id,
-    //         'work_date' => '2026-01-01',
-    //         'clock_in' => '10:30',
-    //         'status' => 'working',
-    //     ]);
+        $user = User::factory()->create();
+        $attendance =  Attendance::create([
+            'user_id' => $user->id,
+            'work_date' => '2026-01-01',
+            'clock_in' => '10:30',
+            'status' => 'working',
+        ]);
 
-    //     $this->actingAs($user)
-    //         ->get('/attendance')
-    //         ->assertSee('休憩入');
+        $this->actingAs($user)
+            ->get('/attendance')
+            ->assertSee('休憩入');
 
-    //     $this->post('/attendance', [
-    //         'work_date' => '2026-01-01',
-    //         'time' => '12:30',
-    //         'action' => 'break_start'
-    //     ]);
+        $this->post('/attendance', [
+            'work_date' => '2026-01-01',
+            'time' => '12:30',
+            'action' => 'break_start'
+        ]);
 
-    //     $this->actingAs($user)
-    //         ->get('/attendance')
-    //         ->assertSee('休憩戻');
+        $this->actingAs($user)
+            ->get('/attendance')
+            ->assertSee('休憩戻');
 
-    //     $this->post('/attendance', [
-    //         'work_date' => '2026-01-01',
-    //         'time' => '13:30',
-    //         'action' => 'break_end'
-    //     ]);
+        $this->post('/attendance', [
+            'work_date' => '2026-01-01',
+            'time' => '13:30',
+            'action' => 'break_end'
+        ]);
 
-    //     $this->actingAs($user)
-    //         ->get('/attendance/list')
-    //         ->assertSee('2026/01')
-    //         ->assertSee('01/01(木)')
-    //         ->assertSee('12:30', '13:30');
-    // }
+        $this->assertEquals(60, $attendance->fresh()->break_minutes);
+
+        $this->actingAs($user)
+            ->get('/attendance/list')
+            ->assertSee('2026/01')
+            ->assertSee('01/01(木)')
+            ->assertSee('01:00');
+    }
 }
