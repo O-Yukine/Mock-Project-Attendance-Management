@@ -71,7 +71,7 @@ MAIL_FROM_NAME="${APP_NAME}"
 
 1. MySQL のコンテナへ入る(パスワードは docker-compose.yml に記載しているものを使用)
 
-`docker-compose exec mysql bash`
+`docker-compose exec mysql bash`  
 `mysql -u root -p`
 
 2. laravel_test テーブルを作成
