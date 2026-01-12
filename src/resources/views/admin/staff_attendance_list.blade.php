@@ -13,7 +13,8 @@
         <div class="list__day">
             <a class="{{ request('month') == $last_month ? 'active' : '' }}"
                 href="/admin/attendance/staff/{{ $staff->id }}?month={{ $last_month }}">←前月</a>
-            <a class="{{ 'active' }}" href="#">{{ $showMonth }}</a>
+            <a class="{{ 'active' }}" href="#"><img src={{ asset('images/calendar.png') }}
+                    alt="カレンダー">{{ $showMonth }}</a>
             <a class="{{ request('month') == $next_month ? 'active' : '' }}"
                 href="/admin/attendance/staff/{{ $staff->id }}?month={{ $next_month }}">翌月→</a>
         </div>

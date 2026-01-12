@@ -13,7 +13,8 @@
         <div class="list__day">
             <a class="{{ request('day') == $yesterday ? 'active' : '' }}"
                 href="/admin/attendance/list?day={{ $yesterday }}">←前日</a>
-            <a class="{{ 'active' }}" href="#">{{ $dateShow->format('Y/m/d') }}</a>
+            <a class="{{ 'active' }}" href="#"><img src={{ asset('images/calendar.png') }}
+                    alt="カレンダー">{{ $dateShow->format('Y/m/d') }}</a>
             <a class="{{ request('day') == $tomorrow ? 'active' : '' }}"
                 href="/admin/attendance/list?day={{ $tomorrow }}">翌日→</a>
         </div>

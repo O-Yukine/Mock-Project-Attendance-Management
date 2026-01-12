@@ -22,6 +22,10 @@ body {
     border-radius: 5px;
     padding: 15px;
 }
+.list__day img {
+    margin-right: 10px;
+    width: 8%;
+}
 .list__day a.active {
     color: black;
     font-weight: bold;

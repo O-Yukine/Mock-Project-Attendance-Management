@@ -54,7 +54,6 @@ DB_PASSWORD=laravel_pass
 2. mailtrap より SMTP を取得して、.env ファイルの修正
 
 MAIL_MAILER=
-
 MAIL_HOST=  
 MAIL_PORT=  
 MAIL_USERNAME=  
