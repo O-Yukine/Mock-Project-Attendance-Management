@@ -24,11 +24,26 @@ Route::get('/email/verify', [VerifyEmailController::class, 'index'])->middleware
 Route::get('/email/verify/{id}/{hash}', [VerifyEmailController::class, 'verifyEmail'])->middleware(['auth', 'signed'])->name('verification.verify');
 Route::post('/email/verification-notification', [VerifyEmailController::class, 'resendVerificationEmail'])->middleware(['auth', 'throttle:6,1'])->name('verification.send');
 
-Route::get('/auth/register', [AuthController::class, 'showRegister']);
-Route::post('/auth/register', [AuthController::class, 'register']);
-Route::get('/auth/login', [AuthController::class, 'showLogin']);
-Route::post('/auth/login', [AuthController::class, 'login']);
-Route::post('/auth/logout', [AuthController::class, 'destroy']);
+
+Route::get('/', function () {
+    if (auth('admin')->check()) {
+        return redirect('/admin/attendance/list');
+    }
+
+    if (auth()->check()) {
+        return redirect('/attendance');
+    }
+
+    return redirect('/auth/login');
+});
+
+Route::middleware('guest')->group(function () {
+    Route::get('/auth/register', [AuthController::class, 'showRegister']);
+    Route::post('/auth/register', [AuthController::class, 'register']);
+    Route::get('/auth/login', [AuthController::class, 'showLogin']);
+    Route::post('/auth/login', [AuthController::class, 'login']);
+});
+Route::post('/auth/logout', [AuthController::class, 'destroy'])->middleware('auth');
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/attendance', [AttendanceController::class, 'index']);
@@ -38,9 +53,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/attendance/detail/{id}', [AttendanceController::class, 'updateDetail']);
 });
 
-Route::get('/auth/admin-login', [AdminAuthController::class, 'showLogin']);
-Route::post('/auth/admin-login', [AdminAuthController::class, 'login']);
-Route::post('/auth/admin-logout', [AdminAuthController::class, 'destroy']);
+Route::middleware('guest:admin')->group(function () {
+    Route::get('/auth/admin-login', [AdminAuthController::class, 'showLogin']);
+    Route::post('/auth/admin-login', [AdminAuthController::class, 'login']);
+});
+Route::post('/auth/admin-logout', [AdminAuthController::class, 'destroy'])->middleware('auth:admin');
 
 Route::middleware(['admin.auth'])->group(function () {
     Route::get('/admin/attendance/list', [AdminController::class, 'showAttendanceList']);
