@@ -30,7 +30,7 @@
 
 4. .env ファイルを編集
 
-DB_HOST=mysql
+DB_HOST=mysql  
 DB_DATABASE=laravel_db
 DB_USERNAME=laravel_user
 DB_PASSWORD=laravel_pass
@@ -54,12 +54,13 @@ DB_PASSWORD=laravel_pass
 2. mailtrap より SMTP を取得して、.env ファイルの修正
 
 MAIL_MAILER=
-MAIL_HOST=
-MAIL_PORT=
-MAIL_USERNAME=
-MAIL_PASSWORD=
-MAIL_ENCRYPTION=
-MAIL_FROM_ADDRESS=任意のメールアドレス
+
+MAIL_HOST=  
+MAIL_PORT=  
+MAIL_USERNAME=  
+MAIL_PASSWORD=  
+MAIL_ENCRYPTION=  
+MAIL_FROM_ADDRESS=任意のメールアドレス  
 MAIL_FROM_NAME="${APP_NAME}"
 
 3. ユーザー登録時に mailtrap にメールが送られてくるので、そのメールよりメール認証を完了する
@@ -83,11 +84,11 @@ MAIL_FROM_NAME="${APP_NAME}"
 
 4. .env.testing ファイルを編集
 
-APP_ENV=test
+APP_ENV=test  
 APP_KEY=
 
-DB_DATABASE=laravel_test
-DB_USERNAME=root
+DB_DATABASE=laravel_test  
+DB_USERNAME=root  
 DB_PASSWORD=root
 
 5. テスト用アプリケーションキーの作成
